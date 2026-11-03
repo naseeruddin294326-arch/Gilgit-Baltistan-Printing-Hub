@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart QR Cards | Gilgit-Baltistan Printing Hub</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+.qr-wrap{max-width:1160px;margin:36px auto;padding:0 20px}.qr-hero{text-align:center;padding:34px 18px;background:linear-gradient(135deg,#073f32,#0d624b);color:#fff;border-radius:24px}.qr-hero h1{font-size:clamp(28px,4vw,42px);margin:0 0 10px}.qr-hero p{max-width:680px;margin:auto;color:#e4f4ec}.qr-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,.85fr);gap:24px;margin-top:26px}.qr-panel{background:#fff;border:1px solid #e6e9e4;border-radius:20px;padding:24px;box-shadow:0 12px 35px #183b2910}.qr-panel h2{margin:0 0 18px;color:#124d3b}.qr-types{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:20px}.qr-type{border:1px solid #dce7df;border-radius:12px;padding:12px 5px;background:#f8fbf8;cursor:pointer;font-weight:700;color:#174c3c}.qr-type.active{background:#0b5a43;color:white;border-color:#0b5a43}.qr-fields{display:grid;grid-template-columns:1fr 1fr;gap:13px}.qr-fields label{font-size:13px;font-weight:700;color:#355246;display:block}.qr-fields input,.qr-fields textarea{width:100%;box-sizing:border-box;margin-top:6px;border:1px solid #d8e2db;border-radius:10px;padding:12px;font:inherit;background:#fff}.qr-fields textarea{min-height:82px;resize:vertical}.qr-wide{grid-column:1/-1}.qr-preview{background:linear-gradient(145deg,#f6f4e9,#fff);border:1px solid #e7e1ca;border-radius:18px;padding:24px;text-align:center}.biz-card{max-width:390px;margin:0 auto 20px;padding:24px 20px;border-radius:18px;background:linear-gradient(145deg,#073f32,#0c654a);color:white;box-shadow:0 15px 32px #073f3230;text-align:left;min-height:180px}.biz-card .tag{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#e4d49a}.biz-card h3{font-size:25px;margin:15px 0 5px}.biz-card p{margin:7px 0;color:#e4f0e9;font-size:14px;overflow-wrap:anywhere}.qr-code{width:180px;height:180px;object-fit:contain;background:white;padding:9px;border-radius:12px}.qr-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px}.qr-btn{border:0;border-radius:999px;padding:12px 20px;background:#0b5a43;color:white;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}.qr-btn.secondary{background:#e9f1eb;color:#164a38}.qr-note{font-size:13px;color:#64766c;line-height:1.6;margin-top:14px}.qr-profile{max-width:650px;margin:60px auto;padding:30px;background:#fff;border-radius:22px;box-shadow:0 15px 45px #0001;text-align:center}.qr-profile h1{color:#0b5a43}.qr-profile p{padding:10px;border-bottom:1px solid #edf0ec;overflow-wrap:anywhere}@media(max-width:800px){.qr-grid{grid-template-columns:1fr}.qr-types{grid-template-columns:repeat(2,1fr)}}@media(max-width:480px){.qr-fields{grid-template-columns:1fr}.qr-wide{grid-column:auto}.qr-panel{padding:17px}}
+</style>
+</head>
+<body>
+<header class="header"><div class="container header-inner"><a class="brand" href="index.html">Gilgit-Baltistan Printing Hub</a><button class="menu-toggle" id="menuToggle" aria-label="Open menu">☰</button><nav class="nav" id="nav"><a data-nav href="index.html">Home</a><a data-nav href="products.html">Products</a><a data-nav href="my-card.html">My Cards</a><a data-nav href="wedding-card.html">Wedding Cards</a><a data-nav href="smart-qr-cards.html">Smart QR Cards</a><a data-nav href="design-studio.html">Design Studio</a><a data-nav href="about.html">About</a><a data-nav href="contact.html">Contact</a></nav></div></header>
+<main class="qr-wrap">
+<section class="qr-hero"><h1>Smart QR Business Cards</h1><p>Create a digital identity for your shop, hotel or personal profile. Fill in your details, preview your card and generate a QR code that opens your digital profile.</p></section>
+<div id="builder">
+<div class="qr-grid">
+<section class="qr-panel"><h2>1. Your details</h2><div class="qr-types"><button class="qr-type active" data-kind="Shop">🏪 Shop</button><button class="qr-type" data-kind="Hotel">🏨 Hotel</button><button class="qr-type" data-kind="Personal">👤 Personal</button><button class="qr-type" data-kind="Student">🎓 Student</button></div>
+<div class="qr-fields">
+<label>Business / Full name<input id="name" placeholder="e.g. Karakoram Store" required></label>
+<label>Contact person<input id="person" placeholder="Owner / Manager name"></label>
+<label>Mobile number<input id="phone" type="tel" placeholder="+92 3XX XXXXXXX"></label>
+<label>WhatsApp number<input id="whatsapp" type="tel" placeholder="+92 3XX XXXXXXX"></label>
+<label class="qr-wide">Address / Location<input id="address" placeholder="Street, town, Gilgit-Baltistan"></label>
+<label>Google Maps link<input id="maps" type="url" placeholder="Paste Google Maps link"></label>
+<label>Website / Social link<input id="website" type="url" placeholder="https://"></label>
+<label class="qr-wide">About / Services<textarea id="about" placeholder="Tell people about your business or yourself..."></textarea></label>
+</div><p class="qr-note">Tip: For Google Maps, open your place in Google Maps, tap Share, then copy the link here.</p>
+</section>
+<section class="qr-panel"><h2>2. Live card preview</h2><div class="qr-preview"><div class="biz-card"><div class="tag" id="pKind">SMART SHOP CARD</div><h3 id="pName">Your Business Name</h3><p id="pPerson">Contact person</p><p id="pPhone">☎ Phone number</p><p id="pAddress">⌖ Address / Location</p></div><h3 style="color:#164b39">Your QR Code</h3><img class="qr-code" id="qrImage" alt="Your QR code will appear here"><div class="qr-actions"><button class="qr-btn" id="downloadQr">Download QR Code</button><button class="qr-btn secondary" id="openProfile">Open Digital Profile</button></div><p class="qr-note">Scan this QR code with a phone camera to open the digital profile. Keep this page URL available when sharing the QR.</p></div></section>
+</div></div>
+<div id="profileView" hidden></div>
+</main>
+<footer class="footer"><div class="container"><p>© Gilgit-Baltistan Printing Hub · Print Local. Grow Local.</p></div></footer>
+<script>
+(function(){
+const $=id=>document.getElementById(id);let kind='Shop';const fields=['name','person','phone','whatsapp','address','maps','website','about'];
+const params=new URLSearchParams(location.search);
+if(params.has('profile')){
+ $('builder').hidden=true;const data=Object.fromEntries(fields.map(k=>[k,params.get(k)||'']));kind=params.get('kind')||'Business';
+ $('profileView').hidden=false;$('profileView').innerHTML='<section class="qr-profile"><div class="tag" style="color:#b18a35">'+kind.toUpperCase()+' DIGITAL PROFILE</div><h1></h1><div class="profile-details"></div><a class="qr-btn" id="callBtn">Call</a> <a class="qr-btn secondary" id="waBtn">WhatsApp</a></section>';
+ $('profileView').querySelector('h1').textContent=data.name||'Digital Profile';const details=[['Contact person',data.person],['Phone',data.phone],['WhatsApp',data.whatsapp],['Address',data.address],['About',data.about],['Website',data.website],['Google Maps',data.maps]];
+ const box=$('profileView').querySelector('.profile-details');details.forEach(([label,value])=>{if(value){const p=document.createElement('p');p.textContent=label+': '+value;if(label==='Website'||label==='Google Maps'){const a=document.createElement('a');a.href=value;a.target='_blank';a.rel='noopener';a.textContent='Open '+label;p.appendChild(document.createElement('br'));p.appendChild(a)}box.appendChild(p)}});
+ $('callBtn').href=data.phone?'tel:'+data.phone:'#';$('waBtn').href=data.whatsapp?'https://wa.me/'+data.whatsapp.replace(/\D/g,''):'#';if(!data.phone)$('callBtn').hidden=true;if(!data.whatsapp)$('waBtn').hidden=true;return;
+}
+function profileUrl(){const q=new URLSearchParams({profile:'1',kind,...Object.fromEntries(fields.map(k=>[k,$(k).value.trim()]))});return location.origin+location.pathname+'?'+q.toString()}
+function update(){const name=$('name').value.trim()||'Your Business Name';$('pKind').textContent='SMART '+kind.toUpperCase()+' CARD';$('pName').textContent=name;$('pPerson').textContent=$('person').value||'Contact person';$('pPhone').textContent='☎ '+($('phone').value||'Phone number');$('pAddress').textContent='⌖ '+($('address').value||'Address / Location');const url=profileUrl();$('qrImage').src='https://api.qrserver.com/v1/create-qr-code/?size=240x240&data='+encodeURIComponent(url);$('openProfile').dataset.url=url;}
+fields.forEach(k=>$(k).addEventListener('input',update));
+document.querySelectorAll('.qr-type').forEach(btn=>btn.addEventListener('click',()=>{kind=btn.dataset.kind;document.querySelectorAll('.qr-type').forEach(b=>b.classList.toggle('active',b===btn));update()}));
+$('openProfile').addEventListener('click',()=>window.open($('openProfile').dataset.url,'_blank'));
+$('downloadQr').addEventListener('click',async()=>{try{const response=await fetch($('qrImage').src);const blob=await response.blob();const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='smart-qr-card.png';a.click();URL.revokeObjectURL(a.href)}catch(e){window.open($('qrImage').src,'_blank')}});
+update();
+})();
+</script>
+</body></html>
