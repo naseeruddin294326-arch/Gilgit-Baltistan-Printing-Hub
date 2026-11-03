@@ -398,3 +398,7 @@ header{background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-bottom
 .service-note{text-align:center;margin:24px auto 0;max-width:760px}
 @media(max-width:800px){.gb-showcase{padding:62px 19px}.gb-showcase-grid{grid-template-columns:1fr 1fr}.gb-feature:first-child{grid-column:1/-1;min-height:230px}.gb-business-row{padding:26px 22px;align-items:flex-start;flex-direction:column}.gb-business-actions{flex-direction:row;flex-wrap:wrap;align-items:center}.service-steps{padding:55px 20px}.service-steps-grid{grid-template-columns:1fr;gap:12px}}
 @media(max-width:480px){.gb-showcase-grid{grid-template-columns:1fr}.gb-feature:first-child{grid-column:auto}.gb-feature{min-height:215px}.gb-business-actions{align-items:flex-start;flex-direction:column}.service-steps .new-section-label{gap:12px;flex-direction:column}}
+
+/* Smart auto-hiding header: hide on upward scroll, reveal on downward scroll. */
+body > header{transition:transform .28s ease,box-shadow .28s ease;will-change:transform}
+body > header.header-hidden{transform:translateY(-110%);box-shadow:none}
