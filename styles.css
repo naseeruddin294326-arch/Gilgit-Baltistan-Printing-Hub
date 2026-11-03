@@ -360,3 +360,8 @@ header{background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-bottom
  .page-visual-card{min-height:215px;width:min(88%,320px)}
 }
 @media(prefers-reduced-motion:reduce){.page-visual-card{transition:none}}
+
+
+/* Subtle site-wide size balance: keep the same design, just slightly more compact. */
+@media (min-width: 761px){body{zoom:.97}}
+@media (max-width: 760px){body{zoom:.985}}
