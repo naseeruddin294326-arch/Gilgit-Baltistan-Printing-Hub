@@ -9,6 +9,70 @@
 .order-page{max-width:1100px;margin:auto;padding:35px 20px 75px}.order-crumb{font-size:11px;color:#7a887f;margin-bottom:18px}.order-hero{text-align:center;padding:22px 15px 30px}.order-hero small{font-size:10px;font-weight:800;letter-spacing:.18em;color:#a47d39}.order-hero h1{font:600 clamp(30px,5vw,48px)/1.2 'Playfair Display',Georgia,serif;color:#16483c;margin:12px 0}.order-hero p{font-size:13px;color:#748078;line-height:1.7;max-width:650px;margin:auto}.order-layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr);gap:24px;align-items:start}.order-form{background:#fff;border:1px solid #e4e9e1;border-radius:17px;padding:24px;box-shadow:0 14px 38px #153d300b}.order-form h2{font:600 23px 'Playfair Display',Georgia,serif;color:#16483c;margin:0 0 5px}.order-help{font-size:11px;color:#7b887e;margin:0 0 20px}.order-fields{display:grid;grid-template-columns:1fr 1fr;gap:13px}.order-fields label{display:flex;flex-direction:column;gap:7px;font-size:11px;font-weight:800;color:#35584a}.order-fields label.wide{grid-column:1/-1}.order-fields input,.order-fields select,.order-fields textarea{width:100%;min-width:0;border:1px solid #dfe7df;border-radius:9px;padding:11px 12px;background:#fff;color:#234337;font:13px 'DM Sans',Arial}.order-fields textarea{line-height:1.7}.order-fields input[type=file]{font-size:11px}.order-preview{position:sticky;top:105px;background:#f7f5ee;border:1px solid #e8e1d0;border-radius:17px;padding:20px}.order-preview h3{font:600 19px 'Playfair Display',Georgia,serif;color:#16483c;margin:0 0 13px}.paper-preview{aspect-ratio:3/4;max-width:280px;margin:0 auto 15px;background:#fff;border:1px solid #e5e0d5;box-shadow:0 10px 25px #20372b15;display:flex;flex-direction:column;align-items:center;justify-content:space-around;text-align:center;padding:24px;color:#355b49;position:relative}.paper-preview:before{content:"";position:absolute;inset:12px;border:1px solid #c8b98f;pointer-events:none}.paper-preview .urdu{font:600 25px/2 "Noto Nastaliq Urdu",serif}.paper-preview .english{font:600 23px/1.25 'Playfair Display',Georgia,serif}.paper-preview small{font-size:9px;letter-spacing:.12em}.paper-preview span{font-size:18px}.preview-note{font-size:10px;color:#79867d;line-height:1.6;text-align:center}.order-notice{background:#fff6df;border:1px solid #eedda7;border-radius:10px;padding:12px;color:#715b27;font-size:10px;line-height:1.65;margin-top:15px}.order-submit{width:100%;margin-top:15px}.urdu-order .order-hero h1,.urdu-order .order-form h2{font-family:"Noto Nastaliq Urdu",serif}.urdu-order .order-hero h1{line-height:2}.english-paper .paper-preview{color:#74552d}.form-status{font-size:11px;color:#246347;margin-top:10px}
 @media(max-width:760px){.order-layout{grid-template-columns:1fr}.order-preview{position:static;grid-row:1}.paper-preview{max-width:220px}.order-page{padding:25px 14px 55px}}
 @media(max-width:480px){.order-fields{grid-template-columns:1fr}.order-fields label.wide{grid-column:auto}.order-form{padding:17px}}
+
+/* Full sample artwork carried from each homepage tile into its matching editable order preview */
+.paper-preview{width:100%;max-width:340px;min-height:390px;height:auto;aspect-ratio:3/4;justify-content:center;gap:14px;padding:35px 25px;overflow:hidden}
+.paper-preview:before{inset:13px}
+.paper-preview .sample-eyebrow{font-size:10px;letter-spacing:.13em;font-weight:800;line-height:1.5;position:relative;z-index:1}
+.paper-preview .sample-title{font:600 clamp(21px,3vw,30px)/1.25 'Playfair Display',Georgia,serif;max-width:100%;overflow-wrap:anywhere;position:relative;z-index:1}
+.paper-preview .sample-lines{display:flex;flex-direction:column;gap:9px;width:100%;position:relative;z-index:1}
+.paper-preview .sample-line{font-size:13px;line-height:1.5;overflow-wrap:anywhere}
+.paper-preview .sample-footer{font-size:11px;line-height:1.5;position:relative;z-index:1}
+.paper-preview.theme-banner{aspect-ratio:16/9;min-height:230px;max-width:100%;padding:25px}
+.paper-preview.theme-pvc{aspect-ratio:1.586/1;min-height:220px;max-width:100%;padding:22px}
+.paper-preview.theme-frame{aspect-ratio:4/3;min-height:260px;max-width:100%;padding:25px;border:9px ridge #b69a63}
+.paper-preview.sample-urdu{background:#fff!important;color:#315b49!important;border:1px solid #e4dfd2}
+.paper-preview.sample-urdu .sample-title,.paper-preview.sample-urdu .sample-line{font-family:'Noto Nastaliq Urdu',serif;line-height:2}
+.paper-preview.sample-english{background:#fff!important;color:#74552d!important;border:1px solid #e4dcc9}
+.paper-preview.sample-english .sample-title{font-family:'Playfair Display',Georgia,serif}
+.paper-preview.gb-theme-01{background:linear-gradient(135deg,#102f3d,#397b83,#d7ece5);color:#f1fbf7!important;border:1px solid #ffffff55;color:#f1fbf7}
+.paper-preview.gb-theme-01 .sample-title,.paper-preview.gb-theme-01 .sample-line{font-family:'Playfair Display',Georgia,serif}
+.paper-preview.gb-theme-02{background:linear-gradient(135deg,#d9edf3,#78b9c4,#236779);color:#153e4b!important;border:1px solid #ffffff55;color:#153e4b}
+.paper-preview.gb-theme-02 .sample-title,.paper-preview.gb-theme-02 .sample-line{font-family:Georgia,serif}
+.paper-preview.gb-theme-03{background:linear-gradient(135deg,#f8e4e9,#d78da4,#fff7ef);color:#713c54!important;border:1px solid #ffffff55;color:#713c54}
+.paper-preview.gb-theme-03 .sample-title,.paper-preview.gb-theme-03 .sample-line{font-family:'Playfair Display',Georgia,serif}
+.paper-preview.gb-theme-04{background:linear-gradient(135deg,#f8d9a7,#f18b64,#9e4565);color:#4e2938!important;border:1px solid #ffffff55;color:#4e2938}
+.paper-preview.gb-theme-04 .sample-title,.paper-preview.gb-theme-04 .sample-line{font-family:system-ui,sans-serif}
+.paper-preview.gb-theme-05{background:linear-gradient(135deg,#f7edcf,#c8a45e,#6d4d2d);color:#49351f!important;border:1px solid #ffffff55;color:#49351f}
+.paper-preview.gb-theme-05 .sample-title,.paper-preview.gb-theme-05 .sample-line{font-family:'Playfair Display',Georgia,serif}
+.paper-preview.gb-theme-06{background:linear-gradient(135deg,#102d46,#315c83,#d5b46b);color:#fff4d8!important;border:1px solid #ffffff55;color:#fff4d8}
+.paper-preview.gb-theme-06 .sample-title,.paper-preview.gb-theme-06 .sample-line{font-family:Georgia,serif}
+.paper-preview.gb-theme-07{background:linear-gradient(135deg,#e9f1e9,#9ab9a0,#315e50);color:#23483c!important;border:1px solid #ffffff55;color:#23483c}
+.paper-preview.gb-theme-07 .sample-title,.paper-preview.gb-theme-07 .sample-line{font-family:'Playfair Display',Georgia,serif}
+.paper-preview.gb-theme-08{background:linear-gradient(135deg,#dcecf7,#8db8d2,#547d9d);color:#17394e!important;border:1px solid #ffffff55;color:#17394e}
+.paper-preview.gb-theme-08 .sample-title,.paper-preview.gb-theme-08 .sample-line{font-family:Georgia,serif}
+.paper-preview.gb-theme-09{background:linear-gradient(135deg,#20252c,#515b66,#aeb7bd);color:#f4f1e9!important;border:1px solid #ffffff55;color:#f4f1e9}
+.paper-preview.gb-theme-09 .sample-title,.paper-preview.gb-theme-09 .sample-line{font-family:system-ui,sans-serif}
+.paper-preview.gb-theme-10{background:linear-gradient(135deg,#0e453a,#26765b,#c9a75e);color:#fff3cf!important;border:1px solid #ffffff55;color:#fff3cf}
+.paper-preview.gb-theme-10 .sample-title,.paper-preview.gb-theme-10 .sample-line{font-family:'Playfair Display',Georgia,serif}
+.paper-preview.gb-theme-11{background:linear-gradient(135deg,#f4e3ce,#c78352,#743f31);color:#492b24!important;border:1px solid #ffffff55;color:#492b24}
+.paper-preview.gb-theme-11 .sample-title,.paper-preview.gb-theme-11 .sample-line{font-family:Georgia,serif}
+.paper-preview.gb-theme-12{background:linear-gradient(135deg,#33243e,#785a83,#d4b4a0);color:#fff0df!important;border:1px solid #ffffff55;color:#fff0df}
+.paper-preview.gb-theme-12 .sample-title,.paper-preview.gb-theme-12 .sample-line{font-family:'Playfair Display',Georgia,serif}
+.paper-preview.gb-theme-13{background:linear-gradient(135deg,#101820,#394650,#b8c6cc);color:#f3f5f4!important;border:1px solid #ffffff55;color:#f3f5f4}
+.paper-preview.gb-theme-13 .sample-title,.paper-preview.gb-theme-13 .sample-line{font-family:system-ui,sans-serif}
+.paper-preview.gb-theme-14{background:linear-gradient(135deg,#fff0f1,#e7aab7,#bd6e80);color:#673d4b!important;border:1px solid #ffffff55;color:#673d4b}
+.paper-preview.gb-theme-14 .sample-title,.paper-preview.gb-theme-14 .sample-line{font-family:'Playfair Display',Georgia,serif}
+.paper-preview.gb-theme-15{background:linear-gradient(135deg,#f3e8d2,#bca27a,#6e7553);color:#3f4c3b!important;border:1px solid #ffffff55;color:#3f4c3b}
+.paper-preview.gb-theme-15 .sample-title,.paper-preview.gb-theme-15 .sample-line{font-family:Georgia,serif}
+.paper-preview.gb-theme-16{background:linear-gradient(135deg,#102f2b,#2d695b,#a6c8a7);color:#eff8e9!important;border:1px solid #ffffff55;color:#eff8e9}
+.paper-preview.gb-theme-16 .sample-title,.paper-preview.gb-theme-16 .sample-line{font-family:'Playfair Display',Georgia,serif}
+.paper-preview.gb-theme-17{background:linear-gradient(135deg,#f4e7ee,#d9b9d0,#a6c7d7);color:#59435c!important;border:1px solid #ffffff55;color:#59435c}
+.paper-preview.gb-theme-17 .sample-title,.paper-preview.gb-theme-17 .sample-line{font-family:Georgia,serif}
+.paper-preview.gb-theme-18{background:linear-gradient(135deg,#dce8e7,#6d9c9a,#234c55);color:#173b42!important;border:1px solid #ffffff55;color:#173b42}
+.paper-preview.gb-theme-18 .sample-title,.paper-preview.gb-theme-18 .sample-line{font-family:system-ui,sans-serif}
+.paper-preview.gb-theme-19{background:linear-gradient(135deg,#8e293b,#df6655,#f4c17b);color:#fff4dd!important;border:1px solid #ffffff55;color:#fff4dd}
+.paper-preview.gb-theme-19 .sample-title,.paper-preview.gb-theme-19 .sample-line{font-family:system-ui,sans-serif}
+.paper-preview.gb-theme-20{background:linear-gradient(135deg,#e8f4e9,#6eaa79,#fffdf4);color:#194a32!important;border:1px solid #ffffff55;color:#194a32}
+.paper-preview.gb-theme-20 .sample-title,.paper-preview.gb-theme-20 .sample-line{font-family:'Playfair Display',Georgia,serif}
+.paper-preview.gb-theme-21{background:linear-gradient(135deg,#e4f0d8,#91b878,#32634a);color:#214a34!important;border:1px solid #ffffff55;color:#214a34}
+.paper-preview.gb-theme-21 .sample-title,.paper-preview.gb-theme-21 .sample-line{font-family:Georgia,serif}
+.paper-preview.gb-theme-22{background:linear-gradient(135deg,#f6e0c9,#e99c5b,#b34e40);color:#512e28!important;border:1px solid #ffffff55;color:#512e28}
+.paper-preview.gb-theme-22 .sample-title,.paper-preview.gb-theme-22 .sample-line{font-family:system-ui,sans-serif}
+.paper-preview.gb-theme-23{background:linear-gradient(135deg,#fff0f3,#c87d91,#79475a);color:#633b4a!important;border:1px solid #ffffff55;color:#633b4a}
+.paper-preview.gb-theme-23 .sample-title,.paper-preview.gb-theme-23 .sample-line{font-family:'Playfair Display',Georgia,serif}
+.paper-preview.gb-theme-24{background:linear-gradient(135deg,#28243c,#62577e,#b9a3cb);color:#fff3e9!important;border:1px solid #ffffff55;color:#fff3e9}
+.paper-preview.gb-theme-24 .sample-title,.paper-preview.gb-theme-24 .sample-line{font-family:Georgia,serif}
 </style>
 </head>
 <body>
@@ -39,23 +103,63 @@
 <script>
 (()=>{
 const params=new URLSearchParams(location.search),category=params.get('category')||'Custom Design & Print';
-const title=document.getElementById('orderTitle'),intro=document.getElementById('orderIntro'),specific=document.getElementById('specificFields'),preview=document.getElementById('paperPreview'),previewName=document.getElementById('previewName'),previewNote=document.getElementById('previewNote'),page=document.getElementById('orderPage'),form=document.getElementById('customOrderForm');
-const safe=category.replace(/[<>]/g,'').slice(0,100);title.textContent=safe;previewName.textContent=safe;previewNote.textContent='Selected item: '+safe+'. Add your own exact text, artwork and print requirements.';
+let sample=null;try{sample=JSON.parse(params.get('sample')||'null')}catch{}
+const title=document.getElementById('orderTitle'),intro=document.getElementById('orderIntro'),specific=document.getElementById('specificFields'),preview=document.getElementById('paperPreview'),previewNote=document.getElementById('previewNote'),page=document.getElementById('orderPage'),form=document.getElementById('customOrderForm');
+const safe=category.replace(/[<>]/g,'').slice(0,100);title.textContent=safe;
 const wedding=/Wedding|Nikah|Mehndi|Baraat|Walima|Engagement|Save the Date|Aqeeqa|Milad/i.test(safe);
 const banner=/Banner|Flex|Admissions|Opening|Sports Week|Environment Day|Independence Day|Pakistan Day/i.test(safe);
 const frame=/Frame|Photo|Collage|Landscape/i.test(safe);
-const pvc=/ID Card|Hotel|Shop|Membership|Gift Card|Loyalty/i.test(safe);
+const pvc=/ID Card|Hotel|Shop|Membership|Gift Card|Loyalty|Staff Card/i.test(safe);
 const urdu=/Urdu Dawat/i.test(safe),english=/English Wedding/i.test(safe);
-if(urdu){page.classList.add('urdu-order');preview.classList.add('urdu-paper');previewName.className='urdu';previewName.textContent='دعوت نامہ';preview.querySelector('small').textContent='بسم اللہ الرحمن الرحیم';preview.lastElementChild.textContent='تشریف آوری ہمارے لیے باعثِ مسرت ہوگی';intro.textContent='سادہ سفید صفحے پر اپنا اردو دعوت نامہ تیار کروائیں۔ اپنا اصل متن بالکل اسی طرح لکھیں جیسے چھاپنا چاہتے ہیں۔'}
-else if(english){page.classList.add('english-paper');previewName.className='english';previewName.textContent='Wedding Invitation';preview.querySelector('small').textContent='TOGETHER WITH OUR FAMILIES';preview.lastElementChild.textContent='You are warmly invited';intro.textContent='A clean, simple white English wedding invitation. Enter your exact invitation wording below.'}
-if(wedding){specific.innerHTML='<h3>Wedding / event details</h3><div class="order-fields"><label>Bride / event host name<input name="bride" placeholder="Name as it should be printed"></label><label>Groom / second host name<input name="groom" placeholder="Name as it should be printed"></label><label>Event date<input name="eventDate" type="date"></label><label>Event time<input name="eventTime" type="time"></label><label class="wide">Venue / address<input name="venue" placeholder="Hall, village, city"></label><label class="wide">Family names / RSVP<input name="familyRsvp" placeholder="Family names and RSVP contact"></label></div>'}
+let themeType=banner?'theme-banner':frame?'theme-frame':pvc?'theme-pvc':'theme-paper';
+preview.className='paper-preview '+themeType;
+if(sample?.theme?.startsWith('gb-theme-'))preview.classList.add(sample.theme);
+if(urdu)preview.classList.add('sample-urdu');
+if(english)preview.classList.add('sample-english');
+function el(tag,cls,txt){const n=document.createElement(tag);if(cls)n.className=cls;if(txt!==undefined)n.textContent=txt;return n}
+const eyebrow=el('small','sample-eyebrow',sample?.eyebrow||'YOUR SPECIAL MOMENT');
+const name=el('strong','sample-title',sample?.title||safe);
+const lines=el('div','sample-lines');
+const footer=el('div','sample-footer','Designed for your special moment');
+const sourceLines=(sample?.lines||[]).filter((x,i)=>x&&i>0&&x!==sample?.title);
+function paint(values={}){
+ preview.replaceChildren();
+ const top=el('small','sample-eyebrow',values.eyebrow||sample?.eyebrow||'YOUR SPECIAL MOMENT');
+ const heading=el('strong','sample-title',values.title||sample?.title||safe);
+ const list=el('div','sample-lines');
+ const rows=values.lines||sourceLines;
+ rows.slice(0,7).forEach((line,i)=>list.append(el('div','sample-line',line)));
+ const foot=el('div','sample-footer',values.footer||'');
+ preview.append(top,heading,list,foot);
+}
+paint();
+previewNote.textContent='This is the same sample design shown on the homepage. Edit your details in the form and the preview will update.';
+if(urdu){page.classList.add('urdu-order');intro.textContent='سادہ سفید اردو دعوت نامہ۔ نیچے اپنی معلومات تبدیل کریں اور اصل متن لکھیں۔'}
+else if(english){page.classList.add('english-paper');intro.textContent='Simple white English wedding invitation. Edit the sample wording and details below.'}
+if(wedding){specific.innerHTML='<h3>Wedding / event details</h3><div class="order-fields"><label>Bride / event host name<input name="bride" placeholder="Bride name"></label><label>Groom / second host name<input name="groom" placeholder="Groom name"></label><label>Event date<input name="eventDate" type="date"></label><label>Event time<input name="eventTime" type="time"></label><label class="wide">Venue / address<input name="venue" placeholder="Hall, village, city"></label><label class="wide">Family names / RSVP<input name="familyRsvp" placeholder="Family names and RSVP contact"></label></div>'}
 else if(banner){specific.innerHTML='<h3>Banner / flex details</h3><div class="order-fields"><label>Event / organisation name<input name="eventName" placeholder="School, club, organisation"></label><label>Banner orientation<select name="orientation"><option>Landscape</option><option>Portrait</option></select></label><label>Banner width<input name="width" placeholder="e.g. 8 ft"></label><label>Banner height<input name="height" placeholder="e.g. 4 ft"></label><label class="wide">Main headline<input name="headline" placeholder="Exact large headline"></label><label class="wide">Event date / venue<input name="eventVenue" placeholder="Date, place and contact"></label></div>'}
-else if(frame){specific.innerHTML='<h3>Photo frame details</h3><div class="order-fields"><label>Frame size<select name="frameSize"><option>4 x 6 inch</option><option>5 x 7 inch</option><option>8 x 10 inch</option><option>12 x 18 inch</option><option>Custom size</option></select></label><label>Frame finish<select name="frameFinish"><option>Classic wood look</option><option>Black</option><option>White</option><option>Gold</option><option>Custom</option></select></label><label class="wide">Photo arrangement<input name="photoLayout" placeholder="Single photo, collage, names/date"></label></div>'}
+else if(frame){specific.innerHTML='<h3>Photo frame details</h3><div class="order-fields"><label>Frame size<select name="frameSize"><option>4 x 6 inch</option><option>5 x 7 inch</option><option>8 x 10 inch</option><option>12 x 18 inch</option><option>Custom size</option></select></label><label>Frame finish<select name="frameFinish"><option>Classic wood look</option><option>Black</option><option>White</option><option>Gold</option><option>Custom</option></select></label><label class="wide">Photo caption / names<input name="photoLayout" placeholder="Names, date or caption"></label></div>'}
 else if(pvc){specific.innerHTML='<h3>Card / business details</h3><div class="order-fields"><label>Business / institute name<input name="businessName" placeholder="Shop, hotel, school or company"></label><label>Cardholder / student name<input name="cardholder" placeholder="Name printed on card"></label><label>Card type<select name="cardType"><option>Plastic PVC card</option><option>Paper card</option><option>Membership / loyalty</option><option>Room key card</option><option>Student / staff ID</option></select></label><label>Number / ID<input name="cardNumber" placeholder="Room, roll or member number"></label><label class="wide">Contact / QR / back-side details<textarea name="cardBack" rows="2" placeholder="Phone, address, website, QR text, back side information"></textarea></label></div>'}
-else {specific.innerHTML='<h3>Print details</h3><div class="order-fields"><label>Paper / material<select name="material"><option>Standard</option><option>Premium card</option><option>Gloss</option><option>Matte</option><option>Vinyl / flex</option><option>Photo paper</option><option>Custom</option></select></label><label>Print sides<select name="sides"><option>Single sided</option><option>Double sided</option></select></label></div>'}
+else{specific.innerHTML='<h3>Print details</h3><div class="order-fields"><label>Paper / material<select name="material"><option>Standard</option><option>Premium card</option><option>Gloss</option><option>Matte</option><option>Vinyl / flex</option><option>Photo paper</option><option>Custom</option></select></label><label>Print sides<select name="sides"><option>Single sided</option><option>Double sided</option></select></label></div>'}
 if(wedding)document.getElementById('sizeSelect').innerHTML='<option>Invitation card</option><option>A5</option><option>A6</option><option>Custom size</option>';
 if(banner)document.getElementById('sizeSelect').value='3 x 5 ft';
-form.addEventListener('submit',e=>{e.preventDefault();const fd=new FormData(form),details={};for(const [k,v] of fd.entries())if(k!=='artwork')details[k]=v;const file=form.elements.artwork.files[0];details.artworkFilename=file?.name||'';details.selectedCategory=safe;const item={id:'custom-'+Date.now(),name:safe,category:banner?'Banners & Flex':frame?'Frames':wedding?'Wedding Cards':pvc?'PVC & Membership Cards':'Custom Printing',price:0,qty:1,details};let cart=[];try{cart=JSON.parse(localStorage.getItem('gbph_cart')||'[]')}catch{}cart.push(item);localStorage.setItem('gbph_cart',JSON.stringify(cart));location.href='cart.html'});
+function updatePreview(){
+ const v=Object.fromEntries(new FormData(form).entries());
+ const base=[...(sourceLines||[])];
+ const set=(i,value)=>{if(value)base[i]=value};
+ if(wedding){
+  set(0,[v.bride,v.groom].filter(Boolean).join(' & '));
+  set(1,[v.eventDate,v.eventTime].filter(Boolean).join(' · '));
+  set(2,v.venue);set(3,v.familyRsvp);
+ }else if(banner){set(0,v.eventName);set(1,v.headline);set(2,[v.eventVenue,v.width&&v.height?(v.width+' × '+v.height):''].filter(Boolean).join(' · '))}
+ else if(frame){set(0,v.photoLayout)}
+ else if(pvc){set(0,v.businessName);set(1,v.cardholder);set(2,[v.cardType,v.cardNumber].filter(Boolean).join(' · '));set(3,v.cardBack)}
+ const description=(v.description||'').trim();
+ if(description){const desc=description.split(/\n+/).filter(Boolean);desc.forEach((x,i)=>{if(i<base.length)base[i]=x})}
+ paint({title:sample?.title||safe,lines:base});
+}
+form.addEventListener('input',updatePreview);form.addEventListener('change',updatePreview);
+form.addEventListener('submit',e=>{e.preventDefault();const fd=new FormData(form),details={};for(const [k,v]of fd.entries())if(k!=='artwork')details[k]=v;const file=form.elements.artwork.files[0];details.artworkFilename=file?.name||'';details.selectedCategory=safe;details.sampleDesign=sample||null;const item={id:'custom-'+Date.now(),name:safe,category:banner?'Banners & Flex':frame?'Frames':wedding?'Wedding Cards':pvc?'PVC & Membership Cards':'Custom Printing',price:0,qty:1,details};let cart=[];try{cart=JSON.parse(localStorage.getItem('gbph_cart')||'[]')}catch{}cart.push(item);localStorage.setItem('gbph_cart',JSON.stringify(cart));location.href='cart.html'});
 })();
-</script>
+</script>>
 </body></html>
