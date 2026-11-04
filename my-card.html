@@ -61,6 +61,43 @@
 @media(max-width:600px){.mycard-designs{padding:16px}.mycard-design-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.mycard-designs-head{align-items:flex-start;flex-direction:column}.design-thumb{height:112px}}
 
 
+
+/* Shop and general-store card collection — storefront-led artwork */
+body[data-card-type="shop"] .design-thumb.theme-classic,
+body[data-card-type="shop"] .design-thumb.theme-sage,
+body[data-card-type="shop"] .design-thumb.theme-minimal{
+ background-image:linear-gradient(105deg,#062c35b8,#0a553d70),url('https://images.unsplash.com/photo-1604719312566-8912e9c8a213?auto=format&fit=crop&w=1000&q=88')!important;
+ background-size:cover!important;background-position:center!important
+}
+body[data-card-type="shop"] .design-thumb.theme-royal,
+body[data-card-type="shop"] .design-thumb.theme-blue{
+ background-image:linear-gradient(105deg,#09294db8,#174d7566),url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1000&q=88')!important;
+ background-size:cover!important;background-position:center!important
+}
+body[data-card-type="shop"] .design-thumb.theme-midnight,
+body[data-card-type="shop"] .design-thumb.theme-burgundy,
+body[data-card-type="shop"] .design-thumb.theme-blush{
+ background-image:linear-gradient(105deg,#261629b8,#70405070),url('https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?auto=format&fit=crop&w=1000&q=88')!important;
+ background-size:cover!important;background-position:center!important
+}
+.id-card-preview.shop{background-size:cover!important;background-position:center!important}
+.id-card-preview.shop.theme-classic,
+.id-card-preview.shop.theme-sage,
+.id-card-preview.shop.theme-minimal{
+ background-image:linear-gradient(100deg,#082f39dc 0%,#0b4c3dc2 48%,#123f3a30 100%),url('https://images.unsplash.com/photo-1604719312566-8912e9c8a213?auto=format&fit=crop&w=1400&q=90')!important
+}
+.id-card-preview.shop.theme-royal,
+.id-card-preview.shop.theme-blue{
+ background-image:linear-gradient(100deg,#092b50df 0%,#174d75b8 50%,#092b5040 100%),url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1400&q=90')!important
+}
+.id-card-preview.shop.theme-midnight,
+.id-card-preview.shop.theme-burgundy,
+.id-card-preview.shop.theme-blush{
+ background-image:linear-gradient(100deg,#251628df 0%,#69374dbb 52%,#25162855 100%),url('https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?auto=format&fit=crop&w=1400&q=90')!important
+}
+body[data-card-type="shop"] .design-thumb:after{content:"GENERAL STORE · GILGIT";position:absolute;bottom:9px;left:0;right:0;text-align:center;font-size:6px;letter-spacing:.12em;font-weight:900;text-shadow:0 1px 5px #000}
+.id-card-preview.shop .id-card-logo{border-radius:8px}
+
 /* Gilgit-Baltistan scenic card artwork: visual-only theme refresh */
 .design-thumb.theme-classic{background-image:linear-gradient(110deg,#092d36a8,#0d4d3d55),url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=85')!important;background-size:cover!important;background-position:center 48%!important}
 .design-thumb.theme-royal{background-image:linear-gradient(110deg,#25170799,#9a6b1b44),url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=900&q=85')!important;background-size:cover!important;background-position:center!important}
@@ -130,7 +167,7 @@
 <script>
 (()=>{const $=id=>document.getElementById(id),type=$('cardType'),preview=$('cardPreview');const fields=['cardName','cardHolder','cardRole','cardNumber','cardPhone','cardAddress'];const presets={shop:{brand:'YOUR SHOP',tag:'LOYALTY CARD',name:'YOUR BUSINESS',role:'LOYALTY MEMBER',number:'MEMBER · 0001',phone:'0300 0000000',address:'Main Bazar, Gilgit',icon:'✦',color:'#1c5540'},hotel:{brand:'YOUR HOTEL',tag:'GUEST KEY CARD',name:'WELCOME GUEST',role:'ROOM ACCESS',number:'ROOM · 101',phone:'0300 0000000',address:'Hotel address, Gilgit-Baltistan',icon:'⌂',color:'#214f76'},student:{brand:'YOUR INSTITUTE',tag:'STUDENT IDENTITY',name:'STUDENT NAME',role:'STUDENT · CLASS 10',number:'STUDENT ID · 0001',phone:'Academic year · 2026–27',address:'',icon:'🎓',color:'#246d78'},personal:{brand:'YOUR PERSONAL BRAND',tag:'VIP MEMBERSHIP',name:'YOUR NAME',role:'VIP MEMBER',number:'MEMBER · 0001',phone:'0300 0000000',address:'Your home / business address',icon:'✧',color:'#65436d'}};let current='shop';let selectedDesign='classic';
 function setType(t){current=t;const p=presets[t];type.value=t;preview.className='id-card-preview '+t;$('previewBrand').textContent=p.brand;$('previewTag').textContent=p.tag;$('cardName').value=p.name;$('cardHolder').value='';$('cardRole').value=p.role;$('cardNumber').value=p.number;$('cardPhone').value=p.phone;$('cardAddress').value=p.address||'';$('cardAddressField').classList.toggle('student-hide',t==='student');$('businessNameField').classList.toggle('student-hide',t==='student'||t==='personal');$('holderNameField').classList.toggle('student-hide',t==='student'||t==='personal');$('cardName').previousElementSibling.textContent=t==='personal'?'Your name':'Shop / Hotel name';$('cardName').placeholder=t==='personal'?'Enter your name':'Enter your shop or hotel name';$('previewIcon').textContent=p.icon;$('cardColor').value=p.color;document.querySelectorAll('[data-type]').forEach(b=>b.classList.toggle('active',b.dataset.type===t));render()}
-function render(){const businessName=$('cardName').value||'YOUR BUSINESS';preview.className='id-card-preview '+current+' theme-'+selectedDesign;document.querySelectorAll('.design-choice').forEach(b=>b.classList.toggle('active',b.dataset.design===selectedDesign));document.querySelectorAll('.swatch-brand').forEach(e=>e.textContent=businessName);document.querySelectorAll('.swatch-name').forEach(e=>e.textContent=$('cardHolder').value||businessName);$('previewBrand').textContent=current==='student'?'YOUR INSTITUTE':(current==='personal'?'YOUR PERSONAL BRAND':businessName);$('previewName').textContent=(current==='shop'||current==='hotel')?($('cardHolder').value|| (current==='hotel'?'WELCOME GUEST':'LOYALTY MEMBER')):businessName;$('previewRole').textContent=$('cardRole').value||'CARD HOLDER';$('previewNumber').textContent=$('cardNumber').value||'CARD · 0001';$('previewPhone').textContent=$('cardPhone').value||'Mobile number';$('previewAddress').textContent=current==='student'?'':($('cardAddress').value||'Location / Address');$('previewAddress').style.display=current==='student'?'none':'block';preview.style.background=''}
+function render(){const businessName=$('cardName').value||'YOUR BUSINESS';document.body.dataset.cardType=current;preview.className='id-card-preview '+current+' theme-'+selectedDesign;document.querySelectorAll('.design-choice').forEach(b=>b.classList.toggle('active',b.dataset.design===selectedDesign));document.querySelectorAll('.swatch-brand').forEach(e=>e.textContent=businessName);document.querySelectorAll('.swatch-name').forEach(e=>e.textContent=$('cardHolder').value||businessName);$('previewBrand').textContent=current==='student'?'YOUR INSTITUTE':(current==='personal'?'YOUR PERSONAL BRAND':businessName);$('previewName').textContent=(current==='shop'||current==='hotel')?($('cardHolder').value|| (current==='hotel'?'WELCOME GUEST':'LOYALTY MEMBER')):businessName;$('previewRole').textContent=$('cardRole').value||'CARD HOLDER';$('previewNumber').textContent=$('cardNumber').value||'CARD · 0001';$('previewPhone').textContent=$('cardPhone').value||'Mobile number';$('previewAddress').textContent=current==='student'?'':($('cardAddress').value||'Location / Address');$('previewAddress').style.display=current==='student'?'none':'block';preview.style.background=''}
 document.querySelectorAll('[data-type]').forEach(b=>b.addEventListener('click',()=>setType(b.dataset.type)));document.querySelectorAll('[data-design]').forEach(b=>b.addEventListener('click',()=>{selectedDesign=b.dataset.design;render();}));type.addEventListener('change',()=>setType(type.value));[...fields,'cardColor'].forEach(id=>$(id).addEventListener('input',render));
 const mobileMode=$('mobileMode'),mobileInputs=$('mobileInputs');
 mobileMode.addEventListener('change',()=>{const count=mobileMode.value==='multiple'?3:1;mobileInputs.innerHTML=Array.from({length:count},(_,i)=>'<label>Mobile number '+(i+1)+'<input id="mobile'+(i+1)+'" type="tel" maxlength="20" placeholder="03XX XXXXXXX"></label>').join('')});
