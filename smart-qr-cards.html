@@ -44,7 +44,7 @@ if(params.has('profile')){
 }
 function profileUrl(){const q=new URLSearchParams({profile:'1',kind,...Object.fromEntries(fields.map(k=>[k,$(k).value.trim()]))});return location.origin+location.pathname+'?'+q.toString()}
 function update(){const name=$('name').value.trim()||'Your Business Name';$('pKind').textContent='SMART '+kind.toUpperCase()+' CARD';$('pName').textContent=name;$('pPerson').textContent=$('person').value||'Contact person';$('pPhone').textContent='☎ '+($('phone').value||'Phone number');$('pAddress').textContent='⌖ '+($('address').value||'Address / Location');const url=profileUrl();$('qrImage').src='https://api.qrserver.com/v1/create-qr-code/?size=240x240&data='+encodeURIComponent(url);$('openProfile').dataset.url=url;}
-fields.forEach(k=>$(k).addEventListener('input',update));
+fields.forEach(k=>{ $(k).addEventListener('input',update); $(k).addEventListener('change',update); });
 document.querySelectorAll('.qr-type').forEach(btn=>btn.addEventListener('click',()=>{kind=btn.dataset.kind;document.querySelectorAll('.qr-type').forEach(b=>b.classList.toggle('active',b===btn));update()}));
 $('openProfile').addEventListener('click',()=>window.open($('openProfile').dataset.url,'_blank'));
 $('downloadQr').addEventListener('click',async()=>{try{const response=await fetch($('qrImage').src);const blob=await response.blob();const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='smart-qr-card.png';a.click();URL.revokeObjectURL(a.href)}catch(e){window.open($('qrImage').src,'_blank')}});
