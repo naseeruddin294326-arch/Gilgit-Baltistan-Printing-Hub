@@ -122,6 +122,8 @@ const name=el('strong','sample-title',sample?.title||safe);
 const lines=el('div','sample-lines');
 const footer=el('div','sample-footer','Designed for your special moment');
 const sourceLines=(sample?.lines||[]).filter((x,i)=>x&&i>0&&x!==sample?.title);
+let chosenArtworkData='';
+let chosenArtworkName='';
 function paint(values={}){
  preview.replaceChildren();
  const top=el('small','sample-eyebrow',values.eyebrow||sample?.eyebrow||'YOUR SPECIAL MOMENT');
@@ -130,7 +132,15 @@ function paint(values={}){
  const rows=values.lines||sourceLines;
  rows.slice(0,7).forEach((line,i)=>list.append(el('div','sample-line',line)));
  const foot=el('div','sample-footer',values.footer||'');
- preview.append(top,heading,list,foot);
+ preview.append(top,heading);
+ if(chosenArtworkData){
+  const artwork=el('img','customer-artwork-preview');
+  artwork.src=chosenArtworkData;
+  artwork.alt='Customer uploaded artwork';
+  artwork.style.cssText='display:block;width:auto;max-width:82%;max-height:145px;object-fit:contain;margin:10px auto;border-radius:8px;box-shadow:0 4px 18px #0003;position:relative;z-index:2';
+  preview.append(artwork);
+ }
+ preview.append(list,foot);
 }
 paint();
 const backgroundInput=document.getElementById('backgroundPhoto');
@@ -147,6 +157,19 @@ backgroundInput.addEventListener('change',()=>{
  const reader=new FileReader();reader.onload=()=>{chosenBackgroundData=String(reader.result||'');chosenBackgroundName=file.name;setBackground(chosenBackgroundData)};reader.readAsDataURL(file);
 });
 restoreBackground.addEventListener('click',()=>{chosenBackgroundData='';chosenBackgroundName='';backgroundInput.value='';setBackground(sample?.image||'')});
+const artworkInput=form.elements.artwork;
+artworkInput.addEventListener('change',()=>{
+ const file=artworkInput.files?.[0];
+ if(!file){chosenArtworkData='';chosenArtworkName='';paint();return;}
+ if(!file.type.startsWith('image/')){
+  chosenArtworkData='';chosenArtworkName=file.name;
+  previewNote.textContent='PDF artwork is attached to the order details; image preview is available for JPG, PNG, WEBP and other image files.';
+  paint();return;
+ }
+ const reader=new FileReader();
+ reader.onload=()=>{chosenArtworkData=String(reader.result||'');chosenArtworkName=file.name;paint();previewNote.textContent='Your uploaded image is now displayed inside the card preview.'};
+ reader.readAsDataURL(file);
+});
 previewNote.textContent='This is the same sample design shown on the homepage. Edit your details in the form and the preview will update.';
 if(urdu){page.classList.add('urdu-order');intro.textContent='سادہ سفید اردو دعوت نامہ۔ نیچے اپنی معلومات تبدیل کریں اور اصل متن لکھیں۔'}
 else if(english){page.classList.add('english-paper');intro.textContent='Simple white English wedding invitation. Edit the sample wording and details below.'}
@@ -173,7 +196,7 @@ function updatePreview(){
  paint({title:sample?.title||safe,lines:base});
 }
 form.addEventListener('input',updatePreview);form.addEventListener('change',updatePreview);
-form.addEventListener('submit',e=>{e.preventDefault();const fd=new FormData(form),details={};for(const [k,v]of fd.entries())if(k!=='artwork')details[k]=v;const file=form.elements.artwork.files[0];details.artworkFilename=file?.name||'';details.backgroundPhotoFilename=chosenBackgroundName;details.backgroundPhotoData=chosenBackgroundData;details.backgroundPhoto=chosenBackgroundData||sample?.image||'';details.selectedCategory=safe;details.sampleDesign=sample||null;const item={id:'custom-'+Date.now(),name:safe,category:banner?'Banners & Flex':frame?'Frames':wedding?'Wedding Cards':pvc?'PVC & Membership Cards':'Custom Printing',price:0,qty:1,details};let cart=[];try{cart=JSON.parse(localStorage.getItem('gbph_cart')||'[]')}catch{}cart.push(item);localStorage.setItem('gbph_cart',JSON.stringify(cart));location.href='cart.html'});
+form.addEventListener('submit',e=>{e.preventDefault();const fd=new FormData(form),details={};for(const [k,v]of fd.entries())if(k!=='artwork')details[k]=v;const file=form.elements.artwork.files[0];details.artworkFilename=file?.name||'';details.artworkImageData=chosenArtworkData;details.artworkImageName=chosenArtworkName;details.backgroundPhotoFilename=chosenBackgroundName;details.backgroundPhotoData=chosenBackgroundData;details.backgroundPhoto=chosenBackgroundData||sample?.image||'';details.selectedCategory=safe;details.sampleDesign=sample||null;const item={id:'custom-'+Date.now(),name:safe,category:banner?'Banners & Flex':frame?'Frames':wedding?'Wedding Cards':pvc?'PVC & Membership Cards':'Custom Printing',price:0,qty:1,details};let cart=[];try{cart=JSON.parse(localStorage.getItem('gbph_cart')||'[]')}catch{}cart.push(item);localStorage.setItem('gbph_cart',JSON.stringify(cart));location.href='cart.html'});
 })();
 </script>{id:'custom-'+Date.now(),name:safe,category:banner?'Banners & Flex':frame?'Frames':wedding?'Wedding Cards':pvc?'PVC & Membership Cards':'Custom Printing',price:0,qty:1,details};let cart=[];try{cart=JSON.parse(localStorage.getItem('gbph_cart')||'[]')}catch{}cart.push(item);localStorage.setItem('gbph_cart',JSON.stringify(cart));location.href='cart.html'});
 })();
