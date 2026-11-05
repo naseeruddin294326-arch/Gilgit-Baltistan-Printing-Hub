@@ -89,7 +89,7 @@
 <label>Quantity *<input name="quantity" required type="number" min="1" value="100"></label>
 <label>Preferred size<select name="size" id="sizeSelect"><option>Standard size</option><option>A4</option><option>A5</option><option>A6</option><option>3 x 5 ft</option><option>4 x 8 ft</option><option>Custom size (write in notes)</option></select></label>
 <div id="specificFields" class="wide"></div>
-<label class="wide">Exact wording / design description *<textarea name="description" rows="4" required placeholder="Write the exact text or describe the design you want printed."></textarea></label>
+<label class="wide">Extra wording (optional)<textarea name="description" rows="3" placeholder="Add extra wording here. Existing sample details will stay as they are."></textarea></label>
 <label class="wide">Change card background photo (optional)<input name="backgroundPhoto" id="backgroundPhoto" type="file" accept="image/*"><small class="photo-help">Your selected photo will replace the sample background in this preview.</small><button type="button" id="restoreBackground" class="btn gold" style="margin-top:7px">Restore sample background</button></label>
 <label class="wide">Upload your photo, logo or artwork (optional)<input name="artwork" type="file" accept="image/*,.pdf"></label>
 <label class="wide">Extra instructions<textarea name="instructions" rows="3" placeholder="Paper, material, colours, finish, front/back, delivery details..."></textarea></label>
@@ -173,27 +173,38 @@ artworkInput.addEventListener('change',()=>{
 previewNote.textContent='This is the same sample design shown on the homepage. Edit your details in the form and the preview will update.';
 if(urdu){page.classList.add('urdu-order');intro.textContent='سادہ سفید اردو دعوت نامہ۔ نیچے اپنی معلومات تبدیل کریں اور اصل متن لکھیں۔'}
 else if(english){page.classList.add('english-paper');intro.textContent='Simple white English wedding invitation. Edit the sample wording and details below.'}
-if(wedding){specific.innerHTML='<h3>Wedding / event details</h3><div class="order-fields"><label>Bride / event host name<input name="bride" placeholder="Bride name"></label><label>Groom / second host name<input name="groom" placeholder="Groom name"></label><label>Event date<input name="eventDate" type="date"></label><label>Event time<input name="eventTime" type="time"></label><label class="wide">Venue / address<input name="venue" placeholder="Hall, village, city"></label><label class="wide">Family names / RSVP<input name="familyRsvp" placeholder="Family names and RSVP contact"></label></div>'}
-else if(banner){specific.innerHTML='<h3>Banner / flex details</h3><div class="order-fields"><label>Event / organisation name<input name="eventName" placeholder="School, club, organisation"></label><label>Banner orientation<select name="orientation"><option>Landscape</option><option>Portrait</option></select></label><label>Banner width<input name="width" placeholder="e.g. 8 ft"></label><label>Banner height<input name="height" placeholder="e.g. 4 ft"></label><label class="wide">Main headline<input name="headline" placeholder="Exact large headline"></label><label class="wide">Event date / venue<input name="eventVenue" placeholder="Date, place and contact"></label></div>'}
-else if(frame){specific.innerHTML='<h3>Photo frame details</h3><div class="order-fields"><label>Frame size<select name="frameSize"><option>4 x 6 inch</option><option>5 x 7 inch</option><option>8 x 10 inch</option><option>12 x 18 inch</option><option>Custom size</option></select></label><label>Frame finish<select name="frameFinish"><option>Classic wood look</option><option>Black</option><option>White</option><option>Gold</option><option>Custom</option></select></label><label class="wide">Photo caption / names<input name="photoLayout" placeholder="Names, date or caption"></label></div>'}
-else if(pvc){specific.innerHTML='<h3>Card / business details</h3><div class="order-fields"><label>Business / institute name<input name="businessName" placeholder="Shop, hotel, school or company"></label><label>Cardholder / student name<input name="cardholder" placeholder="Name printed on card"></label><label>Card type<select name="cardType"><option>Plastic PVC card</option><option>Paper card</option><option>Membership / loyalty</option><option>Room key card</option><option>Student / staff ID</option></select></label><label>Number / ID<input name="cardNumber" placeholder="Room, roll or member number"></label><label class="wide">Contact / QR / back-side details<textarea name="cardBack" rows="2" placeholder="Phone, address, website, QR text, back side information"></textarea></label></div>'}
-else{specific.innerHTML='<h3>Print details</h3><div class="order-fields"><label>Paper / material<select name="material"><option>Standard</option><option>Premium card</option><option>Gloss</option><option>Matte</option><option>Vinyl / flex</option><option>Photo paper</option><option>Custom</option></select></label><label>Print sides<select name="sides"><option>Single sided</option><option>Double sided</option></select></label></div>'}
+const sampleRows=sample?.lines||[];
+const sampleText=(i)=>sampleRows[i]||'';
+const sampleTitle=sample?.title||safe;
+if(wedding){
+ const pair=sampleTitle.split(/\s*(?:&|♥|and)\s*/i);
+ specific.innerHTML='<h3>Personalise this invitation</h3><div class="order-fields"><label>Bride / first name<input name="bride" value="'+(pair[0]||'').replace(/"/g,'&quot;')+'"></label><label>Groom / second name<input name="groom" value="'+(pair[1]||'').replace(/"/g,'&quot;')+'"></label><label class="wide">Date &amp; time<input name="eventDateTime" value="'+sampleText(2).replace(/"/g,'&quot;')+'"></label><label class="wide">Venue / location<input name="venue" value="'+sampleText(3).replace(/"/g,'&quot;')+'"></label><label class="wide">Invitation / family message<input name="familyRsvp" value="'+sampleText(4).replace(/"/g,'&quot;')+'"></label></div>';
+}else if(banner){
+ specific.innerHTML='<h3>Personalise this banner</h3><div class="order-fields"><label>Organisation / name<input name="eventName" value="'+sampleTitle.replace(/"/g,'&quot;')+'"></label><label>Orientation<select name="orientation"><option>Landscape</option><option>Portrait</option></select></label><label class="wide">Main headline<input name="headline" value="'+sampleText(1).replace(/"/g,'&quot;')+'"></label><label class="wide">Date / venue / details<input name="eventVenue" value="'+sampleText(2).replace(/"/g,'&quot;')+'"></label><label>Size / dimensions<input name="dimensions" value="'+sampleText(3).replace(/"/g,'&quot;')+'"></label></div>';
+}else if(frame){
+ specific.innerHTML='<h3>Personalise this frame</h3><div class="order-fields"><label class="wide">Names / photo caption<input name="photoLayout" value="'+sampleTitle.replace(/"/g,'&quot;')+'"></label><label class="wide">Date / place<input name="frameDetails" value="'+sampleText(2).replace(/"/g,'&quot;')+'"></label><label>Frame size<select name="frameSize"><option>4 x 6 inch</option><option>5 x 7 inch</option><option>8 x 10 inch</option><option>12 x 18 inch</option><option>Custom size</option></select></label><label>Frame finish<select name="frameFinish"><option>Classic wood look</option><option>Black</option><option>White</option><option>Gold</option><option>Custom</option></select></label></div>';
+}else if(pvc){
+ specific.innerHTML='<h3>Personalise this card</h3><div class="order-fields"><label>Business / institute name<input name="businessName" value="'+sampleTitle.replace(/"/g,'&quot;')+'"></label><label>Cardholder / guest name<input name="cardholder" value="'+sampleText(2).replace(/"/g,'&quot;')+'"></label><label>Card type<select name="cardType"><option>Plastic PVC card</option><option>Paper card</option><option>Membership / loyalty</option><option>Room key card</option><option>Student / staff ID</option></select></label><label>Number / ID<input name="cardNumber" value="'+sampleText(3).replace(/"/g,'&quot;')+'"></label><label class="wide">Other printed details<textarea name="cardBack" rows="2">'+sampleText(4)+'</textarea></label></div>';
+}else{
+ specific.innerHTML='<h3>Print details</h3><div class="order-fields"><label>Paper / material<select name="material"><option>Standard</option><option>Premium card</option><option>Gloss</option><option>Matte</option><option>Vinyl / flex</option><option>Photo paper</option><option>Custom</option></select></label><label>Print sides<select name="sides"><option>Single sided</option><option>Double sided</option></select></div>';
+}
 if(wedding)document.getElementById('sizeSelect').innerHTML='<option>Invitation card</option><option>A5</option><option>A6</option><option>Custom size</option>';
 if(banner)document.getElementById('sizeSelect').value='3 x 5 ft';
 function updatePreview(){
  const v=Object.fromEntries(new FormData(form).entries());
  const base=[...(sourceLines||[])];
- const set=(i,value)=>{if(value)base[i]=value};
+ const set=(i,value)=>{if(value!==undefined&&value!==null&&String(value).trim()!=='')base[i]=String(value)};
+ let previewTitle=sampleTitle;
  if(wedding){
-  set(0,[v.bride,v.groom].filter(Boolean).join(' & '));
-  set(1,[v.eventDate,v.eventTime].filter(Boolean).join(' · '));
-  set(2,v.venue);set(3,v.familyRsvp);
- }else if(banner){set(0,v.eventName);set(1,v.headline);set(2,[v.eventVenue,v.width&&v.height?(v.width+' × '+v.height):''].filter(Boolean).join(' · '))}
- else if(frame){set(0,v.photoLayout)}
- else if(pvc){set(0,v.businessName);set(1,v.cardholder);set(2,[v.cardType,v.cardNumber].filter(Boolean).join(' · '));set(3,v.cardBack)}
- const description=(v.description||'').trim();
- if(description){const desc=description.split(/\n+/).filter(Boolean);desc.forEach((x,i)=>{if(i<base.length)base[i]=x})}
- paint({title:sample?.title||safe,lines:base});
+  const pair=[v.bride,v.groom].filter(Boolean);
+  if(pair.length)previewTitle=pair.join(' & ');
+  set(0,v.eventDateTime);set(1,v.venue);set(2,v.familyRsvp);
+ }else if(banner){
+  previewTitle=v.eventName||sampleTitle;set(0,v.headline);set(1,v.eventVenue);set(2,v.dimensions);
+ }else if(frame){previewTitle=v.photoLayout||sampleTitle;set(1,v.frameDetails)}
+ else if(pvc){previewTitle=v.businessName||sampleTitle;set(0,v.cardholder);set(1,[v.cardType,v.cardNumber].filter(Boolean).join(' · '));set(2,v.cardBack)}
+ const extra=(v.description||'').trim();if(extra)base.push(extra);
+ paint({title:previewTitle,lines:base});
 }
 form.addEventListener('input',updatePreview);form.addEventListener('change',updatePreview);
 form.addEventListener('submit',e=>{e.preventDefault();const fd=new FormData(form),details={};for(const [k,v]of fd.entries())if(k!=='artwork')details[k]=v;const file=form.elements.artwork.files[0];details.artworkFilename=file?.name||'';details.artworkImageData=chosenArtworkData;details.artworkImageName=chosenArtworkName;details.backgroundPhotoFilename=chosenBackgroundName;details.backgroundPhotoData=chosenBackgroundData;details.backgroundPhoto=chosenBackgroundData||sample?.image||'';details.selectedCategory=safe;details.sampleDesign=sample||null;const item={id:'custom-'+Date.now(),name:safe,category:banner?'Banners & Flex':frame?'Frames':wedding?'Wedding Cards':pvc?'PVC & Membership Cards':'Custom Printing',price:0,qty:1,details};let cart=[];try{cart=JSON.parse(localStorage.getItem('gbph_cart')||'[]')}catch{}cart.push(item);localStorage.setItem('gbph_cart',JSON.stringify(cart));location.href='cart.html'});
