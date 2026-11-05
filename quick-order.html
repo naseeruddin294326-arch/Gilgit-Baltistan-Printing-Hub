@@ -90,6 +90,7 @@
 <label>Preferred size<select name="size" id="sizeSelect"><option>Standard size</option><option>A4</option><option>A5</option><option>A6</option><option>3 x 5 ft</option><option>4 x 8 ft</option><option>Custom size (write in notes)</option></select></label>
 <div id="specificFields" class="wide"></div>
 <label class="wide">Exact wording / design description *<textarea name="description" rows="4" required placeholder="Write the exact text or describe the design you want printed."></textarea></label>
+<label class="wide">Change card background photo (optional)<input name="backgroundPhoto" id="backgroundPhoto" type="file" accept="image/*"><small class="photo-help">Your selected photo will replace the sample background in this preview.</small><button type="button" id="restoreBackground" class="btn gold" style="margin-top:7px">Restore sample background</button></label>
 <label class="wide">Upload your photo, logo or artwork (optional)<input name="artwork" type="file" accept="image/*,.pdf"></label>
 <label class="wide">Extra instructions<textarea name="instructions" rows="3" placeholder="Paper, material, colours, finish, front/back, delivery details..."></textarea></label>
 </div>
@@ -98,9 +99,7 @@
 </form></section>
 <aside class="order-preview"><h3>Your selected collection</h3><div class="paper-preview" id="paperPreview"><small>YOUR SPECIAL MOMENT</small><span>✦ ❋ ✦</span><strong class="english" id="previewName">Custom Print</strong><small>DESIGNED FOR YOU</small></div><p class="preview-note" id="previewNote">A simple preview of the selected print category. Final artwork will be confirmed with your requirements.</p></aside>
 </div></main>
-<footer><div class="foot"><div class="brand"><div class="logo">🏔️</div><div><strong style="color:white">Gilgit Baltistan</strong><span>Printing Hub</span></div></div><p>Thoughtful print and design for Gilgit-Baltistan.</p><p><a href="contact.html">Contact</a> · <a href="faq.html">FAQ</a></p></div><div class="bottom"><span>© <span id="year"></span> Gilgit Baltistan Printing Hub</span><span>Print Local. Grow Local.</span></div></footer>
-<script src="script.js"></script>
-<script>
+<footer><div class="foot"><div class="brand"><div class="logo">🏔️</div><div><strong style="color:whit<script>
 (()=>{
 const params=new URLSearchParams(location.search),category=params.get('category')||'Custom Design & Print';
 let sample=null;try{sample=JSON.parse(params.get('sample')||'null')}catch{}
@@ -113,6 +112,7 @@ const pvc=/ID Card|Hotel|Shop|Membership|Gift Card|Loyalty|Staff Card/i.test(saf
 const urdu=/Urdu Dawat/i.test(safe),english=/English Wedding/i.test(safe);
 let themeType=banner?'theme-banner':frame?'theme-frame':pvc?'theme-pvc':'theme-paper';
 preview.className='paper-preview '+themeType;
+if(sample?.image){preview.style.backgroundImage=`linear-gradient(180deg,#071b1a45,#071b1a9c),url("${sample.image}")`;preview.style.backgroundSize='cover';preview.style.backgroundPosition='center';preview.style.color='#fff';}
 if(sample?.theme?.startsWith('gb-theme-'))preview.classList.add(sample.theme);
 if(urdu)preview.classList.add('sample-urdu');
 if(english)preview.classList.add('sample-english');
@@ -133,6 +133,20 @@ function paint(values={}){
  preview.append(top,heading,list,foot);
 }
 paint();
+const backgroundInput=document.getElementById('backgroundPhoto');
+const restoreBackground=document.getElementById('restoreBackground');
+let chosenBackgroundData='';
+let chosenBackgroundName='';
+function setBackground(url){
+ if(url){preview.style.backgroundImage=`linear-gradient(180deg,#071b1a35,#071b1a88),url("${url}")`;preview.style.backgroundSize='cover';preview.style.backgroundPosition='center';preview.style.color='#fff';}
+ else{preview.style.backgroundImage=sample?.image?`linear-gradient(180deg,#071b1a45,#071b1a9c),url("${sample.image}")`:'';preview.style.backgroundSize='cover';preview.style.backgroundPosition='center';preview.style.color=sample?.image?'#fff':'';}
+}
+backgroundInput.addEventListener('change',()=>{
+ const file=backgroundInput.files?.[0];if(!file)return;
+ if(!file.type.startsWith('image/')){alert('Please select an image file.');backgroundInput.value='';return;}
+ const reader=new FileReader();reader.onload=()=>{chosenBackgroundData=String(reader.result||'');chosenBackgroundName=file.name;setBackground(chosenBackgroundData)};reader.readAsDataURL(file);
+});
+restoreBackground.addEventListener('click',()=>{chosenBackgroundData='';chosenBackgroundName='';backgroundInput.value='';setBackground(sample?.image||'')});
 previewNote.textContent='This is the same sample design shown on the homepage. Edit your details in the form and the preview will update.';
 if(urdu){page.classList.add('urdu-order');intro.textContent='سادہ سفید اردو دعوت نامہ۔ نیچے اپنی معلومات تبدیل کریں اور اصل متن لکھیں۔'}
 else if(english){page.classList.add('english-paper');intro.textContent='Simple white English wedding invitation. Edit the sample wording and details below.'}
@@ -159,7 +173,9 @@ function updatePreview(){
  paint({title:sample?.title||safe,lines:base});
 }
 form.addEventListener('input',updatePreview);form.addEventListener('change',updatePreview);
-form.addEventListener('submit',e=>{e.preventDefault();const fd=new FormData(form),details={};for(const [k,v]of fd.entries())if(k!=='artwork')details[k]=v;const file=form.elements.artwork.files[0];details.artworkFilename=file?.name||'';details.selectedCategory=safe;details.sampleDesign=sample||null;const item={id:'custom-'+Date.now(),name:safe,category:banner?'Banners & Flex':frame?'Frames':wedding?'Wedding Cards':pvc?'PVC & Membership Cards':'Custom Printing',price:0,qty:1,details};let cart=[];try{cart=JSON.parse(localStorage.getItem('gbph_cart')||'[]')}catch{}cart.push(item);localStorage.setItem('gbph_cart',JSON.stringify(cart));location.href='cart.html'});
+form.addEventListener('submit',e=>{e.preventDefault();const fd=new FormData(form),details={};for(const [k,v]of fd.entries())if(k!=='artwork')details[k]=v;const file=form.elements.artwork.files[0];details.artworkFilename=file?.name||'';details.backgroundPhotoFilename=chosenBackgroundName;details.backgroundPhotoData=chosenBackgroundData;details.backgroundPhoto=chosenBackgroundData||sample?.image||'';details.selectedCategory=safe;details.sampleDesign=sample||null;const item={id:'custom-'+Date.now(),name:safe,category:banner?'Banners & Flex':frame?'Frames':wedding?'Wedding Cards':pvc?'PVC & Membership Cards':'Custom Printing',price:0,qty:1,details};let cart=[];try{cart=JSON.parse(localStorage.getItem('gbph_cart')||'[]')}catch{}cart.push(item);localStorage.setItem('gbph_cart',JSON.stringify(cart));location.href='cart.html'});
+})();
+</script>{id:'custom-'+Date.now(),name:safe,category:banner?'Banners & Flex':frame?'Frames':wedding?'Wedding Cards':pvc?'PVC & Membership Cards':'Custom Printing',price:0,qty:1,details};let cart=[];try{cart=JSON.parse(localStorage.getItem('gbph_cart')||'[]')}catch{}cart.push(item);localStorage.setItem('gbph_cart',JSON.stringify(cart));location.href='cart.html'});
 })();
 </script>>
 </body></html>
