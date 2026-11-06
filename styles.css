@@ -409,3 +409,93 @@ body > header.header-hidden{transform:translateY(-110%);box-shadow:none}
 .nav a.active{background:#10382f!important;color:#fff!important;padding:9px 13px;box-shadow:0 4px 12px #10382f24}
 .nav a.active:hover{background:#0b2d26!important;color:#fff!important}
 .mycard-type.active{background:#10382f!important;border-color:#10382f!important;color:#fff!important;box-shadow:0 5px 14px #10382f25}
+
+
+/* ===== Unified site layout system (2026 refresh) ===== */
+:root{
+  --navy:#16483c;--blue:#286454;--red:#a47d39;--gold:#d8b66a;
+  --ink:#263d36;--muted:#718078;--line:#e9e5dc;
+  --cream:#fff;--shadow:0 16px 38px #173e3418;
+}
+html{scroll-padding-top:84px}
+body{zoom:1!important;background:#fff;color:var(--ink);overflow-x:hidden}
+body>header{
+  min-height:72px;padding:10px clamp(16px,4vw,58px);
+  display:flex;align-items:center;gap:clamp(10px,1.6vw,22px);
+  background:rgba(255,255,255,.97);border-bottom:1px solid #eee9df;
+  box-shadow:0 5px 22px #173e340c;backdrop-filter:blur(14px);
+}
+body>header .brand{flex:0 0 auto;gap:9px;min-width:0}
+body>header .logo{font-size:29px}
+body>header .brand strong,body>header .brand span{font-size:15px}
+body>header .brand small{font-size:9px;letter-spacing:.01em}
+body>header .nav{flex:1;justify-content:center;gap:clamp(5px,1vw,14px);font-size:11px;white-space:nowrap}
+body>header .nav a{padding:9px 10px;border-radius:8px}
+body>header>.pill{flex:0 0 auto;padding:10px 15px;white-space:nowrap;background:#16483c;color:#fff}
+body>header .menu{flex:0 0 auto}
+main.wrap{width:min(100% - 40px,1240px);padding:clamp(34px,5vw,64px) 0;margin:0 auto}
+main.wrap>.page-intro-hero{margin-bottom:clamp(24px,3vw,38px)}
+main.wrap>.grid{gap:clamp(12px,1.7vw,20px)}
+main.wrap>.form{width:100%;max-width:960px}
+main.wrap>.notice{max-width:960px;margin-left:auto;margin-right:auto}
+.page-intro-hero{border-radius:18px;box-shadow:0 12px 32px #173e340a}
+.page-intro-copy .section-title{letter-spacing:-.035em}
+.page-intro-copy .heading>p:last-child{font-size:13px}
+.cards-hub,.studio{width:min(100% - 40px,1240px);padding:clamp(30px,4vw,52px) 0 clamp(55px,6vw,82px)}
+.cards-hero,.studio-hero{border-radius:18px;box-shadow:0 18px 40px #173e3414}
+.cards-grid{gap:16px}
+.cards-tile{border-radius:13px;min-height:260px;padding:23px}
+.cards-icon{border-radius:12px}
+.studio-layout{gap:18px;grid-template-columns:minmax(0,1.02fr) minmax(320px,.98fr)}
+.studio-panel{border-radius:14px;box-shadow:0 10px 28px #173e340b}
+.studio-preview-wrap{top:88px}
+.form,.info-box,.card,.product-card,.product-item{border-radius:13px}
+.form{box-shadow:0 10px 28px #173e340d}
+.fields{gap:14px}
+.form input,.form select,.form textarea,.input{border-color:#dfe7df}
+.form input:focus,.form select:focus,.form textarea:focus{outline:2px solid #d9e8dc;border-color:#62977c}
+.info-box{padding:20px}
+.grid{gap:17px}
+footer{background:#123d34;padding:38px clamp(18px,5vw,70px) 0}
+footer .foot,footer .bottom{max-width:1240px}
+footer a{transition:color .2s}
+footer a:hover{color:#e7ca83}
+.bottom{padding-bottom:18px}
+@media(max-width:1050px){
+ body>header{gap:8px;padding-inline:16px}
+ body>header .nav{gap:3px;font-size:10px}
+ body>header .nav a{padding:8px 7px}
+ body>header .brand small{display:none}
+}
+@media(max-width:760px){
+ body>header{min-height:64px;padding:9px 14px;gap:9px}
+ body>header .brand{margin-right:auto}
+ body>header .logo{font-size:25px}
+ body>header .brand strong,body>header .brand span{font-size:14px}
+ body>header .menu{display:block}
+ body>header .nav{order:5;flex:0 0 100%;width:100%;display:none;align-items:stretch;gap:4px;padding:9px 0 4px;border-top:1px solid #eee9df;white-space:normal}
+ body>header .nav.open{display:flex;flex-direction:column}
+ body>header .nav a{width:100%;padding:11px 12px}
+ body>header>.pill{padding:9px 12px;font-size:11px}
+ main.wrap{width:min(100% - 28px,1240px);padding:30px 0 48px}
+ .cards-hub,.studio{width:min(100% - 28px,1240px);padding:25px 0 52px}
+ .page-intro-hero{border-radius:14px}
+ .studio-layout{grid-template-columns:1fr}
+ .studio-preview-wrap{position:static;grid-row:1}
+ .cards-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ footer{padding:30px 18px 0}
+}
+@media(max-width:520px){
+ body>header>.pill{padding:8px 10px}
+ .cards-grid{grid-template-columns:1fr}
+ .cards-tile{min-height:215px}
+ main.wrap>.grid{grid-template-columns:1fr}
+ .page-intro-visual{min-height:220px}
+ .page-visual-card{min-height:200px}
+ .form{padding:17px}
+ .benefits{padding-inline:15px}
+ .bottom{font-size:10px}
+}
+@media(prefers-reduced-motion:reduce){
+ body>header{transition:none}
+}
