@@ -527,3 +527,10 @@ footer a:hover{color:#e7ca83}
  .gb-order-motion .gb-order-row-track{animation:none!important;transform:none!important}
  .gb-order-motion .gb-order-row-group[aria-hidden="true"]{display:none}
 }
+
+
+/* Keep the homepage collection still: no sliding rows */
+.gb-order-motion .gb-order-row-track{width:100%;animation:none!important;transform:none!important}
+.gb-order-motion .gb-order-row-group{flex:0 0 100%}
+.gb-order-motion .gb-order-row-group[aria-hidden="true"]{display:none}
+.gb-order-motion .gb-order-row:hover .gb-order-row-track{animation-play-state:paused}
