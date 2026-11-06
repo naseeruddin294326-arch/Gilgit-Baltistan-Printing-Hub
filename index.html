@@ -217,6 +217,35 @@
 .gb-more-grid .gb-order-tile:hover{transform:translateY(-5px);box-shadow:0 14px 28px #153d3018}
 @media(max-width:900px){.gb-featured-grid,.gb-more-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.gb-featured-grid .gb-tile-art{min-height:145px}}
 @media(max-width:560px){.gb-featured-stage{padding:16px 12px 20px;border-radius:15px}.gb-featured-grid,.gb-more-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.gb-featured-grid .gb-order-tile{padding:7px}.gb-featured-grid .gb-tile-art{min-height:120px}.gb-showcase-subtitle{font-size:8px;letter-spacing:.1em}.gb-showcase-heading{margin-bottom:22px}}
+
+/* Make every sample read like a finished printed design, without changing its wording */
+.gb-showcase-collection .gb-order-tile{min-width:0;text-align:center}
+.gb-showcase-collection .gb-tile-art.sample-art{min-height:188px;aspect-ratio:4/5;gap:7px;padding:17px 13px}
+.gb-showcase-collection .gb-tile-art.sample-art .gb-art-line.line-0,
+.gb-showcase-collection .gb-tile-art.sample-art .gb-art-line.line-1{display:none}
+.gb-showcase-collection .gb-tile-art.sample-art em{display:none}
+.gb-showcase-collection .gb-tile-art.sample-art small{font-size:8px;letter-spacing:.12em;line-height:1.5;max-width:100%;overflow-wrap:anywhere}
+.gb-showcase-collection .gb-tile-art.sample-art strong{font-size:clamp(14px,1.35vw,20px);line-height:1.25;max-width:100%;overflow-wrap:anywhere}
+.gb-showcase-collection .gb-tile-art.sample-art .gb-art-line{display:block;font-size:9px;line-height:1.45;max-width:100%;overflow-wrap:anywhere;white-space:normal}
+.gb-showcase-collection .gb-tile-art.sample-art .gb-art-line.line-2{font-size:9px}
+.gb-showcase-collection .gb-tile-art.sample-art .gb-art-line.line-3{font-size:8px}
+.gb-showcase-collection .sample-urdu .gb-tile-art.sample-art{aspect-ratio:4/5;gap:4px;padding:14px 10px}
+.gb-showcase-collection .sample-urdu .gb-tile-art.sample-art strong{font-size:19px;line-height:1.9}
+.gb-showcase-collection .sample-urdu .gb-tile-art.sample-art .gb-art-line{font:500 12px/1.9 "Noto Nastaliq Urdu",serif}
+.gb-showcase-collection .sample-english .gb-tile-art.sample-art strong{font:600 clamp(17px,1.5vw,22px)/1.25 'Playfair Display',Georgia,serif}
+.gb-showcase-collection .gb-order-tile>b{font-size:12px;line-height:1.4}
+.gb-showcase-collection .gb-order-tile>small{font-size:10px;line-height:1.45;min-height:28px}
+@media(max-width:900px){
+ .gb-showcase-collection .gb-tile-art.sample-art{min-height:170px;padding:13px 9px}
+ .gb-showcase-collection .gb-tile-art.sample-art .gb-art-line{font-size:8px}
+}
+@media(max-width:560px){
+ .gb-showcase-collection .gb-tile-art.sample-art{min-height:160px;aspect-ratio:4/5;padding:12px 8px;gap:5px}
+ .gb-showcase-collection .gb-tile-art.sample-art small{font-size:7px}
+ .gb-showcase-collection .gb-tile-art.sample-art strong{font-size:14px}
+ .gb-showcase-collection .gb-tile-art.sample-art .gb-art-line{font-size:8px;line-height:1.4}
+ .gb-showcase-collection .sample-urdu .gb-tile-art.sample-art .gb-art-line{font-size:10px}
+}
 </style></head><body><header><a class="brand" href="index.html"><div class="logo">🏔️</div><div><strong>Gilgit Baltistan</strong><span>Printing Hub</span><small>Print Your Ideas, Celebrate Life</small></div></a><button class="menu" id="menu" aria-label="Open navigation">☰</button><nav class="nav" id="nav"><a data-nav href="index.html">Home</a><a data-nav href="products.html">Products</a><a data-nav href="cards.html">Cards</a><a data-nav href="design-studio.html">Design Studio</a><a data-nav href="about.html">About</a><a data-nav href="contact.html">Contact</a></nav><a class="pill" href="cart.html">Cart (<span data-cart-count>0</span>)</a></header><main class="fresh-home">
 <section class="new-hero">
   <div class="new-hero-glow"></div>
