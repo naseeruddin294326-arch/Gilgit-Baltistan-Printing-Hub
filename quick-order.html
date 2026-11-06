@@ -93,7 +93,7 @@
 <label>Preferred size<select name="size" id="sizeSelect"><option>Standard size</option><option>A4</option><option>A5</option><option>A6</option><option>3 x 5 ft</option><option>4 x 8 ft</option><option>Custom size (write in notes)</option></select></label>
 <div id="specificFields" class="wide"></div>
 <label class="wide">Extra wording (optional)<textarea name="description" rows="3" placeholder="Add extra wording here. Existing sample details will stay as they are."></textarea></label>
-<label class="wide">Change card background photo (optional)<input name="backgroundPhoto" id="backgroundPhoto" type="file" accept="image/*"><small class="photo-help">Your selected photo will replace the sample background in this preview.</small><button type="button" id="restoreBackground" class="btn gold" style="margin-top:7px">Restore sample background</button></label>
+<label class="wide">Upload your own card background photo (optional)<input name="backgroundPhoto" id="backgroundPhoto" type="file" accept="image/*"><small class="photo-help">Choose a JPG, PNG or WEBP photo from your device. It will appear behind your card text in the live preview. You can restore the original design any time.</small><button type="button" id="restoreBackground" class="btn gold" style="margin-top:7px">Restore sample background</button></label>
 <label class="wide">Upload your photo, logo or artwork (optional)<input name="artwork" type="file" accept="image/*,.pdf"></label>
 <label class="wide">Extra instructions<textarea name="instructions" rows="3" placeholder="Paper, material, colours, finish, front/back, delivery details..."></textarea></label>
 </div>
@@ -218,9 +218,11 @@ const backStep=document.createElement('button');backStep.type='button';backStep.
 const nextStep=document.createElement('button');nextStep.type='button';nextStep.className='next-step';nextStep.textContent='Next →';wizardActions.append(backStep,nextStep);
 const steps=[];
 const cardSteps=[...specific.querySelectorAll('.order-fields > label')];
-const orderSteps=[...orderGrid.children].filter(node=>node.tagName==='LABEL');
-/* Customers personalise the selected card first, then enter contact and order details. */
+const backgroundStep=orderGrid.querySelector('input[name="backgroundPhoto"]')?.closest('label');
+const orderSteps=[...orderGrid.children].filter(node=>node.tagName==='LABEL'&&node!==backgroundStep);
+/* Customers personalise the selected card and choose its background before entering contact and order details. */
 cardSteps.forEach(label=>steps.push(label));
+if(backgroundStep)steps.push(backgroundStep);
 orderSteps.forEach(label=>steps.push(label));
 const cardStepCount=cardSteps.length;
 const orderSubmit=form.querySelector('.order-submit');
