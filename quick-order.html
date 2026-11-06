@@ -81,7 +81,10 @@
 .paper-preview.gb-theme-24 .sample-title,.paper-preview.gb-theme-24 .sample-line{font-family:Georgia,serif}
 
 /* Compact one-field-at-a-time order wizard */
-.order-wizard{display:flex;flex-direction:column;gap:14px}.order-wizard-head{display:flex;justify-content:space-between;align-items:center;gap:12px;color:#496456;font-size:11px;font-weight:800}.order-wizard-track{height:5px;background:#e8eee8;border-radius:20px;overflow:hidden}.order-wizard-track span{display:block;height:100%;width:0;background:#17634c;border-radius:20px;transition:width .2s}.order-wizard-step{min-height:175px;display:flex;flex-direction:column;justify-content:flex-start}.order-wizard-step>label{display:flex;flex-direction:column;gap:9px;font-size:13px;font-weight:800;color:#35584a}.order-wizard-step input,.order-wizard-step select,.order-wizard-step textarea{width:100%;min-width:0;border:1px solid #dfe7df;border-radius:10px;padding:13px;background:#fff;color:#234337;font:14px 'DM Sans',Arial}.order-wizard-step textarea{line-height:1.7}.order-wizard-step input[type=file]{font-size:12px}.order-wizard-step .photo-help{font-size:11px;font-weight:400;color:#78847b}.order-wizard-actions{display:flex;justify-content:space-between;gap:10px}.order-wizard-actions button{border:1px solid #dce6dc;border-radius:9px;padding:11px 18px;background:#f5f8f4;color:#245340;font:700 12px 'DM Sans',Arial;cursor:pointer}.order-wizard-actions button:disabled{opacity:.35;cursor:not-allowed}.order-wizard-actions .next-step{background:#17634c;color:white;border-color:#17634c;margin-left:auto}.order-wizard-step .btn{align-self:flex-start}
+.order-wizard{display:flex;flex-direction:column;gap:14px}
+.wizard-section-switch{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.wizard-section-switch button{border:1px solid #dce6dc;border-radius:9px;padding:11px 9px;background:#f5f8f4;color:#426453;font:700 11px 'DM Sans',Arial;cursor:pointer}
+.wizard-section-switch button.active{background:#17634c;color:#fff;border-color:#17634c}.order-wizard-head{display:flex;justify-content:space-between;align-items:center;gap:12px;color:#496456;font-size:11px;font-weight:800}.order-wizard-track{height:5px;background:#e8eee8;border-radius:20px;overflow:hidden}.order-wizard-track span{display:block;height:100%;width:0;background:#17634c;border-radius:20px;transition:width .2s}.order-wizard-step{min-height:175px;display:flex;flex-direction:column;justify-content:flex-start}.order-wizard-step>label{display:flex;flex-direction:column;gap:9px;font-size:13px;font-weight:800;color:#35584a}.order-wizard-step input,.order-wizard-step select,.order-wizard-step textarea{width:100%;min-width:0;border:1px solid #dfe7df;border-radius:10px;padding:13px;background:#fff;color:#234337;font:14px 'DM Sans',Arial}.order-wizard-step textarea{line-height:1.7}.order-wizard-step input[type=file]{font-size:12px}.order-wizard-step .photo-help{font-size:11px;font-weight:400;color:#78847b}.order-wizard-actions{display:flex;justify-content:space-between;gap:10px}.order-wizard-actions button{border:1px solid #dce6dc;border-radius:9px;padding:11px 18px;background:#f5f8f4;color:#245340;font:700 12px 'DM Sans',Arial;cursor:pointer}.order-wizard-actions button:disabled{opacity:.35;cursor:not-allowed}.order-wizard-actions .next-step{background:#17634c;color:white;border-color:#17634c;margin-left:auto}.order-wizard-step .btn{align-self:flex-start}
 </style>
 </head>
 <body>
@@ -236,21 +239,39 @@ const stepContent=document.createElement('div');stepContent.className='order-wiz
 const wizardActions=document.createElement('div');wizardActions.className='order-wizard-actions';
 const backStep=document.createElement('button');backStep.type='button';backStep.textContent='← Back';
 const nextStep=document.createElement('button');nextStep.type='button';nextStep.className='next-step';nextStep.textContent='Next →';wizardActions.append(backStep,nextStep);
-const steps=[];
 const cardSteps=[...specific.querySelectorAll('.order-fields > label')];
 const backgroundStep=orderGrid.querySelector('input[name="backgroundPhoto"]')?.closest('label');
-const orderSteps=[...orderGrid.children].filter(node=>node.tagName==='LABEL'&&node!==backgroundStep);
-/* Customers personalise the selected card and choose its background before entering contact and order details. */
-cardSteps.forEach(label=>steps.push(label));
-if(backgroundStep)steps.push(backgroundStep);
-orderSteps.forEach(label=>steps.push(label));
-const cardStepCount=cardSteps.length;
+const descriptionStep=orderGrid.querySelector('textarea[name="description"]')?.closest('label');
+const artworkStep=orderGrid.querySelector('input[name="artwork"]')?.closest('label');
+const orderSteps=[...orderGrid.children].filter(node=>node.tagName==='LABEL'&&![backgroundStep,descriptionStep,artworkStep].includes(node));
+/* Two clear stages for every product: first edit the design, then enter order/contact details. */
+const editSteps=[...cardSteps,backgroundStep,descriptionStep,artworkStep].filter(Boolean);
+const steps=[...editSteps,...orderSteps];
+const editStepCount=editSteps.length;
+const orderStartIndex=editStepCount;
 const orderSubmit=form.querySelector('.order-submit');
-wizard.append(wizardHead,track,stepContent,wizardActions);orderGrid.replaceChildren(wizard);
+const sectionSwitch=document.createElement('div');sectionSwitch.className='wizard-section-switch';
+const editTab=document.createElement('button');editTab.type='button';editTab.textContent='1. Edit your card';
+const orderTab=document.createElement('button');orderTab.type='button';orderTab.textContent='2. Order details';
+sectionSwitch.append(editTab,orderTab);
+wizard.append(sectionSwitch,wizardHead,track,stepContent,wizardActions);orderGrid.replaceChildren(wizard);
 /* Keep every step inside the form so FormData and live preview can read all entered values. */
 steps.forEach((field)=>{field.style.display='none';stepContent.append(field)});
 let activeStep=0;
-function showStep(index){activeStep=Math.max(0,Math.min(index,steps.length-1));steps.forEach((field,i)=>{field.style.display=i===activeStep?'':'none'});stepLabel.textContent=activeStep<cardStepCount?'Personalise your selected card':activeStep===cardStepCount&&backgroundStep===steps[activeStep]?'Choose your card background':'Your order details';stepCount.textContent='Step '+(activeStep+1)+' of '+steps.length;trackFill.style.width=((activeStep+1)/steps.length*100)+'%';backStep.disabled=activeStep===0;nextStep.hidden=activeStep===steps.length-1;orderSubmit.hidden=activeStep!==steps.length-1;}
+function showStep(index){
+ activeStep=Math.max(0,Math.min(index,steps.length-1));
+ steps.forEach((field,i)=>{field.style.display=i===activeStep?'':'none'});
+ const editing=activeStep<editStepCount;
+ stepLabel.textContent=editing?'EDIT YOUR CARD':'YOUR ORDER DETAILS';
+ stepCount.textContent=(editing?'Edit step ':'Order step ')+(editing?activeStep+1:activeStep-orderStartIndex+1)+' of '+(editing?editStepCount:orderSteps.length);
+ trackFill.style.width=((editing?(activeStep+1)/editStepCount:(activeStep-orderStartIndex+1)/orderSteps.length)*100)+'%';
+ editTab.classList.toggle('active',editing);orderTab.classList.toggle('active',!editing);
+ backStep.disabled=activeStep===0;nextStep.hidden=activeStep===steps.length-1;orderSubmit.hidden=activeStep!==steps.length-1;
+}
+editTab.addEventListener('click',()=>showStep(0));
+orderTab.addEventListener('click',()=>showStep(orderStartIndex));
+backStep.addEventListener('click',()=>showStep(activeStep-1));
+nextStep.addEventListener('click',()=>{const field=steps[activeStep];const control=field.querySelector('input,select,textarea');if(control&&control.required&&!control.checkValidity()){control.reportValidity();return;}showStep(activeStep+1)});
 backStep.addEventListener('click',()=>showStep(activeStep-1));
 nextStep.addEventListener('click',()=>{const field=steps[activeStep];const control=field.querySelector('input,select,textarea');if(control&&control.required&&!control.checkValidity()){control.reportValidity();return;}showStep(activeStep+1)});
 showStep(0);
