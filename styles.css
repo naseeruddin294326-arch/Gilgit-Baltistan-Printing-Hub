@@ -499,3 +499,31 @@ footer a:hover{color:#e7ca83}
 @media(prefers-reduced-motion:reduce){
  body>header{transition:none}
 }
+
+
+/* Homepage: 50-card collection arranged in 10 continuously sliding rows */
+.gb-order-grid.gb-order-motion{display:flex;flex-direction:column;gap:16px;overflow:hidden;margin-top:30px}
+.gb-order-motion .gb-order-row{width:100%;overflow:hidden;position:relative}
+.gb-order-motion .gb-order-row-track{display:flex;width:200%;will-change:transform;animation:gb-row-slide 42s linear infinite}
+.gb-order-motion .gb-order-row-group{flex:0 0 50%;min-width:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:15px}
+.gb-order-motion .gb-order-row:nth-child(even) .gb-order-row-track{animation-name:gb-row-slide-reverse;animation-duration:48s}
+.gb-order-motion .gb-order-row:nth-child(3n) .gb-order-row-track{animation-duration:54s}
+.gb-order-motion .gb-order-tile{width:100%;min-width:0}
+.gb-order-motion .gb-order-row:hover .gb-order-row-track{animation-play-state:paused}
+@keyframes gb-row-slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes gb-row-slide-reverse{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+@media(max-width:850px){
+ .gb-order-motion .gb-order-row-group{grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
+ .gb-order-motion .gb-order-row-track{animation-duration:36s}
+}
+@media(max-width:560px){
+ .gb-order-motion{gap:11px}
+ .gb-order-motion .gb-order-row-group{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .gb-order-motion .gb-order-tile{padding:7px;border-radius:11px}
+ .gb-order-motion .gb-tile-art{min-height:105px}
+ .gb-order-motion .gb-order-row:nth-child(even) .gb-order-row-track{animation-duration:40s}
+}
+@media(prefers-reduced-motion:reduce){
+ .gb-order-motion .gb-order-row-track{animation:none!important;transform:none!important}
+ .gb-order-motion .gb-order-row-group[aria-hidden="true"]{display:none}
+}
