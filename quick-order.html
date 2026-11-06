@@ -217,16 +217,16 @@ const wizardActions=document.createElement('div');wizardActions.className='order
 const backStep=document.createElement('button');backStep.type='button';backStep.textContent='← Back';
 const nextStep=document.createElement('button');nextStep.type='button';nextStep.className='next-step';nextStep.textContent='Next →';wizardActions.append(backStep,nextStep);
 const steps=[];
-[...orderGrid.children].forEach(node=>{
- if(node.id==='specificFields'){
-  const editorLabels=[...node.querySelectorAll('.order-fields > label')];
-  editorLabels.forEach(label=>steps.push(label));
- }else if(node.tagName==='LABEL'){steps.push(node)}
-});
+const cardSteps=[...specific.querySelectorAll('.order-fields > label')];
+const orderSteps=[...orderGrid.children].filter(node=>node.tagName==='LABEL');
+/* Customers personalise the selected card first, then enter contact and order details. */
+cardSteps.forEach(label=>steps.push(label));
+orderSteps.forEach(label=>steps.push(label));
+const cardStepCount=cardSteps.length;
 const orderSubmit=form.querySelector('.order-submit');
 wizard.append(wizardHead,track,stepContent,wizardActions);orderGrid.replaceChildren(wizard);
 let activeStep=0;
-function showStep(index){activeStep=Math.max(0,Math.min(index,steps.length-1));const field=steps[activeStep];stepContent.replaceChildren(field);stepLabel.textContent='Complete one detail at a time';stepCount.textContent='Step '+(activeStep+1)+' of '+steps.length;trackFill.style.width=((activeStep+1)/steps.length*100)+'%';backStep.disabled=activeStep===0;nextStep.hidden=activeStep===steps.length-1;orderSubmit.hidden=activeStep!==steps.length-1;}
+function showStep(index){activeStep=Math.max(0,Math.min(index,steps.length-1));const field=steps[activeStep];stepContent.replaceChildren(field);stepLabel.textContent=activeStep<cardStepCount?'Personalise your selected card':'Your order details';stepCount.textContent='Step '+(activeStep+1)+' of '+steps.length;trackFill.style.width=((activeStep+1)/steps.length*100)+'%';backStep.disabled=activeStep===0;nextStep.hidden=activeStep===steps.length-1;orderSubmit.hidden=activeStep!==steps.length-1;}
 backStep.addEventListener('click',()=>showStep(activeStep-1));
 nextStep.addEventListener('click',()=>{const field=steps[activeStep];const control=field.querySelector('input,select,textarea');if(control&&control.required&&!control.checkValidity()){control.reportValidity();return;}showStep(activeStep+1)});
 showStep(0);
@@ -243,7 +243,9 @@ function updatePreview(){
  if(extra)base.push(extra);
  paint({title:v.cardTitle||sampleTitle,lines:base});
 }
+/* Every edit to the card wording is reflected immediately in the live preview. */
 form.addEventListener('input',updatePreview);form.addEventListener('change',updatePreview);
+updatePreview();
 form.addEventListener('submit',e=>{e.preventDefault();const fd=new FormData(form),details={};for(const [k,v]of fd.entries())if(k!=='artwork')details[k]=v;const file=form.elements.artwork.files[0];details.artworkFilename=file?.name||'';details.artworkImageData=chosenArtworkData;details.artworkImageName=chosenArtworkName;details.backgroundPhotoFilename=chosenBackgroundName;details.backgroundPhotoData=chosenBackgroundData;details.backgroundPhoto=chosenBackgroundData||sample?.image||'';details.selectedCategory=safe;details.sampleDesign=sample||null;const item={id:'custom-'+Date.now(),name:safe,category:banner?'Banners & Flex':frame?'Frames':wedding?'Wedding Cards':pvc?'PVC & Membership Cards':'Custom Printing',price:0,qty:1,details};let cart=[];try{cart=JSON.parse(localStorage.getItem('gbph_cart')||'[]')}catch{}cart.push(item);localStorage.setItem('gbph_cart',JSON.stringify(cart));location.href='cart.html'});
 })();
 </script>
