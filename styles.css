@@ -534,3 +534,34 @@ footer a:hover{color:#e7ca83}
 .gb-order-motion .gb-order-row-group{flex:0 0 100%}
 .gb-order-motion .gb-order-row-group[aria-hidden="true"]{display:none}
 .gb-order-motion .gb-order-row:hover .gb-order-row-track{animation-play-state:paused}
+
+
+/* Decorative mini print-card beside every main page and section heading */
+main h1::after,main h2::after{
+  content:"GB  ✦";
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  vertical-align:middle;
+  width:48px;
+  height:33px;
+  margin:0 0 5px 13px;
+  border:2px solid #d8b66a;
+  border-radius:4px;
+  background:
+    linear-gradient(135deg,transparent 0 70%,#d8b66a 70% 74%,transparent 74%),
+    linear-gradient(145deg,#fffaf0 0%,#f2e6c9 48%,#dce9df 100%);
+  box-shadow:0 4px 10px #173e3420,inset 0 0 0 2px #ffffffb8;
+  color:#16483c;
+  font:800 9px 'DM Sans',Arial,sans-serif;
+  letter-spacing:.12em;
+  text-shadow:0 1px #fff;
+  transform:rotate(4deg);
+  white-space:nowrap;
+  pointer-events:none;
+}
+main h1::after{width:56px;height:38px;font-size:10px;margin-left:15px}
+@media(max-width:560px){
+  main h1::after,main h2::after{width:39px;height:27px;font-size:8px;margin-left:8px;margin-bottom:3px}
+  main h1::after{width:45px;height:30px}
+}
