@@ -272,8 +272,6 @@ editTab.addEventListener('click',()=>showStep(0));
 orderTab.addEventListener('click',()=>showStep(orderStartIndex));
 backStep.addEventListener('click',()=>showStep(activeStep-1));
 nextStep.addEventListener('click',()=>{const field=steps[activeStep];const control=field.querySelector('input,select,textarea');if(control&&control.required&&!control.checkValidity()){control.reportValidity();return;}showStep(activeStep+1)});
-backStep.addEventListener('click',()=>showStep(activeStep-1));
-nextStep.addEventListener('click',()=>{const field=steps[activeStep];const control=field.querySelector('input,select,textarea');if(control&&control.required&&!control.checkValidity()){control.reportValidity();return;}showStep(activeStep+1)});
 showStep(0);
 if(wedding)document.getElementById('sizeSelect').innerHTML='<option>Invitation card</option><option>A5</option><option>A6</option><option>Custom size</option>';
 if(banner)document.getElementById('sizeSelect').value='3 x 5 ft';
@@ -293,7 +291,7 @@ function updatePreview(){
 /* Every edit to the card wording is reflected immediately in the live preview. */
 form.addEventListener('input',updatePreview);form.addEventListener('change',updatePreview);
 updatePreview();
-form.addEventListener('submit',e=>{e.preventDefault();const fd=new FormData(form),details={};for(const [k,v]of fd.entries())if(k!=='artwork')details[k]=v;const file=form.elements.artwork.files[0];details.artworkFilename=file?.name||'';details.artworkImageData=chosenArtworkData;details.artworkImageName=chosenArtworkName;details.backgroundPhotoFilename=chosenBackgroundName;details.backgroundPhotoData=chosenBackgroundData;details.backgroundPhoto=chosenBackgroundData||sample?.image||'';details.textFontFamily=selectedFontFamily;details.textColor=selectedTextColor;details.selectedCategory=safe;details.sampleDesign=sample||null;const item={id:'custom-'+Date.now(),name:safe,category:banner?'Banners & Flex':frame?'Frames':wedding?'Wedding Cards':pvc?'PVC & Membership Cards':'Custom Printing',price:0,qty:1,details};let cart=[];try{cart=JSON.parse(localStorage.getItem('gbph_cart')||'[]')}catch{}cart.push(item);localStorage.setItem('gbph_cart',JSON.stringify(cart));location.href='cart.html'});
+form.addEventListener('submit',e=>{e.preventDefault();const fd=new FormData(form),details={};for(const [k,v]of fd.entries())if(k!=='artwork')details[k]=v;const file=form.elements.artwork.files[0];details.artworkFilename=file?.name||'';details.artworkImageData=chosenArtworkData;details.artworkImageName=chosenArtworkName;details.backgroundPhotoFilename=chosenBackgroundName;details.backgroundPhotoData=chosenBackgroundData;details.backgroundPhoto=chosenBackgroundData||sample?.image||'';details.textFontFamily=selectedFontFamily;details.textColor=selectedTextColor;details.selectedCategory=safe;details.sampleDesign=sample||null;const previewImage=window.gbphCaptureCardPreview?window.gbphCaptureCardPreview(document.querySelector('.paper-preview')):'';const item={id:'custom-'+Date.now(),name:safe,category:banner?'Banners & Flex':frame?'Frames':wedding?'Wedding Cards':pvc?'PVC & Membership Cards':'Custom Printing',price:0,qty:Math.max(1,Number(details.quantity)||1),previewImage,details};let cart=[];try{cart=JSON.parse(localStorage.getItem('gbph_cart')||'[]')}catch{}cart.push(item);localStorage.setItem('gbph_cart',JSON.stringify(cart));location.href='cart.html'});
 })();
 </script>
 </body></html>
