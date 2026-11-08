@@ -75,6 +75,40 @@ main,.studio-main,.wall-art-panel,.wall-art-layout,.wall-art-box,.wall-art-galle
     height:72vh!important;max-height:72vh!important;min-height:320px;
   }
 }
+
+/* Independent scroll panes: gallery, editor and live preview move separately */
+.wall-art-layout,
+.studio-layout{align-items:stretch!important}
+.wall-art-layout>.wall-art-box,
+.studio-layout>.studio-panel{
+  height:calc(100vh - 155px)!important;
+  max-height:calc(100vh - 155px)!important;
+  min-height:380px;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  overscroll-behavior:contain;
+  scrollbar-gutter:stable;
+  align-self:stretch;
+  -webkit-overflow-scrolling:touch;
+}
+.wall-art-layout>.wall-art-box:first-child .wall-art-gallery{overflow:visible!important}
+.wall-art-layout>.wall-art-preview-sticky{position:static!important;top:auto!important}
+.studio-layout>.studio-panel{position:static!important;top:auto!important}
+.wall-art-layout>.wall-art-box::-webkit-scrollbar,
+.studio-layout>.studio-panel::-webkit-scrollbar{width:8px}
+.wall-art-layout>.wall-art-box::-webkit-scrollbar-thumb,
+.studio-layout>.studio-panel::-webkit-scrollbar-thumb{background:#b8c7bc;border-radius:10px}
+.wall-art-layout>.wall-art-box::-webkit-scrollbar-track,
+.studio-layout>.studio-panel::-webkit-scrollbar-track{background:#f1f4ef;border-radius:10px}
+@media(max-width:760px){
+  .wall-art-layout,.studio-layout{grid-template-columns:minmax(0,1fr)!important}
+  .wall-art-layout>.wall-art-box,
+  .studio-layout>.studio-panel{
+    height:68vh!important;max-height:68vh!important;min-height:320px;
+  }
+  .studio-layout>.studio-preview-wrap{grid-row:1}
+}
+
 </style></head><body>
 <header><a class="brand" href="index.html"><div class="logo">🏔️</div><div><strong>Gilgit Baltistan</strong><span>Printing Hub</span><small>Print Your Ideas, Celebrate Life</small></div></a><button class="menu" id="menu" aria-label="Open navigation">☰</button><nav class="nav" id="nav"><a data-nav href="index.html">Home</a><a data-nav href="products.html">Products</a><a data-nav href="cards.html">Cards</a><a data-nav href="design-studio.html">Design Studio</a><a data-nav href="print-anything.html">Print Anything</a><a data-nav href="about.html">About</a><a data-nav href="contact.html">Contact</a></nav><a class="pill" href="cart.html">Cart (<span data-cart-count>0</span>)</a></header>
 <main class="studio">
