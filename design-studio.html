@@ -19,18 +19,22 @@
 .wall-art-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
 .wall-art-choice{border:1px solid #e3e8df;border-radius:12px;padding:8px;background:#fff;cursor:pointer;text-align:left;transition:.18s;min-width:0}.wall-art-choice:hover,.wall-art-choice.active{border-color:#b18a4d;box-shadow:0 0 0 2px #b18a4d22}
 .wall-art-thumb{height:190px;border-radius:9px;overflow:hidden;display:grid;place-items:center;padding:13px;background:linear-gradient(145deg,#eee7dc,#d8cbb9 55%,#f5eee5);position:relative;color:white}
-.wall-art-thumb:before{content:"";position:absolute;inset:7px;background:#080909;border:5px solid #171717;box-shadow:0 5px 12px #0009, inset 0 0 0 1px #555;z-index:0}
+.wall-art-thumb:before{content:"";position:absolute;inset:7px;background:#080909;border:5px solid #171717;box-shadow:0 5px 12px #0009,inset 0 0 0 1px #555;z-index:0}
 .wall-art-thumb .wall-art-frame{position:absolute;inset:15px;background-size:cover;background-position:center;box-shadow:inset 0 0 0 1px #ffffff30;z-index:1}
-.wall-art-thumb .wall-quote{display:block;position:absolute;z-index:2;left:23px;right:23px;top:50%;transform:translateY(-50%);text-align:center;color:#fff;font:700 13px/1.55 'Playfair Display',Georgia,serif;text-shadow:0 2px 8px #000,0 0 14px #0008;white-space:pre-line;overflow-wrap:anywhere}.wall-art-thumb .wall-quote.urdu{font:700 16px/1.8 'Noto Nastaliq Urdu','Noto Naskh Arabic',serif;direction:rtl}
+.wall-art-thumb .wall-art-frame:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#050606a8 0%,#05060638 40%,#050606b8 100%),repeating-radial-gradient(ellipse at 20% 20%,#ffffff0a 0 1px,transparent 1px 4px)}
+.wall-art-thumb .wall-quote{display:block;position:absolute;z-index:2;left:21px;right:21px;top:50%;transform:translateY(-50%);text-align:center;color:#fff;font:900 17px/.98 Impact,'Arial Narrow',sans-serif;letter-spacing:.045em;text-transform:uppercase;text-shadow:2px 3px 0 #000,0 0 12px #000;white-space:pre-line;overflow-wrap:anywhere}
+.wall-art-thumb .wall-quote:not(.urdu)::first-line{color:#12d4c5}
+.wall-art-thumb .wall-quote.urdu{font:800 17px/1.9 'Noto Nastaliq Urdu','Noto Naskh Arabic',serif;letter-spacing:0;text-transform:none;direction:rtl}
 .wall-art-thumb small{display:none}
 .wall-art-choice strong{display:block;font-size:10px;color:#294b3e;margin:8px 2px 2px}.wall-art-choice span{display:block;font-size:9px;color:#7a877d;margin:0 2px 3px}
 .wall-art-preview-sticky{position:sticky;top:95px}
 .wall-art-live{min-height:350px;border-radius:12px;overflow:hidden;display:grid;place-items:center;padding:18px;background:#f1f2ec}
 .wall-art-poster{width:min(100%,340px);aspect-ratio:2/3;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 24px;background-size:cover;background-position:center;color:#fff;position:relative;isolation:isolate;box-shadow:0 16px 32px #142e2644;border:13px solid #101010;outline:1px solid #555}
-.wall-art-poster:before{content:"";position:absolute;inset:0;background:linear-gradient(155deg,#071d2088,#071d2040 60%,#071d208c);z-index:-1}.wall-art-poster.image-only:before{display:none}.wall-art-poster.image-only .wall-poster-quote,.wall-art-poster.image-only .wall-poster-sub{display:none}
-.wall-art-poster .wall-poster-quote{font:700 29px/1.5 'Playfair Display',Georgia,serif;white-space:pre-line;text-shadow:0 2px 12px #0009;overflow-wrap:anywhere}
-.wall-art-poster .wall-poster-quote.urdu{font:700 31px/1.9 'Noto Nastaliq Urdu','Noto Naskh Arabic',serif;direction:rtl}
-.wall-art-poster .wall-poster-sub{font-size:10px;letter-spacing:.22em;margin-top:22px;text-transform:uppercase}
+.wall-art-poster:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#020303c9 0%,#02030350 42%,#020303d9 100%),repeating-radial-gradient(ellipse at 22% 18%,#ffffff0c 0 1px,transparent 1px 4px);z-index:-1}.wall-art-poster.image-only:before{display:none}.wall-art-poster.image-only .wall-poster-quote,.wall-art-poster.image-only .wall-poster-sub{display:none}
+.wall-art-poster .wall-poster-quote{font:900 38px/.99 Impact,'Arial Narrow',sans-serif;letter-spacing:.035em;text-transform:uppercase;white-space:pre-line;text-shadow:3px 4px 0 #000,0 0 16px #000;overflow-wrap:anywhere}
+.wall-art-poster .wall-poster-quote:not(.urdu)::first-line{color:#14d4c5}
+.wall-art-poster .wall-poster-quote.urdu{font:800 34px/1.9 'Noto Nastaliq Urdu','Noto Naskh Arabic',serif;letter-spacing:0;text-transform:none;direction:rtl}
+.wall-art-poster .wall-poster-sub{font-size:10px;letter-spacing:.22em;margin-top:22px;text-transform:uppercase;color:#f2c15c;font-weight:800}
 .wall-art-form{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:16px}
 .wall-art-form label{display:flex;flex-direction:column;gap:6px;font-size:10px;font-weight:800;color:#375448}
 .wall-art-form input,.wall-art-form select,.wall-art-form textarea{width:100%;min-width:0;padding:10px;border:1px solid #dfe7df;border-radius:9px;background:#fff;color:#234337;font:12px 'DM Sans',Arial}
