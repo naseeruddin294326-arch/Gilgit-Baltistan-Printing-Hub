@@ -35,6 +35,31 @@
 .mini-card.terracotta{background:radial-gradient(ellipse at 50% 0,#f4d4b9 0,transparent 42%),linear-gradient(145deg,#fff5e9,#e8b99c);color:#80452f;border:7px double #b96f4f}.mini-card.terracotta:before{inset:6%;border:1px solid #b96f4f;outline:1px solid #b96f4f;outline-offset:3px}
 
 @media(max-width:900px){.wed-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){.wed-page{padding:22px 12px 55px}.wed-form{padding:16px}.wed-fields{grid-template-columns:1fr}.wed-fields .wide{grid-column:auto}.wed-gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.design-option{padding:8px}.design-option.selected{padding:7px}.mini-card .c-photos img{width:34px;height:34px}.wed-gallery-head{align-items:start;flex-direction:column}.wed-order{align-items:stretch;flex-direction:column}.wed-order button{width:100%}}
+
+/* Keep invitation editor and live preview as independent scroll areas */
+.invite-builder-layout{align-items:stretch!important}
+.invite-builder-layout>.wed-form,
+.invite-builder-layout>.invite-live-preview{
+  height:calc(100vh - 155px)!important;
+  max-height:calc(100vh - 155px)!important;
+  min-height:380px;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  overscroll-behavior:contain;
+  scrollbar-gutter:stable;
+  -webkit-overflow-scrolling:touch;
+}
+.invite-builder-layout>.invite-live-preview{position:static!important;top:auto!important}
+.invite-builder-layout>.wed-form::-webkit-scrollbar,
+.invite-builder-layout>.invite-live-preview::-webkit-scrollbar{width:8px}
+.invite-builder-layout>.wed-form::-webkit-scrollbar-thumb,
+.invite-builder-layout>.invite-live-preview::-webkit-scrollbar-thumb{background:#b8c7bc;border-radius:10px}
+@media(max-width:760px){
+  .invite-builder-layout{grid-template-columns:minmax(0,1fr)!important}
+  .invite-builder-layout>.wed-form{height:68vh!important;max-height:68vh!important;min-height:320px}
+  .invite-builder-layout>.invite-live-preview{height:48vh!important;max-height:48vh!important;min-height:260px;grid-row:1}
+}
+
 </style></head><body>
 <header><a class="brand" href="index.html"><div class="logo">🏔️</div><div><strong>Gilgit Baltistan</strong><span>Printing Hub</span><small>Print Your Ideas, Celebrate Life</small></div></a><button class="menu" id="menu">☰</button><nav class="nav" id="nav"><a data-nav href="index.html">Home</a><a data-nav href="products.html">Products</a><a data-nav href="cards.html">Cards</a><a data-nav href="design-studio.html">Design Studio</a><a data-nav href="about.html">About</a><a data-nav href="contact.html">Contact</a></nav><a class="pill" href="cart.html">Cart (<span data-cart-count>0</span>)</a></header>
 <main class="wed-page"><section class="wed-hero"><p class="kicker">YOUR CELEBRATION · YOUR STYLE</p><h1>Wedding & <em>Party Invitations</em></h1><p>Enter your details once, then explore different card designs. Every design uses the same information — only its layout, wording style and colours change.</p></section>
