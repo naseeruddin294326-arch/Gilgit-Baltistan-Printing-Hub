@@ -41,6 +41,12 @@
 .wall-art-form .wide{grid-column:1/-1}.wall-art-form textarea{min-height:72px}.wall-art-status{font-size:11px;color:#24704d;min-height:18px;margin-top:10px}
 @media(max-width:900px){.wall-art-layout{grid-template-columns:1fr}.wall-art-preview-sticky{position:static;grid-row:1}.wall-art-gallery{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:560px){.wall-art-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}.wall-art-thumb{height:155px}.wall-art-box{padding:14px}.wall-art-form{grid-template-columns:1fr}.wall-art-form .wide{grid-column:auto}.wall-art-intro{padding:20px}}
+
+/* Keep Wall Art gallery and the entire Design Studio in normal page flow */
+html{height:auto!important;min-height:100%!important;overflow-x:hidden!important;overflow-y:scroll!important}
+body{height:auto!important;min-height:100vh!important;max-height:none!important;overflow-x:hidden!important;overflow-y:visible!important}
+main,.studio-main,.wall-art-panel,.wall-art-layout,.wall-art-box,.wall-art-gallery,.wall-art-grid,.wall-art-preview-sticky{height:auto!important;max-height:none!important;overflow:visible!important}
+.wall-art-gallery{display:grid!important;overflow:visible!important}
 </style></head><body>
 <header><a class="brand" href="index.html"><div class="logo">🏔️</div><div><strong>Gilgit Baltistan</strong><span>Printing Hub</span><small>Print Your Ideas, Celebrate Life</small></div></a><button class="menu" id="menu" aria-label="Open navigation">☰</button><nav class="nav" id="nav"><a data-nav href="index.html">Home</a><a data-nav href="products.html">Products</a><a data-nav href="cards.html">Cards</a><a data-nav href="design-studio.html">Design Studio</a><a data-nav href="print-anything.html">Print Anything</a><a data-nav href="about.html">About</a><a data-nav href="contact.html">Contact</a></nav><a class="pill" href="cart.html">Cart (<span data-cart-count>0</span>)</a></header>
 <main class="studio">
