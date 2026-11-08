@@ -300,6 +300,75 @@ main,.studio-main,.wall-art-panel,.wall-art-layout,.wall-art-box,.wall-art-galle
 .frame-nav-controls button:hover{background:#edf5ee;border-color:#17634c}
 #frameNavCount{font-size:12px;font-weight:800;color:#53675c;min-width:54px;text-align:center}
 
+
+/* FINAL FRAME RENDERER: frame moulding is the border; uploaded photo stays in the aperture */
+#photoFramePreview{
+  box-sizing:border-box!important;position:relative!important;display:flex!important;
+  width:min(100%,520px)!important;aspect-ratio:4/3!important;min-height:260px!important;
+  height:auto!important;margin:0 auto!important;padding:0!important;overflow:hidden!important;
+  border:34px solid transparent!important;border-radius:2px!important;
+  background:#f5f1e8!important;background-clip:padding-box,border-box!important;
+  box-shadow:0 18px 36px #172b2250!important;isolation:isolate;
+}
+#photoFramePreview>img{
+  position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+  max-width:none!important;max-height:none!important;object-fit:cover!important;
+  object-position:50% 50%!important;transform-origin:center!important;z-index:0!important;
+  box-shadow:inset 0 0 0 7px #f7f2e8, inset 0 0 0 9px #c9bda9!important;
+}
+#photoFramePreview>span{position:relative!important;z-index:2!important;padding:15px}
+#photoFramePreview:before{content:"";position:absolute;z-index:1;inset:0;pointer-events:none;border:7px solid #ffffff65;box-shadow:inset 0 0 0 2px #0003}
+#photoFramePreview:after{content:"";position:absolute;z-index:2;inset:9px;pointer-events:none;border:2px solid #f8f4e9;box-shadow:0 0 0 2px #62523d,inset 0 0 0 1px #ffffffa8}
+#photoFramePreview.frame-classic-walnut{
+ border-width:36px!important;background-image:linear-gradient(#f5f1e8,#f5f1e8),repeating-linear-gradient(92deg,#28160e 0 4px,#70452b 4px 9px,#b17a48 9px 13px,#4b2b19 13px 18px,#d09a5d 18px 22px,#382014 22px 27px)!important;
+ box-shadow:inset 0 0 0 3px #e4c48e,inset 0 0 0 7px #422719,0 7px 0 #24150e,0 18px 32px #172b2255!important}
+#photoFramePreview.frame-dark-mahogany{
+ border-width:38px!important;background-image:linear-gradient(#f5f1e8,#f5f1e8),repeating-linear-gradient(90deg,#1d100b 0 5px,#482719 5px 10px,#925a35 10px 14px,#321b11 14px 20px,#b47a4a 20px 24px)!important;
+ box-shadow:inset 0 0 0 3px #d4a16b,inset 0 0 0 8px #28150d,0 8px 0 #1c100b,0 18px 32px #172b2255!important}
+#photoFramePreview.frame-black-gallery{
+ border-width:30px!important;background-image:linear-gradient(#f5f1e8,#f5f1e8),linear-gradient(90deg,#050505,#414141 16%,#111 30%,#686868 50%,#101010 72%,#333 88%,#050505)!important;
+ box-shadow:inset 0 0 0 2px #c7c7c7,inset 0 0 0 6px #080808,0 6px 0 #000,0 18px 32px #172b2255!important}
+#photoFramePreview.frame-white-mat{
+ border-width:40px!important;background-image:linear-gradient(#f5f1e8,#f5f1e8),linear-gradient(90deg,#c9c5bb,#fff 18%,#e8e5dd 32%,#fff 50%,#d8d4cb 70%,#fff 86%,#c9c5bb)!important;
+ box-shadow:inset 0 0 0 2px #fff,inset 0 0 0 7px #c4bfb4,0 6px 0 #a9a59d,0 18px 32px #172b2255!important}
+#photoFramePreview.frame-antique-gold{
+ border-width:38px!important;background-image:linear-gradient(#f5f1e8,#f5f1e8),linear-gradient(90deg,#6b4518,#c18d31 12%,#f8e5a1 22%,#9a6a20 34%,#fff0b9 50%,#9a6a20 66%,#e0b64d 82%,#6b4518)!important;
+ box-shadow:inset 0 0 0 4px #fff0b5,inset 0 0 0 9px #825719,0 8px 0 #583b12,0 18px 32px #172b2255!important}
+#photoFramePreview.frame-silver-bevel{
+ border-width:32px!important;background-image:linear-gradient(#f5f1e8,#f5f1e8),linear-gradient(90deg,#4c555a,#d5dcdf 15%,#fff 27%,#8d999e 42%,#eef2f3 56%,#7b858a 73%,#f7f9fa 88%,#4c555a)!important;
+ box-shadow:inset 0 0 0 2px #fff,inset 0 0 0 7px #778187,0 6px 0 #41494d,0 18px 32px #172b2255!important}
+#photoFramePreview.frame-rustic-oak{
+ border-width:40px!important;background-image:linear-gradient(#f5f1e8,#f5f1e8),repeating-linear-gradient(5deg,#3b2114 0 4px,#80502e 4px 10px,#b9824d 10px 14px,#57301b 14px 20px,#d1a06b 20px 24px)!important;
+ box-shadow:inset 0 0 0 3px #d8b27b,inset 0 0 0 8px #482918,0 7px 0 #2b190f,0 18px 32px #172b2255!important}
+#photoFramePreview.frame-carved-royal{
+ border-width:43px!important;background-image:linear-gradient(#f5f1e8,#f5f1e8),repeating-linear-gradient(45deg,#76501d 0 3px,#d4ae58 3px 6px,#8c6225 6px 10px,#f1d78b 10px 12px,#76501d 12px 16px)!important;
+ box-shadow:inset 0 0 0 4px #f4df9a,inset 0 0 0 10px #80571c,0 8px 0 #52370f,0 18px 32px #172b2255!important}
+#photoFramePreview.frame-champagne{
+ border-width:37px!important;background-image:linear-gradient(#f5f1e8,#f5f1e8),linear-gradient(90deg,#8b714f,#e3d1a6 18%,#fff0c9 30%,#b89b6a 48%,#f5e5bc 66%,#9e8055 84%,#e9d8ad)!important;
+ box-shadow:inset 0 0 0 3px #fff4d6,inset 0 0 0 8px #9a8059,0 7px 0 #6e5a3d,0 18px 32px #172b2255!important}
+#photoFramePreview.frame-brushed-bronze{
+ border-width:35px!important;background-image:linear-gradient(#f5f1e8,#f5f1e8),repeating-linear-gradient(90deg,#49301c 0 2px,#a46d36 2px 5px,#d7a45d 5px 7px,#79502a 7px 11px,#c18b4c 11px 14px)!important;
+ box-shadow:inset 0 0 0 3px #e4bd7b,inset 0 0 0 8px #6b451f,0 7px 0 #493018,0 18px 32px #172b2255!important}
+#photoFramePreview.frame-sage-natural{
+ border-width:36px!important;background-image:linear-gradient(#f5f1e8,#f5f1e8),repeating-linear-gradient(90deg,#243b2e 0 5px,#5c795d 5px 10px,#a4ad83 10px 14px,#334d39 14px 20px)!important;
+ box-shadow:inset 0 0 0 3px #d7d9b5,inset 0 0 0 8px #294333,0 7px 0 #1c3024,0 18px 32px #172b2255!important}
+#photoFramePreview.frame-navy-classic{
+ border-width:34px!important;background-image:linear-gradient(#f5f1e8,#f5f1e8),linear-gradient(90deg,#071728,#183b5b 16%,#7690a5 30%,#102b48 48%,#54748b 64%,#0b2037 82%,#253f58)!important;
+ box-shadow:inset 0 0 0 3px #c7d5df,inset 0 0 0 8px #10243a,0 7px 0 #071522,0 18px 32px #172b2255!important}
+#photoFramePreview.frame-rose-gold{
+ border-width:36px!important;background-image:linear-gradient(#f5f1e8,#f5f1e8),linear-gradient(90deg,#704238,#c27e6b 15%,#f2c3ae 28%,#a85f50 46%,#f6d0b9 62%,#a65f51 80%,#e3a18b)!important;
+ box-shadow:inset 0 0 0 3px #ffe0d1,inset 0 0 0 8px #985849,0 7px 0 #63372f,0 18px 32px #172b2255!important}
+#photoFramePreview.frame-distressed-vintage{
+ border-width:42px!important;background-image:linear-gradient(#f5f1e8,#f5f1e8),repeating-linear-gradient(12deg,#38251b 0 5px,#755036 5px 12px,#a17b52 12px 16px,#4b3020 16px 23px,#c19a6d 23px 27px)!important;
+ box-shadow:inset 0 0 0 3px #d7b58b,inset 0 0 0 9px #513622,0 8px 0 #2c1c13,0 18px 32px #172b2255!important}
+#photoFramePreview.frame-minimal-maple{
+ border-width:28px!important;background-image:linear-gradient(#f5f1e8,#f5f1e8),linear-gradient(90deg,#9b6c3e,#e1bd8b 18%,#f0d7ad 34%,#bd8d58 50%,#f1d9b3 68%,#a97846 86%,#e5c397)!important;
+ box-shadow:inset 0 0 0 2px #f8e8cf,inset 0 0 0 6px #a77a4c,0 5px 0 #805a36,0 18px 32px #172b2255!important}
+#frameNavCount{font-variant-numeric:tabular-nums}
+.frame-nav-controls{display:flex!important;visibility:visible!important}
+.frame-choice-row{display:none!important}
+@media(max-width:560px){#photoFramePreview{width:100%!important;min-height:220px!important}}
+
 </style></head><body>
 <header><a class="brand" href="index.html"><div class="logo">🏔️</div><div><strong>Gilgit Baltistan</strong><span>Printing Hub</span><small>Print Your Ideas, Celebrate Life</small></div></a><button class="menu" id="menu" aria-label="Open navigation">☰</button><nav class="nav" id="nav"><a data-nav href="index.html">Home</a><a data-nav href="products.html">Products</a><a data-nav href="cards.html">Cards</a><a data-nav href="design-studio.html">Design Studio</a><a data-nav href="print-anything.html">Print Anything</a><a data-nav href="about.html">About</a><a data-nav href="contact.html">Contact</a></nav><a class="pill" href="cart.html">Cart (<span data-cart-count>0</span>)</a></header>
 <main class="studio">
