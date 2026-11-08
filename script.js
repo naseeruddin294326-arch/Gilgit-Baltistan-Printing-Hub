@@ -4,3 +4,79 @@ $('[data-add]').forEach(b=>b.addEventListener('click',()=>{const card=b.closest(
 (()=>{const bar=document.querySelector('body > header');if(!bar)return;let lastY=Math.max(0,window.scrollY||window.pageYOffset||0);let ticking=false;const update=()=>{const y=Math.max(0,window.scrollY||window.pageYOffset||0);const delta=y-lastY;if(y<=24){bar.classList.remove('header-hidden')}else if(delta>3){bar.classList.add('header-hidden')}else if(delta< -3){bar.classList.remove('header-hidden')}lastY=y;ticking=false};window.addEventListener('scroll',()=>{if(!ticking){ticking=true;window.requestAnimationFrame(update)}},{passive:true});window.addEventListener('resize',()=>{if((window.scrollY||0)<=24)bar.classList.remove('header-hidden')},{passive:true});})();
 
 /* Frontend phase: keep demo checkout accessible. Secure sign-in enforcement will be enabled with the backend, when login/signup actually works. */(()=>{const authForm=$('#accountForm');if(authForm){const params=new URLSearchParams(location.search);const next=params.get('next')||'checkout.html';authForm.addEventListener('submit',e=>{e.preventDefault();const msg=$('#accountMessage');if(msg)msg.textContent='Account login and signup will be activated after the secure backend is connected. No password has been saved.'});$$('[data-auth-tab]').forEach(b=>b.addEventListener('click',()=>{const signup=b.dataset.authTab==='signup';$$('[data-auth-tab]').forEach(x=>x.classList.toggle('active',x===b));$('#signupFields').hidden=!signup;$('#accountSubmit').textContent=signup?'Create Account':'Login';$('#accountHeading').textContent=signup?'Create your account':'Welcome back';$('#accountIntro').textContent=signup?'Create an account to place and track your orders.':'Login to continue with your order.';$('#accountMode').value=signup?'signup':'login';$('#accountPassword').autocomplete=signup?'new-password':'current-password';msg.textContent=''}));const mode=$('#accountMode');if(mode)mode.value='login';}})();
+
+
+/* Site-wide full-size preview viewer */
+(()=> {
+  if (window.__gbphPreviewViewerInstalled) return;
+  window.__gbphPreviewViewerInstalled = true;
+  const css = document.createElement('style');
+  css.textContent = `
+    .gbph-expand-host{position:relative!important}
+    .gbph-expand-btn{position:absolute!important;right:9px!important;top:9px!important;z-index:30!important;width:34px!important;height:34px!important;border:1px solid #ffffffb8!important;border-radius:10px!important;background:#123f32eF!important;color:#fff!important;display:grid!important;place-items:center!important;padding:0!important;cursor:pointer!important;box-shadow:0 3px 12px #0003!important;backdrop-filter:blur(8px)}
+    .gbph-expand-btn:hover{background:#b28a4b!important;transform:scale(1.06)}
+    .gbph-expand-btn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .gbph-viewer{position:fixed;inset:0;z-index:999999;background:#07130ff2;display:none;align-items:center;justify-content:center;padding:24px;box-sizing:border-box}
+    .gbph-viewer.is-open{display:flex}
+    .gbph-viewer-inner{position:relative;max-width:min(96vw,1400px);max-height:92vh;display:flex;align-items:center;justify-content:center}
+    .gbph-viewer-content{max-width:94vw;max-height:88vh;overflow:auto;border-radius:8px;box-shadow:0 18px 70px #0008;background:#fff}
+    .gbph-viewer-content>img,.gbph-viewer-content>canvas{display:block;max-width:94vw;max-height:88vh;width:auto;height:auto;object-fit:contain}
+    .gbph-viewer-content>.gbph-preview-clone{width:min(92vw,1100px);max-height:88vh;overflow:auto;margin:auto}
+    .gbph-viewer-close{position:fixed;right:20px;top:18px;width:42px;height:42px;border:1px solid #ffffff66;border-radius:50%;background:#fff;color:#173d31;font-size:28px;line-height:1;cursor:pointer;z-index:2}
+    @media(max-width:600px){.gbph-viewer{padding:12px}.gbph-viewer-close{right:12px;top:12px}.gbph-expand-btn{width:31px!important;height:31px!important;right:6px!important;top:6px!important}}
+  `;
+  document.head.appendChild(css);
+  const viewer=document.createElement('div');
+  viewer.className='gbph-viewer';
+  viewer.setAttribute('role','dialog');
+  viewer.setAttribute('aria-modal','true');
+  viewer.setAttribute('aria-label','Full size design preview');
+  viewer.innerHTML='<button type="button" class="gbph-viewer-close" aria-label="Close full size preview">×</button><div class="gbph-viewer-inner"><div class="gbph-viewer-content"></div></div>';
+  document.body.appendChild(viewer);
+  const content=viewer.querySelector('.gbph-viewer-content');
+  const close=()=>{viewer.classList.remove('is-open');content.replaceChildren();document.body.style.overflow='';};
+  viewer.querySelector('.gbph-viewer-close').addEventListener('click',close);
+  viewer.addEventListener('click',e=>{if(e.target===viewer)close()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&viewer.classList.contains('is-open'))close()});
+  const icon='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>';
+  const previewSelector='.card-art,.mini-card,.id-card-preview,.photo-frame-preview,.paper-preview,.wall-art-frame,.artboard,.preview-card,.card-preview,.invitation-preview,.invite-card,.bulk-card-preview';
+  function openPreview(node){
+    content.replaceChildren();
+    let clone=node.cloneNode(true);
+    clone.querySelectorAll('.gbph-expand-btn,button,input,select,textarea').forEach(el=>el.remove());
+    clone.classList.add('gbph-preview-clone');
+    if(node.tagName==='IMG'||node.tagName==='CANVAS'){
+      clone=node.cloneNode(true);
+      clone.removeAttribute('width');clone.removeAttribute('height');
+    }
+    content.appendChild(clone);
+    viewer.classList.add('is-open');
+    document.body.style.overflow='hidden';
+  }
+  function addButton(node){
+    if(!node||node.closest('.gbph-viewer')||node.dataset.gbphExpandReady==='1')return;
+    if(node.tagName==='IMG' && (!node.getAttribute('src') || node.naturalWidth===0 && !node.complete))return;
+    node.dataset.gbphExpandReady='1';
+    node.classList.add('gbph-expand-host');
+    const btn=document.createElement('button');
+    btn.type='button';btn.className='gbph-expand-btn';btn.setAttribute('aria-label','Open preview full size');btn.title='Open full size';btn.innerHTML=icon;
+    btn.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();openPreview(node)});
+    node.appendChild(btn);
+  }
+  function scan(root){
+    if(!root||root.nodeType!==1&&root!==document)return;
+    root.querySelectorAll?.(previewSelector).forEach(addButton);
+    root.querySelectorAll?.('img').forEach(img=>{
+      if(img.closest(previewSelector))return;
+      if(img.closest('header,nav,footer,.logo,.brand,.avatar,.icon'))return;
+      if(img.closest('a')&&img.closest('a').querySelectorAll('img').length>1)return;
+      addButton(img);
+    });
+    if(root.matches?.(previewSelector))addButton(root);
+    if(root.matches?.('img')&&!root.closest(previewSelector))addButton(root);
+  }
+  scan(document);
+  const observer=new MutationObserver(records=>records.forEach(record=>record.addedNodes.forEach(node=>{if(node.nodeType===1)scan(node)})));
+  observer.observe(document.body,{childList:true,subtree:true});
+})();
+
