@@ -47,6 +47,34 @@ html{height:auto!important;min-height:100%!important;overflow-x:hidden!important
 body{height:auto!important;min-height:100vh!important;max-height:none!important;overflow-x:hidden!important;overflow-y:visible!important}
 main,.studio-main,.wall-art-panel,.wall-art-layout,.wall-art-box,.wall-art-gallery,.wall-art-grid,.wall-art-preview-sticky{height:auto!important;max-height:none!important;overflow:visible!important}
 .wall-art-gallery{display:grid!important;overflow:visible!important}
+
+/* Independent scrolling for Wall Art design gallery and live-preview pane */
+.wall-art-layout{align-items:start!important}
+.wall-art-layout>.wall-art-box{
+  height:calc(100vh - 145px)!important;
+  max-height:calc(100vh - 145px)!important;
+  min-height:360px;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  overscroll-behavior-y:contain;
+  scrollbar-gutter:stable;
+  align-self:start;
+  -webkit-overflow-scrolling:touch;
+}
+.wall-art-layout>.wall-art-box:first-child .wall-art-gallery{overflow:visible!important}
+.wall-art-layout>.wall-art-preview-sticky{
+  position:relative!important;
+  top:auto!important;
+}
+.wall-art-layout>.wall-art-box::-webkit-scrollbar{width:8px}
+.wall-art-layout>.wall-art-box::-webkit-scrollbar-thumb{background:#b8c7bc;border-radius:10px}
+.wall-art-layout>.wall-art-box::-webkit-scrollbar-track{background:#f1f4ef;border-radius:10px}
+@media(max-width:760px){
+  .wall-art-layout{grid-template-columns:minmax(0,1fr)!important}
+  .wall-art-layout>.wall-art-box{
+    height:72vh!important;max-height:72vh!important;min-height:320px;
+  }
+}
 </style></head><body>
 <header><a class="brand" href="index.html"><div class="logo">🏔️</div><div><strong>Gilgit Baltistan</strong><span>Printing Hub</span><small>Print Your Ideas, Celebrate Life</small></div></a><button class="menu" id="menu" aria-label="Open navigation">☰</button><nav class="nav" id="nav"><a data-nav href="index.html">Home</a><a data-nav href="products.html">Products</a><a data-nav href="cards.html">Cards</a><a data-nav href="design-studio.html">Design Studio</a><a data-nav href="print-anything.html">Print Anything</a><a data-nav href="about.html">About</a><a data-nav href="contact.html">Contact</a></nav><a class="pill" href="cart.html">Cart (<span data-cart-count>0</span>)</a></header>
 <main class="studio">
