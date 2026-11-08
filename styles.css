@@ -633,3 +633,24 @@ footer .bottom{border-color:#ffffff24}
  body>header{transition:none!important}
  .cards-tile,.page-visual-card,.new-primary{transition:none!important}
 }
+
+/* SITE-WIDE SCROLL RESTORE: keep the document as the page scroll container */
+html{
+  height:auto!important;
+  min-height:100%!important;
+  overflow-x:hidden!important;
+  overflow-y:scroll!important;
+  scroll-behavior:smooth;
+  overscroll-behavior-y:auto;
+}
+body{
+  height:auto!important;
+  min-height:100vh!important;
+  max-height:none!important;
+  overflow-x:hidden!important;
+  overflow-y:visible!important;
+  overscroll-behavior-y:auto;
+}
+body,main,main>section,main>div{
+  max-height:none;
+}
