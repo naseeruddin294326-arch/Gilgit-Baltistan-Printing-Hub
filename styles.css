@@ -565,3 +565,71 @@ main h1::after{width:56px;height:38px;font-size:10px;margin-left:15px}
   main h1::after,main h2::after{width:39px;height:27px;font-size:8px;margin-left:8px;margin-bottom:3px}
   main h1::after{width:45px;height:30px}
 }
+
+
+/* ===== Premium visual / balanced information architecture ===== */
+:root{
+  --navy:#123f35;--blue:#2c6856;--red:#a98549;--gold:#d9bd7b;
+  --ink:#243b33;--muted:#718078;--line:#e8e4d9;
+  --cream:#faf8f2;--shadow:0 18px 44px rgba(18,63,53,.10);
+}
+body{background:#fff;color:var(--ink);font-family:'DM Sans',Arial,sans-serif}
+body>header{min-height:76px;padding:10px clamp(16px,4.5vw,72px);gap:clamp(10px,1.5vw,22px);border-bottom:1px solid #e9e5db;background:rgba(255,255,255,.97);box-shadow:0 7px 25px rgba(18,63,53,.07)}
+body>header .brand{gap:10px}
+body>header .logo{width:38px;height:38px;display:grid;place-items:center;border:1px solid #d8c28f;border-radius:50%;background:#faf7ed;font-size:22px}
+body>header .brand strong{font-size:14px;letter-spacing:.015em;color:#153f35}
+body>header .brand span{font:600 15px 'Playfair Display',Georgia,serif;color:#a17b3d}
+body>header .brand small{font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:#78847b}
+body>header .nav{justify-content:flex-end;gap:clamp(3px,.7vw,10px);font-size:10px;letter-spacing:.025em}
+body>header .nav a{padding:10px 9px;border-radius:3px;color:#455b51}
+body>header .nav a:hover{background:#f3f0e7;color:#17483c}
+body>header .nav a.active{background:#16483c!important;color:#fff!important;border-radius:3px;padding:10px 12px;box-shadow:none}
+body>header>.pill{background:#16483c;color:#fff;border:1px solid #16483c;border-radius:3px;padding:11px 17px;font-size:10px;letter-spacing:.05em;text-transform:uppercase}
+body>header>.pill:hover{background:#0d3029;box-shadow:0 8px 20px #16483c24}
+main h1::after,main h2::after{content:none!important;display:none!important}
+main.wrap{width:min(100% - 44px,1240px);padding:clamp(32px,4.5vw,62px) 0;margin:auto}
+main.wrap>.page-intro-hero{padding:clamp(26px,4vw,54px);border-radius:4px;border:1px solid #e9e4d8;background:linear-gradient(120deg,#fff 0%,#fff 55%,#faf7ed 100%);box-shadow:0 14px 36px #173e3409}
+.page-intro-visual{min-height:300px}
+.page-visual-card{border-radius:2px;transform:rotate(1deg);box-shadow:0 24px 48px #153e3225}
+.page-intro-visual:hover .page-visual-card{transform:rotate(0) translateY(-4px)}
+.cards-hero,.pa-hero,.bulk-hero,.studio-hero{border-radius:4px!important;box-shadow:0 20px 46px #173e3418}
+.cards-tile,.form,.info-box,.card,.product-card,.product-item,.studio-panel{border-radius:4px!important}
+.cards-tile{border-color:#e9e4d8;box-shadow:0 9px 28px #173e3409}
+.cards-tile:hover{border-color:#cbb57c;box-shadow:0 18px 36px #173e3418}
+.form,.info-box{border-color:#e8e4d9;box-shadow:0 10px 30px #173e340b}
+.form input,.form select,.form textarea,.input{border-radius:3px;background:#fff}
+.btn,.choose,.filter,.new-primary,.new-outline{border-radius:3px}
+.btn,.pill{letter-spacing:.025em}
+.heading .section-title,.cards-section-head h2{color:#16483c}
+.new-hero{min-height:660px}
+.new-hero-layout{min-height:510px;max-width:1320px}
+.new-hero-copy h1{font-size:clamp(58px,7vw,100px)}
+.new-carousel .hero-sample{border-radius:3px}
+.new-intro,.new-featured{padding-top:clamp(58px,7vw,88px);padding-bottom:clamp(58px,7vw,88px)}
+.new-intro-grid{gap:clamp(24px,4vw,58px)}
+.new-featured-grid{gap:clamp(15px,2vw,24px)}
+.gb-showcase{padding-top:clamp(58px,7vw,86px);padding-bottom:clamp(58px,7vw,86px)}
+.gb-feature{border-radius:3px}
+.service-steps-grid article{border-radius:3px}
+footer{background:#103b32}
+footer .foot{padding-bottom:10px}
+footer .bottom{border-color:#ffffff24}
+@media(max-width:1050px){
+ body>header{padding-inline:15px;gap:7px}
+ body>header .nav{gap:1px;font-size:9px}
+ body>header .nav a{padding:8px 6px}
+ body>header>.pill{padding:9px 10px;font-size:9px}
+}
+@media(max-width:760px){
+ body>header{min-height:64px;padding:9px 14px}
+ body>header .nav{gap:4px}
+ body>header .nav a{padding:11px 12px}
+ body>header .nav a.active{padding:11px 12px}
+ .new-hero{min-height:0}
+ .new-hero-layout{min-height:0}
+ main.wrap{width:min(100% - 28px,1240px)}
+}
+@media(prefers-reduced-motion:reduce){
+ body>header{transition:none!important}
+ .cards-tile,.page-visual-card,.new-primary{transition:none!important}
+}
