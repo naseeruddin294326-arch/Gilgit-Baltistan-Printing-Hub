@@ -18,15 +18,15 @@
 .wall-art-filters{display:flex;gap:7px;flex-wrap:wrap;margin:13px 0 16px}.wall-art-filter{border:1px solid #dfe7df;background:#f8faf6;color:#345448;border-radius:20px;padding:8px 12px;font:700 10px 'DM Sans',Arial;cursor:pointer}.wall-art-filter.active{background:#174b3d;color:#fff;border-color:#174b3d}
 .wall-art-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
 .wall-art-choice{border:1px solid #e3e8df;border-radius:12px;padding:8px;background:#fff;cursor:pointer;text-align:left;transition:.18s;min-width:0}.wall-art-choice:hover,.wall-art-choice.active{border-color:#b18a4d;box-shadow:0 0 0 2px #b18a4d22}
-.wall-art-thumb{height:190px;border-radius:9px;overflow:hidden;display:grid;place-items:center;padding:15px;background:linear-gradient(135deg,#e8e1d5,#f8f5ef 55%,#d8d0c3);position:relative;color:white}
-.wall-art-thumb:before{content:"";position:absolute;inset:9px;background:#fdfbf6;border:5px solid #fff;box-shadow:0 5px 15px #1c241d55;z-index:0}
-.wall-art-thumb .wall-art-frame{position:absolute;inset:17px;background-size:cover;background-position:center;box-shadow:0 2px 8px #1114;z-index:1}
+.wall-art-thumb{height:190px;border-radius:9px;overflow:hidden;display:grid;place-items:center;padding:13px;background:linear-gradient(145deg,#eee7dc,#d8cbb9 55%,#f5eee5);position:relative;color:white}
+.wall-art-thumb:before{content:"";position:absolute;inset:7px;background:#080909;border:5px solid #171717;box-shadow:0 5px 12px #0009, inset 0 0 0 1px #555;z-index:0}
+.wall-art-thumb .wall-art-frame{position:absolute;inset:15px;background-size:cover;background-position:center;box-shadow:inset 0 0 0 1px #ffffff30;z-index:1}
 .wall-art-thumb .wall-quote{display:block;position:absolute;z-index:2;left:23px;right:23px;top:50%;transform:translateY(-50%);text-align:center;color:#fff;font:700 13px/1.55 'Playfair Display',Georgia,serif;text-shadow:0 2px 8px #000,0 0 14px #0008;white-space:pre-line;overflow-wrap:anywhere}.wall-art-thumb .wall-quote.urdu{font:700 16px/1.8 'Noto Nastaliq Urdu','Noto Naskh Arabic',serif;direction:rtl}
 .wall-art-thumb small{display:none}
 .wall-art-choice strong{display:block;font-size:10px;color:#294b3e;margin:8px 2px 2px}.wall-art-choice span{display:block;font-size:9px;color:#7a877d;margin:0 2px 3px}
 .wall-art-preview-sticky{position:sticky;top:95px}
 .wall-art-live{min-height:350px;border-radius:12px;overflow:hidden;display:grid;place-items:center;padding:18px;background:#f1f2ec}
-.wall-art-poster{width:min(100%,340px);aspect-ratio:3/4;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 24px;background-size:cover;background-position:center;color:#fff;position:relative;isolation:isolate;box-shadow:0 14px 30px #142e2633;border:12px solid #fdfbf6;outline:5px solid #b18a4d}
+.wall-art-poster{width:min(100%,340px);aspect-ratio:2/3;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 24px;background-size:cover;background-position:center;color:#fff;position:relative;isolation:isolate;box-shadow:0 16px 32px #142e2644;border:13px solid #101010;outline:1px solid #555}
 .wall-art-poster:before{content:"";position:absolute;inset:0;background:linear-gradient(155deg,#071d2088,#071d2040 60%,#071d208c);z-index:-1}.wall-art-poster.image-only:before{display:none}.wall-art-poster.image-only .wall-poster-quote,.wall-art-poster.image-only .wall-poster-sub{display:none}
 .wall-art-poster .wall-poster-quote{font:700 29px/1.5 'Playfair Display',Georgia,serif;white-space:pre-line;text-shadow:0 2px 12px #0009;overflow-wrap:anywhere}
 .wall-art-poster .wall-poster-quote.urdu{font:700 31px/1.9 'Noto Nastaliq Urdu','Noto Naskh Arabic',serif;direction:rtl}
