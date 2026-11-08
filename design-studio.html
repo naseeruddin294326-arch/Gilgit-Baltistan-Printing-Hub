@@ -161,6 +161,87 @@ main,.studio-main,.wall-art-panel,.wall-art-layout,.wall-art-box,.wall-art-galle
   box-shadow:inset 0 0 0 2px #fff,inset 0 0 0 5px #737d81,inset 0 0 0 8px #dce1e2,0 3px 0 #5e676a,0 8px 0 #3c4447,0 16px 28px #172b2255!important;
 }
 
+
+/* Luxury gallery-style frame collection — richer materials and showroom finish */
+#photoFramePreview{
+  border-radius:3px!important;
+  background-color:#e8e0d1!important;
+  background-clip:padding-box,border-box!important;
+  background-origin:padding-box,border-box!important;
+  box-shadow:
+    inset 0 0 0 2px rgba(255,255,255,.85),
+    inset 0 0 0 5px rgba(35,22,12,.75),
+    inset 0 0 0 8px rgba(255,255,255,.38),
+    0 2px 2px rgba(0,0,0,.2),
+    0 7px 0 rgba(0,0,0,.22),
+    0 18px 34px rgba(19,31,24,.3)!important;
+}
+#photoFramePreview:before{
+  content:"";position:absolute;z-index:2;inset:9px;pointer-events:none;
+  border:1px solid rgba(255,255,255,.72);
+  box-shadow:inset 0 0 0 2px rgba(0,0,0,.16),0 0 0 1px rgba(0,0,0,.28);
+}
+#photoFramePreview:after{
+  content:"";position:absolute;z-index:3;inset:0;pointer-events:none;
+  background:
+    radial-gradient(circle at 10px 10px,#fff2c7 0 2px,#8a612b 2.5px 4px,transparent 4.5px),
+    radial-gradient(circle at calc(100% - 10px) 10px,#fff2c7 0 2px,#8a612b 2.5px 4px,transparent 4.5px),
+    radial-gradient(circle at 10px calc(100% - 10px),#fff2c7 0 2px,#8a612b 2.5px 4px,transparent 4.5px),
+    radial-gradient(circle at calc(100% - 10px) calc(100% - 10px),#fff2c7 0 2px,#8a612b 2.5px 4px,transparent 4.5px);
+}
+#photoFramePreview.frame-walnut{
+  border-width:30px!important;
+  background-image:linear-gradient(#e8e0d1,#e8e0d1),
+    repeating-linear-gradient(92deg,#2b160d 0 3px,#754522 3px 7px,#b47a43 7px 10px,#583018 10px 14px,#d19a5b 14px 17px,#432313 17px 21px)!important;
+}
+#photoFramePreview.frame-black{
+  border-width:27px!important;
+  background-image:linear-gradient(#e8e0d1,#e8e0d1),
+    repeating-linear-gradient(90deg,#050505 0 4px,#282828 4px 7px,#090909 7px 13px,#555 13px 14px,#151515 14px 19px)!important;
+}
+#photoFramePreview.frame-white{
+  border-width:30px!important;
+  background-image:linear-gradient(#e8e0d1,#e8e0d1),
+    repeating-linear-gradient(90deg,#c9c5ba 0 3px,#fff 3px 9px,#e8e5dc 9px 13px,#fff 13px 20px)!important;
+}
+#photoFramePreview.frame-gold{
+  border-width:31px!important;
+  background-image:linear-gradient(#e8e0d1,#e8e0d1),
+    repeating-linear-gradient(90deg,#704411 0 3px,#c18b2d 3px 6px,#ffe7a0 6px 9px,#a56e1b 9px 13px,#f7d36c 13px 17px,#805016 17px 21px)!important;
+}
+#photoFramePreview.frame-rustic{
+  border-width:32px!important;
+  background-image:linear-gradient(#e8e0d1,#e8e0d1),
+    repeating-linear-gradient(7deg,#2d1a10 0 4px,#714528 4px 10px,#b9824b 10px 14px,#50301c 14px 20px,#d0a06b 20px 24px)!important;
+}
+#photoFramePreview.frame-silver{
+  border-width:28px!important;
+  background-image:linear-gradient(#e8e0d1,#e8e0d1),
+    repeating-linear-gradient(90deg,#525b60 0 3px,#c6cdd0 3px 7px,#fff 7px 10px,#8a9499 10px 14px,#e6ebed 14px 18px)!important;
+}
+.frame-choice-row{gap:10px!important;padding:8px 2px 12px!important}
+.frame-choice{
+  position:relative;min-width:76px!important;padding:48px 10px 11px!important;
+  border:1px solid #d9dfd7!important;border-radius:11px!important;
+  background:#fff!important;color:#29483c!important;
+  box-shadow:0 3px 10px rgba(24,53,40,.07);
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+}
+.frame-choice:before{
+  content:"";position:absolute;left:10px;right:10px;top:9px;height:29px;
+  border:7px solid #70452b;border-radius:2px;
+  background:linear-gradient(135deg,#d7e6e7,#7c9c9d 48%,#d6e1d9);
+  box-shadow:inset 0 0 0 1px #ffffffa8,0 2px 3px #0003;
+}
+.frame-choice[data-frame-index="1"]:before{border-color:#111;border-width:6px}
+.frame-choice[data-frame-index="2"]:before{border-color:#eee;border-width:8px;box-shadow:inset 0 0 0 1px #aaa,0 2px 3px #0003}
+.frame-choice[data-frame-index="3"]:before{border:8px solid #c99a38;box-shadow:inset 0 0 0 1px #fff0ad,0 2px 3px #0003}
+.frame-choice[data-frame-index="4"]:before{border:9px solid #89552e;background:linear-gradient(135deg,#a6b4a1,#516c58)}
+.frame-choice[data-frame-index="5"]:before{border:7px solid #aeb8bd;box-shadow:inset 0 0 0 1px #fff,0 2px 3px #0003}
+.frame-choice:hover{transform:translateY(-2px);box-shadow:0 7px 16px rgba(24,53,40,.13)}
+.frame-choice.active{background:#f0f6f0!important;color:#174b3d!important;border:2px solid #17634c!important;box-shadow:0 5px 14px #174b3d20!important}
+@media(max-width:480px){.frame-choice{min-width:82px!important}}
+
 </style></head><body>
 <header><a class="brand" href="index.html"><div class="logo">🏔️</div><div><strong>Gilgit Baltistan</strong><span>Printing Hub</span><small>Print Your Ideas, Celebrate Life</small></div></a><button class="menu" id="menu" aria-label="Open navigation">☰</button><nav class="nav" id="nav"><a data-nav href="index.html">Home</a><a data-nav href="products.html">Products</a><a data-nav href="cards.html">Cards</a><a data-nav href="design-studio.html">Design Studio</a><a data-nav href="print-anything.html">Print Anything</a><a data-nav href="about.html">About</a><a data-nav href="contact.html">Contact</a></nav><a class="pill" href="cart.html">Cart (<span data-cart-count>0</span>)</a></header>
 <main class="studio">
