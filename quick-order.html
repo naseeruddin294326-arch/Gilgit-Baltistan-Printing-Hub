@@ -85,6 +85,34 @@
 .wizard-section-switch{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .wizard-section-switch button{border:1px solid #dce6dc;border-radius:9px;padding:11px 9px;background:#f5f8f4;color:#426453;font:700 11px 'DM Sans',Arial;cursor:pointer}
 .wizard-section-switch button.active{background:#17634c;color:#fff;border-color:#17634c}.order-wizard-head{display:flex;justify-content:space-between;align-items:center;gap:12px;color:#496456;font-size:11px;font-weight:800}.order-wizard-track{height:5px;background:#e8eee8;border-radius:20px;overflow:hidden}.order-wizard-track span{display:block;height:100%;width:0;background:#17634c;border-radius:20px;transition:width .2s}.order-wizard-step{min-height:175px;display:flex;flex-direction:column;justify-content:flex-start}.order-wizard-step>label{display:flex;flex-direction:column;gap:9px;font-size:13px;font-weight:800;color:#35584a}.order-wizard-step input,.order-wizard-step select,.order-wizard-step textarea{width:100%;min-width:0;border:1px solid #dfe7df;border-radius:10px;padding:13px;background:#fff;color:#234337;font:14px 'DM Sans',Arial}.order-wizard-step textarea{line-height:1.7}.order-wizard-step input[type=file]{font-size:12px}.order-wizard-step .photo-help{font-size:11px;font-weight:400;color:#78847b}.order-wizard-actions{display:flex;justify-content:space-between;gap:10px}.order-wizard-actions button{border:1px solid #dce6dc;border-radius:9px;padding:11px 18px;background:#f5f8f4;color:#245340;font:700 12px 'DM Sans',Arial;cursor:pointer}.order-wizard-actions button:disabled{opacity:.35;cursor:not-allowed}.order-wizard-actions .next-step{background:#17634c;color:white;border-color:#17634c;margin-left:auto}.order-wizard-step .btn{align-self:flex-start}
+
+/* Full-screen card preview */
+.preview-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:4px 0 12px}
+.preview-toolbar>span{font-size:10px;font-weight:800;letter-spacing:.13em;color:#718176}
+.preview-maximize{display:inline-flex;align-items:center;gap:7px;border:1px solid #d8e2d8;background:#fff;color:#174b3c;border-radius:999px;padding:9px 13px;font:700 12px inherit;cursor:pointer;box-shadow:0 3px 10px #173d2a0c;transition:background .2s,transform .2s}
+.preview-maximize:hover{background:#edf5ef;transform:translateY(-1px)}
+.gb-preview-modal{position:fixed;inset:0;z-index:99999;background:rgba(5,18,14,.92);backdrop-filter:blur(9px);display:flex;align-items:center;justify-content:center;padding:64px 22px 26px;overflow:auto}
+.gb-preview-modal[hidden]{display:none}
+.gb-preview-modal-close{position:fixed;top:18px;right:20px;z-index:2;border:1px solid #ffffff55;background:#ffffff18;color:#fff;border-radius:999px;padding:11px 17px;font:700 13px inherit;cursor:pointer}
+.gb-preview-modal-close:hover{background:#ffffff30}
+.gb-preview-modal-card{display:flex;align-items:center;justify-content:center;width:100%;min-height:100%}
+.gb-preview-modal-card .paper-preview{width:min(86vw,760px);max-width:86vw;min-height:0;height:auto;aspect-ratio:3/4;max-height:calc(100vh - 100px);margin:0;box-shadow:0 25px 90px #0008;flex:none}
+.gb-preview-modal-card .paper-preview.theme-banner{width:min(90vw,1200px);aspect-ratio:16/9}
+.gb-preview-modal-card .paper-preview.theme-pvc{width:min(88vw,1000px);aspect-ratio:1.586/1}
+.gb-preview-modal-card .paper-preview.theme-frame{width:min(88vw,1000px);aspect-ratio:4/3}
+.gb-preview-modal-card .paper-preview .sample-eyebrow{font-size:clamp(11px,1.5vw,18px)}
+.gb-preview-modal-card .paper-preview .sample-title{font-size:clamp(27px,4.5vw,58px)}
+.gb-preview-modal-card .paper-preview .sample-line{font-size:clamp(15px,2vw,25px)}
+.gb-preview-modal-card .paper-preview .sample-footer{font-size:clamp(13px,1.5vw,19px)}
+body.gb-preview-open{overflow:hidden}
+@media(max-width:600px){
+ .gb-preview-modal{padding:64px 12px 18px}
+ .gb-preview-modal-close{top:12px;right:12px}
+ .gb-preview-modal-card .paper-preview{width:min(90vw,calc((100vh - 105px)*.75));max-width:90vw}
+ .gb-preview-modal-card .paper-preview.theme-banner{width:90vw}
+ .gb-preview-modal-card .paper-preview.theme-pvc,.gb-preview-modal-card .paper-preview.theme-frame{width:90vw}
+ .preview-maximize{padding:8px 10px}
+}
 </style>
 </head>
 <body>
@@ -109,7 +137,7 @@
 <p class="order-notice">This is currently a frontend order preview. Your request is added to this browser's cart only. Online submission, file upload and payment will be activated after backend connection.</p>
 <button class="btn gold order-submit" type="submit">Add order to cart →</button><p class="form-status" id="formStatus" aria-live="polite"></p>
 </form></section>
-<aside class="order-preview"><h3>Your selected collection</h3><div class="text-style-toolbar" id="textStyleToolbar"><div class="toolbar-heading">Customise your card text</div><label>Font style<select id="previewFont"><option value="">Original design font</option><option value="Georgia,serif">Classic Serif</option><option value="'Playfair Display',Georgia,serif">Elegant</option><option value="Arial,sans-serif">Modern Sans</option><option value="Georgia,serif">Traditional</option><option value="'Noto Nastaliq Urdu',serif">Urdu Nastaliq</option></select></label><label>Text colour<input id="previewTextColor" type="color" value="#315b49" aria-label="Choose text colour"></label></div><div class="paper-preview" id="paperPreview"><small>YOUR SPECIAL MOMENT</small><span>✦ ❋ ✦</span><strong class="english" id="previewName">Custom Print</strong><small>DESIGNED FOR YOU</small></div><p class="preview-note" id="previewNote">A simple preview of the selected print category. Final artwork will be confirmed with your requirements.</p></aside>
+<aside class="order-preview"><h3>Your selected collection</h3><div class="text-style-toolbar" id="textStyleToolbar"><div class="toolbar-heading">Customise your card text</div><label>Font style<select id="previewFont"><option value="">Original design font</option><option value="Georgia,serif">Classic Serif</option><option value="'Playfair Display',Georgia,serif">Elegant</option><option value="Arial,sans-serif">Modern Sans</option><option value="Georgia,serif">Traditional</option><option value="'Noto Nastaliq Urdu',serif">Urdu Nastaliq</option></select></label><label>Text colour<input id="previewTextColor" type="color" value="#315b49" aria-label="Choose text colour"></label></div><div class="preview-toolbar"><span>LIVE CARD PREVIEW</span><button type="button" class="preview-maximize" id="maximizePreview" aria-label="Open card preview fullscreen">⛶ <span>Full screen preview</span></button></div><div class="paper-preview" id="paperPreview"><small>YOUR SPECIAL MOMENT</small><span>✦ ❋ ✦</span><strong class="english" id="previewName">Custom Print</strong><small>DESIGNED FOR YOU</small></div><p class="preview-note" id="previewNote">A simple preview of the selected print category. Final artwork will be confirmed with your requirements.</p></aside>
 </div></main>
 <footer><div class="foot"><div class="brand"><div class="logo">🏔️</div><div><strong style="color:white">Gilgit Baltistan</strong><span>Printing Hub</span></div></div><p>Your local partner for wedding cards, birthday invitations, banners and custom printing across Gilgit-Baltistan.</p><p>Business phone and email will be added before public launch.<br><a href="faq.html">FAQ</a> · <a href="policies.html">Policies</a></p></div><div class="bottom"><span>© <span id="year"></span> Gilgit Baltistan Printing Hub</span><span>Print Local. Grow Local.</span></div></footer><script src="script.js"></script><script>
 (()=>{
@@ -293,6 +321,45 @@ function updatePreview(){
 form.addEventListener('input',updatePreview);form.addEventListener('change',updatePreview);
 updatePreview();
 form.addEventListener('submit',e=>{e.preventDefault();const fd=new FormData(form),details={};for(const [k,v]of fd.entries())if(k!=='artwork')details[k]=v;const file=form.elements.artwork.files[0];details.artworkFilename=file?.name||'';details.artworkImageData=chosenArtworkData;details.artworkImageName=chosenArtworkName;details.backgroundPhotoFilename=chosenBackgroundName;details.backgroundPhotoData=chosenBackgroundData;details.backgroundPhoto=chosenBackgroundData||sample?.image||'';details.textFontFamily=selectedFontFamily;details.textColor=selectedTextColor;details.selectedCategory=safe;details.sampleDesign=sample||null;const previewImage=window.gbphCaptureCardPreview?window.gbphCaptureCardPreview(document.querySelector('.paper-preview')):'';const item={id:'custom-'+Date.now(),name:safe,category:banner?'Banners & Flex':frame?'Frames':wedding?'Wedding Cards':pvc?'PVC & Membership Cards':'Custom Printing',price:0,qty:Math.max(1,Number(details.quantity)||1),previewImage,details};let cart=[];try{cart=JSON.parse(localStorage.getItem('gbph_cart')||'[]')}catch{}cart.push(item);localStorage.setItem('gbph_cart',JSON.stringify(cart));location.href='cart.html'});
+})();
+
+/* Open the exact live card preview in a clean, responsive full-screen overlay. */
+(()=>{
+ const preview=document.getElementById('paperPreview');
+ const trigger=document.getElementById('maximizePreview');
+ if(!preview||!trigger)return;
+ const modal=document.createElement('div');
+ modal.className='gb-preview-modal';
+ modal.hidden=true;
+ modal.setAttribute('role','dialog');
+ modal.setAttribute('aria-modal','true');
+ modal.setAttribute('aria-label','Full-screen card preview');
+ const close=document.createElement('button');
+ close.type='button';close.className='gb-preview-modal-close';close.textContent='✕ Close preview';
+ const stage=document.createElement('div');stage.className='gb-preview-modal-card';
+ modal.append(close,stage);document.body.append(modal);
+ let clone=null;
+ function openPreview(){
+  clone=preview.cloneNode(true);
+  clone.removeAttribute('id');
+  clone.setAttribute('aria-label','Enlarged card design preview');
+  stage.replaceChildren(clone);
+  modal.hidden=false;document.body.classList.add('gb-preview-open');
+  close.focus();
+ }
+ function closePreview(){
+  modal.hidden=true;document.body.classList.remove('gb-preview-open');
+  stage.replaceChildren();clone=null;trigger.focus();
+ }
+ trigger.addEventListener('click',openPreview);
+ close.addEventListener('click',closePreview);
+ modal.addEventListener('click',event=>{if(event.target===modal)closePreview()});
+ document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!modal.hidden)closePreview()});
+ /* Keep the enlarged version in sync while the visitor edits their card. */
+ const sync=new MutationObserver(()=>{
+  if(!modal.hidden&&clone){const fresh=preview.cloneNode(true);fresh.removeAttribute('id');stage.replaceChildren(fresh);clone=fresh;}
+ });
+ sync.observe(preview,{subtree:true,childList:true,characterData:true,attributes:true});
 })();
 </script>
 </body></html>
