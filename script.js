@@ -39,7 +39,16 @@ $('[data-add]').forEach(b=>b.addEventListener('click',()=>{const card=b.closest(
   viewer.addEventListener('click',e=>{if(e.target===viewer)close()});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&viewer.classList.contains('is-open'))close()});
   const icon='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>';
-  const previewSelector='.card-art,.mini-card,.id-card-preview,.photo-frame-preview,.paper-preview,.wall-art-frame,.artboard,.preview-card,.card-preview,.invitation-preview,.invite-card,.bulk-card-preview';
+  const previewSelector=[
+    '.card-art','.mini-card','.id-card-preview','.photo-frame-preview','.paper-preview',
+    '.wall-art-frame','.artboard','.preview-card','.card-preview','.invitation-preview',
+    '.invite-card','.bulk-card-preview','.hero-sample','.gb-order-tile',
+    '.wall-art-poster','.wall-poster-quote','.wall-quote','.wall-art-choice',
+    '.pa-art','.pa-live-art','.student-preview','.student-card','.print-student-card',
+    '.qr-preview','.biz-card','.order-preview','.id-card-preview',
+    '.mycard-preview-panel .id-card-preview','.studio-preview-wrap .artboard',
+    '.invite-live-preview .mini-card','.design-option .mini-card'
+  ].join(',');
   function openPreview(node){
     content.replaceChildren();
     let clone=node.cloneNode(true);
@@ -75,18 +84,24 @@ $('[data-add]').forEach(b=>b.addEventListener('click',()=>{const card=b.closest(
   }
   function scan(root){
     if(!root||root.nodeType!==1&&root!==document)return;
-    root.querySelectorAll?.(previewSelector).forEach(addButton);
-    root.querySelectorAll?.('img').forEach(img=>{
-      if(img.closest(previewSelector))return;
-      if(img.closest('header,nav,footer,.logo,.brand,.avatar,.icon'))return;
-      if(img.closest('a')&&img.closest('a').querySelectorAll('img').length>1)return;
-      addButton(img);
+    root.querySelectorAll?.(previewSelector).forEach(node=>{
+      if(node.parentElement?.closest(previewSelector))return;
+      addButton(node);
     });
-    if(root.matches?.(previewSelector))addButton(root);
-    if(root.matches?.('img')&&!root.closest(previewSelector))addButton(root);
+    root.querySelectorAll?.('img,canvas').forEach(media=>{
+      if(media.closest(previewSelector))return;
+      if(media.closest('header,nav,footer,.logo,.brand,.avatar,.icon,.gbph-viewer'))return;
+      if(media.closest('a')&&media.closest('a').querySelectorAll('img,canvas').length>1)return;
+      addButton(media);
+    });
+    if(root.matches?.(previewSelector)&&!root.parentElement?.closest(previewSelector))addButton(root);
+    if(root.matches?.('img,canvas')&&!root.closest(previewSelector))addButton(root);
   }
   scan(document);
-  const observer=new MutationObserver(records=>records.forEach(record=>record.addedNodes.forEach(node=>{if(node.nodeType===1)scan(node)})));
-  observer.observe(document.body,{childList:true,subtree:true});
+  const observer=new MutationObserver(records=>records.forEach(record=>{
+    if(record.type==='childList')record.addedNodes.forEach(node=>{if(node.nodeType===1)scan(node)});
+    else if(record.type==='attributes')scan(record.target);
+  }));
+  observer.observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','src','style']});
 })();
 
