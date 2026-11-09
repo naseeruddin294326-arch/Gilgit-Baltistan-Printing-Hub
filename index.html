@@ -594,6 +594,9 @@
  const makeOrderLink=(card,category,eyebrow,title,lines,image)=>{
   const sample={eyebrow:eyebrow||'YOUR SPECIAL MOMENT',title:title||category,lines:[eyebrow||'',title||category,...(lines||[])].filter(Boolean),theme:themeFor(category)};
   if(image)sample.image=image;
+  const art=card.querySelector('.tile-art')||card.querySelector('.wall-art-frame')||card;
+  sample.background=getComputedStyle(art).backgroundImage||'';
+  sample.textColor=getComputedStyle(art).color||'#fff';
   card.href='quick-order.html?category='+encodeURIComponent(category)+'&sample='+encodeURIComponent(JSON.stringify(sample));
   card.setAttribute('aria-label',(title||category)+' — customise and order');
  };
