@@ -517,4 +517,30 @@ $('wallArtForm').addEventListener('submit',e=>{e.preventDefault();if(!$('wallArt
 render();updatePreview();
 })();
 </script>
+
+<style>
+/* Direct photo manipulation: no sliders or numeric positioning controls */
+.photo-adjust-tools{display:none!important}
+#photoFramePreviewImage{touch-action:none;cursor:grab;user-select:none;-webkit-user-drag:none}
+#photoFramePreviewImage:active{cursor:grabbing}
+#photoFramePreview{touch-action:none}
+#photoFrameGestureHint{font-size:11px;color:#718078;text-align:center;margin:8px 0 0}
+</style>
+<script>
+(()=>{const form=document.getElementById('photoFrameForm'),img=document.getElementById('photoFramePreviewImage'),frame=document.getElementById('photoFramePreview');if(!form||!img||!frame||frame.dataset.gestureReady)return;frame.dataset.gestureReady='1';
+const zoom=document.getElementById('framePhotoZoom'),px=document.getElementById('framePhotoX'),py=document.getElementById('framePhotoY');
+let scale=1,dx=0,dy=0,pointers=new Map(),pinchStart=0,pinchScale=1,lastMid=null;
+const hint=document.createElement('p');hint.id='photoFrameGestureHint';hint.textContent='Photo ko drag karein · Mobile par 2 fingers se zoom · Mouse wheel se zoom';frame.insertAdjacentElement('afterend',hint);
+function paint(){img.style.transform='translate3d('+dx+'px,'+dy+'px,0) scale('+scale+')';if(zoom)zoom.value=String(Math.round(scale*100));if(px)px.value=String(Math.max(0,Math.min(100,50+dx/Math.max(1,frame.clientWidth)*100)));if(py)py.value=String(Math.max(0,Math.min(100,50+dy/Math.max(1,frame.clientHeight)*100)));}
+function midpoint(a,b){return{x:(a.x+b.x)/2,y:(a.y+b.y)/2}}
+frame.addEventListener('pointerdown',e=>{if(img.hidden)return;e.preventDefault();frame.setPointerCapture(e.pointerId);pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pointers.size===2){const a=[...pointers.values()];pinchStart=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y)||1;pinchScale=scale;lastMid=midpoint(a[0],a[1]);}});
+frame.addEventListener('pointermove',e=>{if(!pointers.has(e.pointerId))return;e.preventDefault();const prev=pointers.get(e.pointerId),next={x:e.clientX,y:e.clientY};pointers.set(e.pointerId,next);if(pointers.size===1){dx+=next.x-prev.x;dy+=next.y-prev.y;}else if(pointers.size>=2){const a=[...pointers.values()],dist=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y)||1,mid=midpoint(a[0],a[1]);scale=Math.max(1,Math.min(4,pinchScale*dist/pinchStart));if(lastMid){dx+=mid.x-lastMid.x;dy+=mid.y-lastMid.y;}lastMid=mid;}paint();});
+const stop=e=>{pointers.delete(e.pointerId);if(pointers.size<2)lastMid=null;};frame.addEventListener('pointerup',stop);frame.addEventListener('pointercancel',stop);frame.addEventListener('lostpointercapture',stop);
+frame.addEventListener('wheel',e=>{if(img.hidden)return;e.preventDefault();const old=scale;scale=Math.max(1,Math.min(4,scale*(e.deltaY<0?1.12:.89)));const r=frame.getBoundingClientRect(),cx=e.clientX-r.left-r.width/2,cy=e.clientY-r.top-r.height/2,k=scale/old;dx=cx-(cx-dx)*k;dy=cy-(cy-dy)*k;paint();},{passive:false});
+document.getElementById('resetFramePhoto')?.addEventListener('click',()=>{scale=1;dx=0;dy=0;paint();});
+const originalSubmit=form.querySelector('[type="submit"]');if(originalSubmit&&!form.dataset.cropSubmit){form.dataset.cropSubmit='1';form.addEventListener('submit',()=>{if(!photoData||img.hidden)return;try{const w=Math.max(1,Math.round(frame.clientWidth)),h=Math.max(1,Math.round(frame.clientHeight)),canvas=document.createElement('canvas');canvas.width=w*2;canvas.height=h*2;const ctx=canvas.getContext('2d'),base=Math.max(w/img.naturalWidth,h/img.naturalHeight),bw=img.naturalWidth*base,bh=img.naturalHeight*base;ctx.scale(2,2);ctx.translate(w/2+dx,h/2+dy);ctx.scale(scale,scale);ctx.drawImage(img,-bw/2,-bh/2,bw,bh);const cropped=canvas.toDataURL('image/jpeg',.92);window.__gbphFrameCropData=cropped;}catch(err){window.__gbphFrameCropData='';}},true);}
+const oldAdd=form.addEventListener;form.addEventListener('submit',()=>{if(window.__gbphFrameCropData){const data=window.__gbphFrameCropData;const input=form.querySelector('input[type=file]');const status=document.getElementById('photoFrameStatus');const cart=JSON.parse(localStorage.getItem('gbph_cart')||'[]');const item=cart[cart.length-1];if(item&&item.category==='Design Studio · Photo Frame Printing'){item.previewImage=data;item.details.originalUploadedFileData=item.details.uploadedFileData;item.details.uploadedFileData=data;item.details.photoCropApplied=true;localStorage.setItem('gbph_cart',JSON.stringify(cart));}}},true);
+paint();
+})();
+</script>
 </body></html>
