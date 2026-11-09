@@ -105,3 +105,99 @@ $('[data-add]').forEach(b=>b.addEventListener('click',()=>{const card=b.closest(
   observer.observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','src','style']});
 })();
 
+/* Shared step-by-step personalization and print-order wizard for visual designs */
+(()=> {
+ if(window.__gbphOrderWizardInstalled)return;window.__gbphOrderWizardInstalled=true;
+ const style=document.createElement('style');
+ style.textContent=`
+ .gbph-order-trigger{position:absolute!important;left:50%!important;bottom:10px!important;transform:translateX(-50%)!important;z-index:31!important;border:1px solid #ffffffb8!important;border-radius:999px!important;background:#16483c!important;color:#fff!important;padding:8px 14px!important;font:700 10px Arial,sans-serif!important;white-space:nowrap!important;cursor:pointer!important;box-shadow:0 3px 12px #0004!important}
+ .gbph-order-trigger:hover{background:#a47d39!important}
+ .gbph-wizard{position:fixed;inset:0;z-index:1000001;background:#07130ff2;display:none;align-items:center;justify-content:center;padding:18px;box-sizing:border-box}
+ .gbph-wizard.open{display:flex}.gbph-wizard-box{width:min(720px,96vw);max-height:92vh;overflow:auto;background:#fff;border-radius:16px;padding:clamp(18px,3vw,30px);box-shadow:0 20px 70px #0006;color:#244237}
+ .gbph-wizard-top{display:flex;justify-content:space-between;align-items:center;gap:12px}.gbph-wizard-top h2{margin:0;color:#16483c;font:600 25px Georgia,serif}.gbph-wizard-close{border:0;background:#f0f3ef;border-radius:50%;width:38px;height:38px;font-size:24px;cursor:pointer}
+ .gbph-wizard-progress{height:6px;background:#e8eee8;border-radius:20px;margin:18px 0 8px;overflow:hidden}.gbph-wizard-progress span{display:block;height:100%;background:#a47d39;transition:width .2s}
+ .gbph-wizard-step-label{font-size:11px;color:#8a7449;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+ .gbph-wizard-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0}.gbph-wizard-fields label{display:flex;flex-direction:column;gap:6px;font-size:11px;font-weight:700;color:#375448}.gbph-wizard-fields .wide{grid-column:1/-1}.gbph-wizard-fields input,.gbph-wizard-fields textarea,.gbph-wizard-fields select{width:100%;box-sizing:border-box;padding:11px;border:1px solid #dfe7df;border-radius:8px;font:13px Arial;color:#234337}.gbph-wizard-fields textarea{min-height:86px;resize:vertical}.gbph-wizard-actions{display:flex;justify-content:space-between;gap:10px;margin-top:20px}.gbph-wizard-actions button{border:0;border-radius:8px;padding:12px 20px;font-weight:800;cursor:pointer}.gbph-wizard-back{background:#eef2ed;color:#365448}.gbph-wizard-next{background:#16483c;color:#fff}.gbph-wizard-preview{max-width:180px;max-height:180px;object-fit:contain;border:1px solid #e4e9e1;border-radius:8px;background:#f7f8f4}.gbph-wizard-review{background:#f6f8f4;padding:14px;border-radius:10px;font-size:13px;line-height:1.8}
+ @media(max-width:560px){.gbph-wizard-fields{grid-template-columns:1fr}.gbph-wizard-fields .wide{grid-column:auto}.gbph-wizard-box{padding:17px}.gbph-order-trigger{font-size:9px!important;padding:7px 10px!important}}
+ `;
+ document.head.appendChild(style);
+ const modal=document.createElement('div');modal.className='gbph-wizard';modal.innerHTML='<section class="gbph-wizard-box" role="dialog" aria-modal="true" aria-label="Personalise and order design"><div class="gbph-wizard-top"><h2>Personalise your design</h2><button type="button" class="gbph-wizard-close" aria-label="Close">×</button></div><div class="gbph-wizard-progress"><span></span></div><div class="gbph-wizard-step-label"></div><div class="gbph-wizard-body"></div><div class="gbph-wizard-actions"><button type="button" class="gbph-wizard-back">← Back</button><button type="button" class="gbph-wizard-next">Next →</button></div></section>';
+ document.body.appendChild(modal);
+ const body=modal.querySelector('.gbph-wizard-body'),bar=modal.querySelector('.gbph-wizard-progress span'),label=modal.querySelector('.gbph-wizard-step-label'),back=modal.querySelector('.gbph-wizard-back'),next=modal.querySelector('.gbph-wizard-next');
+ let state={step:0,node:null,title:'',category:'Custom Printing',fields:{},files:{},previewImage:''};
+ const esc=s=>String(s??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+ function classify(node){
+  const t=(node.innerText||node.textContent||'').toLowerCase(),cl=String(node.className||'').toLowerCase(),page=location.pathname.toLowerCase();
+  if(/wedding|bride|groom|dawat|invitation/.test(t+' '+cl)||page.includes('wedding'))return 'Wedding / Invitation';
+  if(/frame/.test(t+' '+cl)||page.includes('frame'))return 'Photo Frame';
+  if(/quote|shayari|motiv|attitude|poster|wall-art/.test(t+' '+cl))return 'Quote / Poster';
+  if(/banner|flex/.test(t+' '+cl)||page.includes('banner'))return 'Banner / Flex';
+  if(/student|school/.test(t+' '+cl)||page.includes('bulk'))return 'Student / ID Card';
+  if(/hotel/.test(t+' '+cl))return 'Hotel Card';
+  if(/shop|business|visiting|qr/.test(t+' '+cl))return 'Business / Shop Card';
+  if(/birthday|party/.test(t+' '+cl))return 'Party / Birthday';
+  return 'Custom Printing';
+ }
+ const common=[['Quantity','quantity','number','1'],['Required size / dimensions','size','text',''],['Material / paper','material','select',''],['Printing sides','sides','select','']];
+ function fieldHTML(labelText,name,type='text',value='',wide=false,options=[]){
+  const cls=wide?'wide':'';
+  if(type==='select')return '<label class="'+cls+'">'+labelText+'<select data-wizard-field="'+name+'"><option value="">Please select</option>'+options.map(o=>'<option>'+esc(o)+'</option>').join('')+'</select></label>';
+  if(type==='textarea')return '<label class="'+cls+'">'+labelText+'<textarea data-wizard-field="'+name+'" placeholder="'+labelText+'">'+esc(value)+'</textarea></label>';
+  return '<label class="'+cls+'">'+labelText+'<input data-wizard-field="'+name+'" type="'+type+'" value="'+esc(value)+'" placeholder="'+labelText+'"></label>';
+ }
+ function fieldSet(){
+  const kind=state.category;
+  if(/Wedding|Invitation|Party/.test(kind))return [fieldHTML("Invitation heading","heading"),fieldHTML("Bride's name","bride"),fieldHTML("Groom's name","groom"),fieldHTML("Event / ceremony","event"),fieldHTML("Event date","date","date"),fieldHTML("Event time","time","text"),fieldHTML("Venue / hall","venue"),fieldHTML("Location / address","location"),fieldHTML("Invitation message","message","textarea","",true),fieldHTML("Family names / hosts","hosts"),fieldHTML("RSVP / contact","rsvp")].join('');
+  if(/Quote/.test(kind))return [fieldHTML("Main quote / poetry","quote","textarea","",true),fieldHTML("Subheading / attribution","subtitle"),fieldHTML("Language","language","select","",false,["Urdu","English","Both"]),fieldHTML("Font style","font","select","",false,["Original","Elegant","Modern Sans","Urdu Nastaliq"])].join('');
+  if(/Frame/.test(kind))return [fieldHTML("Photo / frame title","title"),fieldHTML("Frame size","frameSize","select","",false,["8 × 10 inch","12 × 16 inch","16 × 20 inch","A4","A3","Custom"]),fieldHTML("Custom size","customSize"),fieldHTML("Frame style","frameStyle","select","",false,["Classic","Modern","Royal","Wooden","Minimal"]),fieldHTML("Photo notes / crop instructions","photoNotes","textarea","",true)].join('');
+  if(/Banner/.test(kind))return [fieldHTML("Main heading","heading"),fieldHTML("Event / organisation","event"),fieldHTML("Date and time","dateTime"),fieldHTML("Venue / location","venue"),fieldHTML("Contact details","contact"),fieldHTML("Additional message","message","textarea","",true)].join('');
+  if(/Student|ID/.test(kind))return [fieldHTML("Student / card holder name","name"),fieldHTML("School / organisation","organisation"),fieldHTML("Class / designation","designation"),fieldHTML("ID / roll number","idNumber"),fieldHTML("Phone","phone"),fieldHTML("Address / session","address")].join('');
+  if(/Business|Shop|Hotel/.test(kind))return [fieldHTML("Business / hotel name","businessName"),fieldHTML("Person / card holder","name"),fieldHTML("Phone / WhatsApp","phone"),fieldHTML("Address / location","address"),fieldHTML("Services / details","details","textarea","",true)].join('');
+  return [fieldHTML("Name / title","title"),fieldHTML("Main text / instructions","message","textarea","",true),fieldHTML("Contact details","contact")].join('');
+ }
+ function render(){
+  const step=state.step;bar.style.width=((step+1)/5*100)+'%';label.textContent='Step '+(step+1)+' of 5 · '+['Choose design','Add your details','Upload photos / artwork','Printing details','Review your order'][step];
+  back.style.visibility=step===0?'hidden':'visible';next.textContent=step===4?'Add to cart →':'Next →';
+  if(step===0){body.innerHTML='<p>You selected <b>'+esc(state.title)+'</b> ('+esc(state.category)+'). Your selected design will be kept with your order.</p><p>Continue to personalise this item.</p>';}
+  if(step===1){body.innerHTML='<div class="gbph-wizard-fields">'+fieldSet()+'</div>';}
+  if(step===2){body.innerHTML='<p>Upload photos, your own artwork or a background image if required. These files stay in this browser demo and are saved with the demo cart.</p><div class="gbph-wizard-fields">'+fieldHTML('Your photo / artwork','artwork','file','','wide')+fieldHTML('Background image (optional)','background','file','','wide')+'</div><div class="gbph-wizard-review">Tip: use a clear JPG, PNG or WEBP image. For a wedding card, you can upload a couple photo here or add both photos separately.</div>';}
+  if(step===3){body.innerHTML='<div class="gbph-wizard-fields">'+fieldHTML('Quantity','quantity','number','1')+fieldHTML('Size / dimensions','size')+fieldHTML('Material / paper','material','select','',false,['Standard card','Premium card','Photo paper','Flex / Vinyl','Hardboard','PVC','Other'])+fieldHTML('Printing sides','sides','select','',false,['Single-sided','Double-sided'])+fieldHTML('Special instructions','instructions','textarea','',true)+'</div>';}
+  if(step===4){const entries=Object.entries(state.fields).filter(([k,v])=>v!==''&&!['artwork','background'].includes(k));body.innerHTML='<div class="gbph-wizard-review"><b>'+esc(state.title)+'</b><br>'+esc(state.category)+'<br>'+entries.map(([k,v])=>'<div><b>'+esc(k.replace(/([A-Z])/g,' $1'))+':</b> '+esc(v)+'</div>').join('')+'<p>Quantity: '+esc(state.fields.quantity||'1')+'</p><p>Uploaded files: '+Object.keys(state.files).length+'</p><p>Review your information before adding this request to your demo cart.</p></div>';}
+ }
+ function collect(){body.querySelectorAll('[data-wizard-field]').forEach(el=>{state.fields[el.dataset.wizardField]=el.value});}
+ function close(){modal.classList.remove('open');document.body.style.overflow='';}
+ function open(node){
+  state={step:0,node,title:(node.innerText||node.textContent||'Selected design').trim().replace(/\s+/g,' ').slice(0,90)||'Selected design',category:classify(node),fields:{},files:{},previewImage:''};
+  try{state.previewImage=window.gbphCaptureCardPreview?window.gbphCaptureCardPreview(node):''}catch{}
+  modal.classList.add('open');document.body.style.overflow='hidden';render();
+ }
+ modal.querySelector('.gbph-wizard-close').addEventListener('click',close);modal.addEventListener('click',e=>{if(e.target===modal)close()});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('open'))close()});
+ back.addEventListener('click',()=>{collect();if(state.step>0){state.step--;render()}});
+ next.addEventListener('click',()=>{
+  collect();
+  if(state.step===2){
+   const inputs=body.querySelectorAll('input[type=file]');
+   const files=[...inputs].filter(x=>x.files&&x.files[0]);
+   let pending=files.length;
+   const done=()=>{if(--pending===0){state.step++;render()}};
+   if(!pending){state.step++;render();return}
+   files.forEach(input=>{const file=input.files[0];if(!file.type.startsWith('image/')){alert('Please choose an image file.');done();return}if(file.size>8*1024*1024){alert('Each image must be 8 MB or smaller.');done();return}const reader=new FileReader();reader.onload=()=>{state.files[input.dataset.wizardField==='artwork'?'artworkImageData':'backgroundImageData']=String(reader.result||'');done()};reader.onerror=done;reader.readAsDataURL(file)});
+   return;
+  }
+  if(state.step<4){state.step++;render();return}
+  const details={...state.fields,...state.files,designCategory:state.category,designTitle:state.title,personalizedThrough:'shared-step-wizard'};
+  const item={id:'wizard-'+Date.now(),name:state.title,category:state.category,price:0,qty:Math.max(1,Math.min(500,Number(state.fields.quantity)||1)),previewImage:state.previewImage,details};
+  try{const cart=JSON.parse(localStorage.getItem('gbph_cart')||'[]');cart.push(item);localStorage.setItem('gbph_cart',JSON.stringify(cart));if(typeof updateCartCount==='function')updateCartCount();close();location.href='cart.html'}catch(e){alert('Could not save this request. Please use smaller images or reduce cart items.')}
+ });
+ function addOrderTrigger(node){
+  if(!node||node.dataset.gbphOrderReady==='1'||node.closest('.gbph-viewer,.gbph-wizard'))return;
+  if(node.matches('img,canvas'))return;
+  node.dataset.gbphOrderReady='1';node.classList.add('gbph-expand-host');
+  const btn=document.createElement('button');btn.type='button';btn.className='gbph-order-trigger';btn.textContent='Personalise & Order →';btn.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();open(node)});
+  node.appendChild(btn);
+ }
+ const selector='.card-art,.mini-card,.id-card-preview,.photo-frame-preview,.paper-preview,.wall-art-frame,.artboard,.preview-card,.card-preview,.invitation-preview,.invite-card,.bulk-card-preview,.hero-sample,.gb-order-tile,.wall-art-poster,.wall-poster-quote,.wall-quote,.wall-art-choice,.pa-art,.pa-live-art,.student-preview,.student-card,.print-student-card,.qr-preview,.biz-card,.order-preview';
+ function scan(root){if(!root||root.nodeType!==1&&root!==document)return;root.querySelectorAll?.(selector).forEach(n=>{if(!n.parentElement?.closest(selector))addOrderTrigger(n)});if(root.matches?.(selector)&&!root.parentElement?.closest(selector))addOrderTrigger(root)}
+ scan(document);new MutationObserver(records=>records.forEach(r=>r.addedNodes.forEach(n=>{if(n.nodeType===1)scan(n)}))).observe(document.body,{childList:true,subtree:true});
+})();
