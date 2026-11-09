@@ -615,7 +615,7 @@
  document.querySelectorAll('.gb-wall-art-tile').forEach(card=>{
   const quote=card.querySelector('.wall-quote'),frame=card.querySelector('.wall-art-frame');
   const title=card.querySelector('b')?.textContent?.trim()||'Custom Wall Art';
-  const category='Wall Art — '+title;
+  const category='Wall Art Frame — '+title;
   const image=imageOf(frame||card);
   makeOrderLink(card,category,'WALL ART COLLECTION',quote?.textContent?.trim()||title,['Hardboard wall art print',card.querySelector('small')?.textContent?.trim()||'Custom wall art'],image);
  });
