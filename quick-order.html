@@ -124,7 +124,7 @@ const pvc=/ID Card|Hotel|Shop|Membership|Gift Card|Loyalty|Staff Card/i.test(saf
 const urdu=/Urdu Dawat/i.test(safe),english=/English Wedding/i.test(safe);
 let themeType=banner?'theme-banner':frame?'theme-frame':pvc?'theme-pvc':'theme-paper';
 preview.className='paper-preview '+themeType;
-if(sample?.image){preview.style.backgroundImage=`linear-gradient(180deg,#071b1a45,#071b1a9c),url("${sample.image}")`;preview.style.backgroundSize='cover';preview.style.backgroundPosition='center';preview.style.color='#fff';}
+if(sample?.background){preview.style.backgroundImage=sample.background;preview.style.backgroundSize='cover';preview.style.backgroundPosition='center';preview.style.color=sample.textColor||'#fff';}\nelse if(sample?.image){preview.style.backgroundImage=`linear-gradient(180deg,#071b1a45,#071b1a9c),url("${sample.image}")`;preview.style.backgroundSize='cover';preview.style.backgroundPosition='center';preview.style.color='#fff';}
 if(sample?.theme?.startsWith('gb-theme-'))preview.classList.add(sample.theme);
 if(urdu)preview.classList.add('sample-urdu');
 if(english)preview.classList.add('sample-english');
@@ -175,7 +175,7 @@ let chosenBackgroundData='';
 let chosenBackgroundName='';
 function setBackground(url){
  if(url){preview.style.backgroundImage=`linear-gradient(180deg,#071b1a35,#071b1a88),url("${url}")`;preview.style.backgroundSize='cover';preview.style.backgroundPosition='center';preview.style.color='#fff';}
- else{preview.style.backgroundImage=sample?.image?`linear-gradient(180deg,#071b1a45,#071b1a9c),url("${sample.image}")`:'';preview.style.backgroundSize='cover';preview.style.backgroundPosition='center';preview.style.color=sample?.image?'#fff':'';}
+ else{preview.style.backgroundImage=sample?.background|| (sample?.image?`linear-gradient(180deg,#071b1a45,#071b1a9c),url("${sample.image}")`:'');preview.style.backgroundSize='cover';preview.style.backgroundPosition='center';preview.style.color=sample?.textColor||(sample?.image?'#fff':'');}
 }
 backgroundInput.addEventListener('change',()=>{
  const file=backgroundInput.files?.[0];if(!file)return;
