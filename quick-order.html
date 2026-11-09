@@ -113,6 +113,7 @@ body.gb-preview-open{overflow:hidden}
  .gb-preview-modal-card .paper-preview.theme-pvc,.gb-preview-modal-card .paper-preview.theme-frame{width:90vw}
  .preview-maximize{padding:8px 10px}
 }
+ .custom-size-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.custom-size-fields[hidden]{display:none!important}.custom-size-fields label{display:flex;flex-direction:column;gap:6px;font-size:11px;font-weight:800;color:#35584a}.custom-size-fields input,.custom-size-fields select{width:100%;padding:10px;border:1px solid #dfe7df;border-radius:9px;background:#fff;font:12px 'DM Sans',Arial}@media(max-width:560px){.custom-size-fields{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -128,6 +129,7 @@ body.gb-preview-open{overflow:hidden}
 <label>City / area *<input name="area" required placeholder="Gilgit, Skardu, Hunza..."></label>
 <label>Quantity *<input name="quantity" required type="number" min="1" value="100"></label>
 <label>Preferred size<select name="size" id="sizeSelect"><option>Standard size</option><option>A4</option><option>A5</option><option>A6</option><option>3 x 5 ft</option><option>4 x 8 ft</option><option>Custom size (write in notes)</option></select></label>
+<div id="customSizeFields" class="wide custom-size-fields" hidden><label>Custom width<input id="customWidth" name="customWidth" type="number" min="1" step="0.1" placeholder="Width"></label><label>Custom height<input id="customHeight" name="customHeight" type="number" min="1" step="0.1" placeholder="Height"></label><label>Unit<select id="customUnit" name="customUnit"><option>inch</option><option>cm</option><option>mm</option><option>feet</option></select></label></div>
 <div id="specificFields" class="wide"></div>
 <label class="wide">Extra wording (optional)<textarea name="description" rows="3" placeholder="Add extra wording here. Existing sample details will stay as they are."></textarea></label>
 <label class="wide">Upload your own card background photo (optional)<input name="backgroundPhoto" id="backgroundPhoto" type="file" accept="image/*"><small class="photo-help">Choose a JPG, PNG or WEBP photo from your device. It will appear behind your card text in the live preview. You can restore the original design any time.</small><button type="button" id="restoreBackground" class="btn gold" style="margin-top:7px">Restore sample background</button></label>
@@ -150,6 +152,26 @@ const banner=/Banner|Flex|Admissions|Opening|Sports Week|Environment Day|Indepen
 const frame=/Frame|Photo|Collage|Landscape/i.test(safe);
 const pvc=/ID Card|Hotel|Shop|Membership|Gift Card|Loyalty|Staff Card/i.test(safe);
 const urdu=/Urdu Dawat/i.test(safe),english=/English Wedding/i.test(safe);
+const sizeSelect=document.getElementById('sizeSelect'),customSizeFields=document.getElementById('customSizeFields'),customWidth=document.getElementById('customWidth'),customHeight=document.getElementById('customHeight'),customUnit=document.getElementById('customUnit');
+const sizeSets={
+ wedding:[['5 × 7 inch','5x7'],['A5 (148 × 210 mm)','148x210'],['A6 (105 × 148 mm)','105x148'],['4 × 6 inch','4x6'],['Custom size','custom']],
+ banner:[['2 × 3 ft','2x3'],['3 × 5 ft','3x5'],['4 × 8 ft','4x8'],['Custom size','custom']],
+ frame:[['4 × 6 inch','4x6'],['8 × 10 inch','8x10'],['8 × 12 inch','8x12'],['12 × 18 inch','12x18'],['16 × 20 inch','16x20'],['16 × 24 inch','16x24'],['Custom size','custom']],
+ pvc:[['Business card (90 × 55 mm)','90x55'],['PVC / ID card (86 × 54 mm)','86x54'],['Portrait ID (54 × 86 mm)','54x86'],['Custom size','custom']],
+ general:[['A4 (210 × 297 mm)','210x297'],['A3 (297 × 420 mm)','297x420'],['A5 (148 × 210 mm)','148x210'],['A6 (105 × 148 mm)','105x148'],['4 × 6 inch photo','4x6'],['5 × 7 inch card','5x7'],['Custom size','custom']]
+};
+const sizeGroup=banner?'banner':frame?'frame':pvc?'pvc':wedding?'wedding':'general';
+sizeSelect.innerHTML=sizeSets[sizeGroup].map(([label,ratio])=>'<option value="'+ratio+'">'+label+'</option>').join('');
+if(sizeGroup==='banner')sizeSelect.value='3x5';
+function updatePrintDimensions(){
+ customSizeFields.hidden=sizeSelect.value!=='custom';
+ let pair=sizeSelect.value;
+ if(pair==='custom'&&Number(customWidth.value)>0&&Number(customHeight.value)>0)pair=customWidth.value+'x'+customHeight.value;
+ const m=pair.match(/^(\d+(?:\.\d+)?)x(\d+(?:\.\d+)?)$/);
+ if(m){const w=Number(m[1]),h=Number(m[2]);preview.style.aspectRatio=w+'/'+h;preview.style.width=w/h>1.15?'100%':'min(100%, 340px)';preview.style.minHeight=w/h>1.15?'190px':'0';}
+ previewNote.textContent=pair==='custom'?'Enter custom width and height to update the preview shape.':'Preview proportion: '+(m?m[1]+' : '+m[2]:'selected print size')+'. The print will follow your selected dimensions.';
+}
+sizeSelect.addEventListener('change',updatePrintDimensions);[customWidth,customHeight,customUnit].forEach(el=>el.addEventListener('input',updatePrintDimensions));updatePrintDimensions();
 let themeType=banner?'theme-banner':frame?'theme-frame':pvc?'theme-pvc':'theme-paper';
 preview.className='paper-preview '+themeType;
 if(sample?.background){preview.style.backgroundImage=sample.background;preview.style.backgroundSize='cover';preview.style.backgroundPosition='center';preview.style.color=sample.textColor||'#fff';}
@@ -302,8 +324,7 @@ orderTab.addEventListener('click',()=>showStep(orderStartIndex));
 backStep.addEventListener('click',()=>showStep(activeStep-1));
 nextStep.addEventListener('click',()=>{const field=steps[activeStep];const control=field.querySelector('input,select,textarea');if(control&&control.required&&!control.checkValidity()){control.reportValidity();return;}showStep(activeStep+1)});
 showStep(0);
-if(wedding)document.getElementById('sizeSelect').innerHTML='<option>Invitation card</option><option>A5</option><option>A6</option><option>Custom size</option>';
-if(banner)document.getElementById('sizeSelect').value='3 x 5 ft';
+
 function updatePreview(){
  const v=Object.fromEntries(new FormData(form).entries());
  const base=[...(sourceLines||[])];
