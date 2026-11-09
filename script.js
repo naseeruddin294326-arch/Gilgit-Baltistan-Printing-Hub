@@ -12,7 +12,7 @@ $('[data-add]').forEach(b=>b.addEventListener('click',()=>{const card=b.closest(
   window.__gbphPreviewViewerInstalled = true;
   const css = document.createElement('style');
   css.textContent = `
-    .gbph-expand-host{position:relative!important}
+    .gbph-expand-host{position:relative!important}.gbph-expand-image-wrap{box-sizing:border-box}.gbph-expand-image-wrap>img{max-width:100%}
     .gbph-expand-btn{position:absolute!important;right:9px!important;top:9px!important;z-index:30!important;width:34px!important;height:34px!important;border:1px solid #ffffffb8!important;border-radius:10px!important;background:#123f32eF!important;color:#fff!important;display:grid!important;place-items:center!important;padding:0!important;cursor:pointer!important;box-shadow:0 3px 12px #0003!important;backdrop-filter:blur(8px)}
     .gbph-expand-btn:hover{background:#b28a4b!important;transform:scale(1.06)}
     .gbph-expand-btn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -57,11 +57,21 @@ $('[data-add]').forEach(b=>b.addEventListener('click',()=>{const card=b.closest(
     if(!node||node.closest('.gbph-viewer')||node.dataset.gbphExpandReady==='1')return;
     if(node.tagName==='IMG' && (!node.getAttribute('src') || node.naturalWidth===0 && !node.complete))return;
     node.dataset.gbphExpandReady='1';
-    node.classList.add('gbph-expand-host');
     const btn=document.createElement('button');
     btn.type='button';btn.className='gbph-expand-btn';btn.setAttribute('aria-label','Open preview full size');btn.title='Open full size';btn.innerHTML=icon;
     btn.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();openPreview(node)});
-    node.appendChild(btn);
+    if(node.tagName==='IMG'){
+      const wrapper=document.createElement('span');
+      const display=getComputedStyle(node).display;
+      wrapper.className='gbph-expand-image-wrap';
+      wrapper.style.cssText='position:relative;display:'+(display==='block'?'block':'inline-block')+';max-width:100%;vertical-align:middle;';
+      node.parentNode.insertBefore(wrapper,node);
+      wrapper.appendChild(node);
+      wrapper.appendChild(btn);
+    }else{
+      node.classList.add('gbph-expand-host');
+      node.appendChild(btn);
+    }
   }
   function scan(root){
     if(!root||root.nodeType!==1&&root!==document)return;
