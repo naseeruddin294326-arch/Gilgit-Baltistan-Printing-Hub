@@ -60,7 +60,7 @@
   .invite-builder-layout>.invite-live-preview{height:48vh!important;max-height:48vh!important;min-height:260px;grid-row:1}
 }
 
-</style></head><body>
+.wedding-fullscreen-viewer{position:fixed;inset:0;z-index:1000005;background:#07130ff5;display:none;align-items:center;justify-content:center;padding:22px;box-sizing:border-box}.wedding-fullscreen-viewer.open{display:flex}.wedding-fullscreen-viewer .viewer-card{max-width:min(92vw,760px);max-height:88vh;overflow:auto;display:flex;justify-content:center}.wedding-fullscreen-viewer .viewer-card .mini-card{width:min(78vw,520px);height:auto;aspect-ratio:5/6;flex:none}.wedding-fullscreen-close{position:fixed;right:18px;top:16px;width:44px;height:44px;border:0;border-radius:50%;background:#fff;color:#16483c;font-size:30px;line-height:1;cursor:pointer}.wed-maximize-btn{position:absolute;right:9px;top:9px;z-index:50;width:36px;height:36px;border:1px solid #ffffffb8;border-radius:10px;background:#16483ceF;color:#fff;display:grid;place-items:center;padding:0;cursor:pointer;box-shadow:0 3px 12px #0003}.wed-maximize-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.design-option .mini-card{position:relative}.invite-live-preview .mini-card{position:relative}@media(max-width:600px){.wedding-fullscreen-viewer{padding:10px}.wedding-fullscreen-viewer .viewer-card .mini-card{width:min(88vw,420px)}.wedding-fullscreen-close{right:10px;top:10px}}</style></head><body>
 <header><a class="brand" href="index.html"><div class="logo">🏔️</div><div><strong>Gilgit Baltistan</strong><span>Printing Hub</span><small>Print Your Ideas, Celebrate Life</small></div></a><button class="menu" id="menu">☰</button><nav class="nav" id="nav"><a data-nav href="index.html">Home</a><a data-nav href="products.html">Products</a><a data-nav href="cards.html">Cards</a><a data-nav href="design-studio.html">Design Studio</a><a data-nav href="about.html">About</a><a data-nav href="contact.html">Contact</a></nav><a class="pill" href="cart.html">Cart (<span data-cart-count>0</span>)</a></header>
 <main class="wed-page"><section class="wed-hero"><p class="kicker">YOUR CELEBRATION · YOUR STYLE</p><h1>Wedding & <em>Party Invitations</em></h1><p>Enter your details once, then explore different card designs. Every design uses the same information — only its layout, wording style and colours change.</p></section>
 <div class="invite-builder-layout"><section class="wed-form"><h2>Personalise your invitation</h2><p class="wed-help">Choose a design below using Get this card. Edit the wording and watch every sample update instantly.</p>
@@ -125,6 +125,27 @@ const kicker=party?(ur?'خصوصی دعوت نامہ':'SPECIAL INVITATION'):(ur?
 const footer=val('rsvp')?(ur?'رابطہ · ':'RSVP · ')+esc(val('rsvp')):(ur?'آپ کی شرکت ہمارے لیے باعثِ مسرت ہوگی':'WITH LOVE & BLESSINGS');
 return '<div class="mini-card '+styles[i]+(ur?' urdu':'')+'" dir="'+(ur?'rtl':'ltr')+'" style="'+(inviteFont?'--visitor-font:'+esc(inviteFont)+';':'')+(inviteColor?'--visitor-color:'+esc(inviteColor)+';':'')+(backgroundData?'background-image:linear-gradient(135deg,#102f3d88,#183e5588),url('+JSON.stringify(backgroundData)+')!important;background-size:cover!important;background-position:center!important;color:#fff!important;':'')+'"><div class="c-kicker">'+kicker+' · '+esc(event)+'</div><div class="c-flourish">'+['✦ ❋ ✦','❦ ✧ ❦','✧ ✦ ✧','— ✦ —','❖','❀ ✿ ❀','۞ ✧ ۞','✥ ❦ ✥','❀ ❧ ❀','✦ ✧ ✦','❀ ✦ ❀','❖ ❀ ❖'][i]+'</div><div class="c-greeting">'+greeting+'</div><div class="c-title">'+title+'</div>'+photos+'<div class="c-names">'+esc(p1)+'<br><span style="font-size:.7em"> '+(ur?'و':'&')+' </span><br>'+esc(p2)+'</div><div class="c-message">'+esc(msg)+'</div><div class="c-meta">'+esc(meta).replace(/\n/g,'<br>')+(val('families')?'<br>'+esc(val('families')):'')+'</div><div class="c-footer">'+footer+'</div></div>';
 }
+let weddingViewer;
+function ensureWeddingViewer(){
+ if(weddingViewer)return weddingViewer;
+ weddingViewer=document.createElement('div');weddingViewer.className='wedding-fullscreen-viewer';weddingViewer.setAttribute('role','dialog');weddingViewer.setAttribute('aria-modal','true');weddingViewer.setAttribute('aria-label','Full-screen wedding card preview');
+ weddingViewer.innerHTML='<button type="button" class="wedding-fullscreen-close" aria-label="Close preview">×</button><div class="viewer-card"></div>';
+ document.body.appendChild(weddingViewer);
+ const close=()=>{weddingViewer.classList.remove('open');weddingViewer.querySelector('.viewer-card').replaceChildren();document.body.style.overflow='';};
+ weddingViewer.querySelector('.wedding-fullscreen-close').addEventListener('click',close);
+ weddingViewer.addEventListener('click',e=>{if(e.target===weddingViewer)close()});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&weddingViewer.classList.contains('open'))close()});
+ return weddingViewer;
+}
+function addWeddingExpandButtons(){
+ document.querySelectorAll('#selectedCardPreview .mini-card,#designGallery .mini-card').forEach(card=>{
+  if(card.querySelector(':scope > .wed-maximize-btn'))return;
+  const btn=document.createElement('button');btn.type='button';btn.className='wed-maximize-btn';btn.title='View card full screen';btn.setAttribute('aria-label','View card full screen');
+  btn.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>';
+  btn.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();const v=ensureWeddingViewer(),slot=v.querySelector('.viewer-card'),clone=card.cloneNode(true);clone.querySelectorAll('button').forEach(x=>x.remove());slot.replaceChildren(clone);v.classList.add('open');document.body.style.overflow='hidden';});
+  card.appendChild(btn);
+ });
+}
 function render(){
 const party=val('inviteType')==='party';
 $('firstLabel').childNodes[0].textContent=party?'Host / celebrant name':"Bride's name";
@@ -136,6 +157,7 @@ $('designGallery').innerHTML=styles.map((s,i)=>'<article class="design-option '+
 $('selectedLabel').textContent='Selected: '+names[selected];
 $('orderDesign').textContent=names[selected]+' selected';
 $('selectedCardPreview').innerHTML=sample(selected);
+addWeddingExpandButtons();
 $('designGallery').querySelectorAll('[data-select]').forEach(btn=>btn.addEventListener('click',()=>{selected=Number(btn.dataset.select);render();}));
 $('designGallery').querySelectorAll('[data-get]').forEach(btn=>btn.addEventListener('click',()=>{selected=Number(btn.dataset.get);render();$('exploreMoreBtn').click();$('selectedCardPreview').scrollIntoView({behavior:'smooth',block:'center'});}));
 }
