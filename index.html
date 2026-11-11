@@ -662,9 +662,23 @@
  <div class="new-section-label"><span>02 / HANDPICKED FOR YOU</span><span>THE CROWD FAVOURITES</span></div>
  <div class="new-featured-head"><h2>Good taste.<br><em>Great details.</em></h2><a href="products.html" class="new-outline">View all designs ↗</a></div>
  <div class="new-featured-grid">
-  <a class="feature-tile tile-wedding" href="products.html?search=Wedding"><span class="tile-number">01 / CELEBRATE</span><div class="tile-art"><small>TOGETHER WITH OUR FAMILIES</small><strong>Ayesha <i>&amp;</i> Ali</strong><b>✦ ❋ ✦</b><em>Wedding Invitation</em></div><span class="tile-caption">Wedding invitations <b>↗</b></span></a>
-  <a class="feature-tile tile-birthday" href="products.html?search=Birthday"><span class="tile-number">02 / MAKE A WISH</span><div class="tile-art"><small>THE PARTY STARTS HERE</small><strong>Happy<br>Birthday!</strong><b>✿ ✦ ✿</b><em>Let's celebrate</em></div><span class="tile-caption">Birthday &amp; party cards <b>↗</b></span></a>
-  <a class="feature-tile tile-hotel" href="products.html?search=Hotel"><span class="tile-number">03 / YOUR BRAND</span><div class="tile-art"><small>WELCOME TO</small><strong>YOUR HOTEL</strong><b>GB ✦ GB</b><em>Room key card</em></div><span class="tile-caption">Hotel &amp; shop PVC cards <b>↗</b></span></a>
+  <a class="feature-tile tile-wedding" href="products.html?search=Wedding"><span class="tile-number">01 / CELEBRATE</span><div class="tile-art invitation-art">
+   <div class="invitation-top"><span>✦</span><small>TOGETHER WITH THEIR FAMILIES</small><span>✦</span></div>
+   <div class="invitation-rule"></div><small>JOYFULLY INVITE YOU TO CELEBRATE</small>
+   <strong>Ayesha <i>&amp;</i> Ali</strong><b class="invitation-flourish">❧</b>
+   <em>Wedding Reception</em>
+   <div class="feature-details"><span class="feature-detail">SUNDAY · 22 NOVEMBER 2026</span><span class="feature-detail">7:30 IN THE EVENING</span><span class="feature-detail">SERENA HOTEL · GILGIT</span></div>
+   <div class="invitation-rule"></div><small>DINNER &amp; CELEBRATION TO FOLLOW</small>
+  </div><span class="tile-caption">Wedding invitations <b>↗</b></span></a>
+  <a class="feature-tile tile-birthday" href="products.html?search=Birthday"><span class="tile-number">02 / MAKE A WISH</span><div class="tile-art birthday-art">
+   <div class="birthday-bunting"><span>✦</span><span>✿</span><span>✦</span><span>✿</span><span>✦</span></div>
+   <small>YOU'RE INVITED TO</small><strong>ZOYA'S<br><i>10th</i> Birthday!</strong><b class="birthday-sparkles">✦　✿　✦</b><em>A day full of fun &amp; laughter</em>
+   <div class="feature-details"><span class="feature-detail">SUNDAY · 15 NOVEMBER 2026</span><span class="feature-detail">4:00 PM – 6:30 PM</span><span class="feature-detail">ALPINE PARK · GILGIT</span></div>
+   <small class="birthday-rsvp">CAKE · GAMES · SWEET MEMORIES</small>
+  </div><span class="tile-caption">Birthday &amp; party cards <b>↗</b></span></a>
+  <a class="feature-tile tile-hotel" href="products.html?search=Hotel"><span class="tile-number">03 / YOUR BRAND</span><div class="tile-art hotel-card-art">
+   <div class="hotel-card-inner"><div class="hotel-brand-mark">⛰</div><small>WELCOME TO</small><strong>HUNZA<br>VALLEY</strong><em>BOUTIQUE HOTEL</em><div class="hotel-card-divider"></div><div class="hotel-card-meta"><span>GUEST</span><b>MR. AHMED</b><span>ROOM</span><b>204</b></div><div class="hotel-card-footer"><span>ROOM KEY CARD</span><span>GILGIT-BALTISTAN</span></div></div>
+  </div><span class="tile-caption">Hotel &amp; shop PVC cards <b>↗</b></span></a>
  </div>
 </section>
 <section class="gb-showcase">
@@ -726,7 +740,7 @@
   const cls=card.className;
   const category=cls.includes('tile-wedding')?'Wedding Invitation':cls.includes('tile-birthday')?'Birthday Card':'Hotel Room Key Card';
   const art=card.querySelector('.tile-art')||card;
-  const eyebrow=textOf(art,'small'),title=textOf(art,'strong'),lines=[textOf(art,'em')].filter(Boolean);
+  const eyebrow=textOf(art,'small'),title=textOf(art,'strong'),details=[...art.querySelectorAll('.feature-detail')].map(x=>x.textContent.replace(/\\s+/g,' ').trim()),lines=[...details,textOf(art,'em')].filter(Boolean);
   makeOrderLink(card,category,eyebrow,title,lines,imageOf(art));
  });
  document.querySelectorAll('.gb-wall-art-tile').forEach(card=>{
