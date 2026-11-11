@@ -565,17 +565,51 @@
   }
 }
 
+
+/* Premium hero refinement — scoped to the homepage hero only */
+.new-hero{min-height:680px;background:#103d32}
+.new-hero:before{
+ background:linear-gradient(90deg,rgba(7,35,29,.96) 0%,rgba(10,54,43,.88) 43%,rgba(10,54,43,.58) 100%),linear-gradient(0deg,rgba(7,35,29,.28),rgba(7,35,29,.12)),url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2200&q=88') center 48%/cover no-repeat
+}
+.new-hero-topline{color:#ead9ac}
+.new-hero-copy{max-width:650px}
+.new-hero-copy h1{max-width:720px;font-size:clamp(58px,7.2vw,104px);line-height:.98;letter-spacing:-.055em}
+.new-hero-copy h1 em{color:#e5c77d}
+.new-lead{max-width:500px;color:#f0f3ed;font-size:16px;line-height:1.8}
+.new-hero-actions{gap:24px}
+.new-primary{min-height:52px;padding:15px 23px;border:1px solid #f1d995;border-radius:4px;background:linear-gradient(135deg,#f0d995,#d7b968);box-shadow:0 12px 30px rgba(2,18,13,.22)}
+.new-text-link{font-size:12px}
+.new-proof{margin-top:38px;color:#f0e8d4;font-size:11px}
+.new-visual{padding-left:10px;padding-right:10px}
+.new-carousel-window{padding-top:48px;padding-bottom:42px}
+.new-carousel .hero-sample{border-radius:9px;border:1px solid rgba(231,204,132,.72);box-shadow:0 24px 54px rgba(1,18,13,.42),0 1px 0 rgba(255,255,255,.35) inset}
+.new-carousel .hero-sample:before{inset:10px;border-color:rgba(231,204,132,.9)}
+.new-carousel .hero-sample:after{inset:16px;border-color:rgba(255,255,255,.7)}
+@media(max-width:900px){
+ .new-hero{min-height:0}
+ .new-hero:before{background:linear-gradient(90deg,rgba(7,35,29,.94),rgba(10,54,43,.76)),url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1400&q=84') center/cover no-repeat}
+}
+@media(max-width:760px){
+ .new-hero-copy{padding:36px 0 20px}
+ .new-hero-copy h1{font-size:clamp(48px,12vw,72px);line-height:1}
+ .new-lead{font-size:14px;line-height:1.75}
+ .new-hero-actions{gap:18px}
+ .new-proof{margin-top:26px}
+ .new-visual{padding-left:0;padding-right:0}
+ .new-carousel-window{padding-top:30px;padding-bottom:28px}
+}
+@media(prefers-reduced-motion:reduce){.new-carousel .hero-sample{transition:none!important}}
 </style></head><body><header><a class="brand" href="index.html"><div class="logo">🏔️</div><div><strong>Gilgit Baltistan</strong><span>Printing Hub</span><small>Print Your Ideas, Celebrate Life</small></div></a><button class="menu" id="menu" aria-label="Open navigation">☰</button><nav class="nav" id="nav"><a data-nav href="index.html">Home</a><a data-nav href="products.html">Products</a><a data-nav href="cards.html">Cards</a><a data-nav href="design-studio.html">Design Studio</a><a data-nav href="about.html">About</a><a data-nav href="contact.html">Contact</a></nav><a class="pill" href="cart.html">Cart (<span data-cart-count>0</span>)</a></header><main class="fresh-home">
 <section class="new-hero">
   <div class="new-hero-glow"></div>
   <div class="new-hero-topline"><span>IN THE HEART OF GILGIT-BALTISTAN</span><span>DESIGNED TO BE REMEMBERED <b>✳</b></span></div>
   <div class="new-hero-layout">
     <div class="new-hero-copy">
-      <p class="new-kicker"><i></i> YOUR STORY, BEAUTIFULLY PRINTED</p>
-      <h1>Make it<br><em>memorable.</em></h1>
-      <p class="new-lead">Invitations that set the mood. Cards that carry your brand. Little details that make big moments unforgettable.</p>
-      <div class="new-hero-actions"><a class="new-primary" href="products.html">Explore the collection <span>↗</span></a><a class="new-text-link" href="design-studio.html">Create something yours <span>→</span></a></div>
-      <div class="new-proof"><span>✦</span> Made for your moments <b></b> Printed with care in Gilgit-Baltistan</div>
+      <p class="new-kicker"><i></i> PRINTING &amp; DESIGN FOR EVERY OCCASION</p>
+      <h1>Your ideas.<br><em>Beautifully printed.</em></h1>
+      <p class="new-lead">From wedding invitations and birthday cards to business prints and wall art — bring your ideas to life with thoughtful designs made for your moments.</p>
+      <div class="new-hero-actions"><a class="new-primary" href="products.html">Explore designs <span>↗</span></a><a class="new-text-link" href="design-studio.html">Create your own design <span>→</span></a></div>
+      <div class="new-proof"><span>✦</span> Customised for your occasion <b></b> Serving customers across Gilgit-Baltistan</div>
     </div>
     <div class="new-visual">
       <div class="visual-orbit orbit-one"></div><div class="visual-orbit orbit-two"></div>
