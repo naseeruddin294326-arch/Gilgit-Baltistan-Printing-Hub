@@ -399,12 +399,40 @@ main,.studio-main,.wall-art-panel,.wall-art-layout,.wall-art-box,.wall-art-galle
  .frame-side-tools .photo-adjust-tools label:first-of-type{grid-column:1/-1}
 }
 
+</style><style>
+.studio-service-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:22px 0 8px}
+.studio-service-card{display:flex;flex-direction:column;min-width:0;min-height:225px;padding:20px 18px;border:1px solid #e4e9e1;border-radius:16px;background:#fff;color:#234337;text-decoration:none;box-shadow:0 9px 24px #153d3009;transition:transform .18s,border-color .18s,box-shadow .18s}
+.studio-service-card:hover{transform:translateY(-3px);border-color:#b18a4d;box-shadow:0 14px 30px #153d3018}
+.studio-service-card .service-icon{font-size:27px;margin-bottom:13px}
+.studio-service-card strong{font:600 17px 'Playfair Display',Georgia,serif;color:#16483c;line-height:1.25}
+.studio-service-card>span:not(.service-icon){font-size:11px;font-weight:800;color:#a17a3e;margin-top:7px}
+.studio-service-card small{font-size:11px;line-height:1.65;color:#78847b;margin-top:9px}
+.studio-service-card b{font-size:10px;color:#17634c;margin-top:auto;padding-top:15px;letter-spacing:.02em}
+.studio-subpage-head{display:none;margin:0 0 20px;padding:20px 22px;border:1px solid #e5e9e1;border-radius:15px;background:#f8faf6}
+.studio-subpage-head a{display:inline-block;color:#17634c;font-size:11px;font-weight:800;text-decoration:none;margin-bottom:10px}
+.studio-subpage-head h2{font:600 25px 'Playfair Display',Georgia,serif;color:#16483c;margin:0 0 5px}
+.studio-subpage-head p{font-size:12px;color:#78847b;line-height:1.6;margin:0}
+.studio-page-mode .studio-hero,.studio-page-mode #studioServiceGrid{display:none!important}
+.studio-page-mode .studio-subpage-head{display:block}
+@media(max-width:950px){.studio-service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.studio-service-grid{grid-template-columns:1fr;gap:10px}.studio-service-card{min-height:0;padding:17px}.studio-subpage-head{padding:17px}}
 </style></head><body>
 <header><a class="brand" href="index.html"><div class="logo">🏔️</div><div><strong>Gilgit Baltistan</strong><span>Printing Hub</span><small>Print Your Ideas, Celebrate Life</small></div></a><button class="menu" id="menu" aria-label="Open navigation">☰</button><nav class="nav" id="nav"><a data-nav href="index.html">Home</a><a data-nav href="products.html">Products</a><a data-nav href="cards.html">Cards</a><a data-nav href="design-studio.html">Design Studio</a><a data-nav href="about.html">About</a><a data-nav href="contact.html">Contact</a></nav><a class="pill" href="cart.html">Cart (<span data-cart-count>0</span>)</a></header>
 <main class="studio">
 <section class="studio-hero"><p class="kicker">YOUR CREATIVE WORKSPACE · GB PRINTING HUB</p><h1>Bring your idea<br><em>to life.</em></h1><p>Design your own visiting card, business card, birthday invitation or banner. Choose a format, add your details, pick your colours and watch your preview update instantly.</p></section>
 <div class="studio-mode-switch" style="margin-top:18px"><a id="openAllDesigns" href="design-collection.html" style="display:flex;flex:1;min-width:220px;align-items:center;gap:14px;padding:16px 18px;border:1px solid #b18a4d;border-radius:13px;background:#fffaf0;color:#234337;text-decoration:none;font:700 13px 'DM Sans',Arial"><span style="font-size:25px">▦</span><span>Explore all designs<small style="display:block;margin-top:4px;color:#78847b;font-size:11px;font-weight:500">Browse 50+ cards, banners, frames, wall art and more</small></span><span style="margin-left:auto;font-size:18px">↗</span></a></div>
-<div class="studio-mode-switch" role="group" aria-label="Choose a Design Studio service"><button type="button" class="active" id="modeCreate"><span>✏️ Create a design</span>Design it yourself<small>Choose a card type, enter text, colours and background, and preview it live.</small></button><button type="button" id="modeUpload"><span>📄 Upload a ready design</span>Print my own file<small>Upload an existing card, banner, photo or PDF and choose print size and copies.</small></button><button type="button" id="modePhotoFrame"><span>🖼️ Photo Frame Printing</span>Print my picture with a frame<small>Upload your photo, choose a frame size and style, and preview it before ordering.</small></button><button type="button" id="modeBulk" onclick="location.href='bulk-orders.html'"><span>🏫 Bulk card orders</span>Schools &amp; organizations<small>Prepare many student or staff cards together using a spreadsheet and matching photos.</small></button><button type="button" id="modeWallArt"><span>🖼️ Wall Art & Hardboard Prints</span>Quotes, Shayari & Artwork<small>Motivational quotes, Urdu ashaar, attitude, Islamic calligraphy and beautiful GB-inspired wall prints.</small></button><button type="button" id="modeSportsWallArt"><span>🏆 Sports Wall Art</span>Sports legends & action posters<small>Football, cricket, polo, ice hockey and motivational sports hardboard prints for rooms and study spaces.</small></button><button type="button" id="modeSpecialWedding" onclick="location.href='special-wedding.html'"><span>💍 Special Wedding Cards</span>Couple photo invitations<small>Upload bride and groom photos separately and create one personalised wedding card.</small></button><button type="button" id="modePrintAnything"><span>🖨️ Print Anything</span>All other printing needs<small>Business stationery, albums, certificates, menus, stickers, calendars, posters and custom print requests.</small></button></div>
+<div class="studio-service-grid" id="studioServiceGrid" aria-label="Design Studio services">
+<a class="studio-service-card" href="design-studio.html?studio=create"><span class="service-icon">✏️</span><strong>Create a design</strong><span>Design it yourself</span><small>Choose a card type, enter text, colours and background, and preview it live.</small><b>Open workspace ↗</b></a>
+<a class="studio-service-card" href="design-studio.html?studio=upload"><span class="service-icon">📄</span><strong>Upload a ready design</strong><span>Print my own file</span><small>Upload an existing card, banner, photo or PDF and choose print size and copies.</small><b>Open upload page ↗</b></a>
+<a class="studio-service-card" href="design-studio.html?studio=frame"><span class="service-icon">🖼️</span><strong>Photo Frame Printing</strong><span>Print my picture with a frame</span><small>Upload your photo, choose a frame size and style, and preview it before ordering.</small><b>Open frame page ↗</b></a>
+<a class="studio-service-card" href="bulk-orders.html"><span class="service-icon">🏫</span><strong>Bulk card orders</strong><span>Schools &amp; organizations</span><small>Prepare many student or staff cards together using a spreadsheet and matching photos.</small><b>Open bulk orders ↗</b></a>
+<a class="studio-service-card" href="design-studio.html?studio=wall-art"><span class="service-icon">🖼️</span><strong>Wall Art &amp; Hardboard Prints</strong><span>Quotes, Shayari &amp; Artwork</span><small>Motivational quotes, Urdu ashaar, attitude, Islamic calligraphy and beautiful GB-inspired wall prints.</small><b>Explore wall art ↗</b></a>
+<a class="studio-service-card" href="design-studio.html?studio=sports"><span class="service-icon">🏆</span><strong>Sports Wall Art</strong><span>Sports legends &amp; action posters</span><small>Football, cricket, polo, ice hockey and motivational sports hardboard prints.</small><b>Explore sports art ↗</b></a>
+<a class="studio-service-card" href="special-wedding.html"><span class="service-icon">💍</span><strong>Special Wedding Cards</strong><span>Couple photo invitations</span><small>Upload bride and groom photos separately and create one personalised wedding card.</small><b>Open wedding cards ↗</b></a>
+<a class="studio-service-card" href="design-studio.html?studio=anything"><span class="service-icon">🖨️</span><strong>Print Anything</strong><span>All other printing needs</span><small>Business stationery, albums, certificates, menus, stickers, calendars, posters and custom print requests.</small><b>Explore printing ↗</b></a>
+</div>
+<div class="studio-mode-switch" aria-hidden="true" style="display:none"><button type="button" class="active" id="modeCreate">Create</button><button type="button" id="modeUpload">Upload</button><button type="button" id="modePhotoFrame">Photo frame</button><button type="button" id="modeBulk">Bulk</button><button type="button" id="modeWallArt">Wall art</button><button type="button" id="modeSportsWallArt">Sports</button><button type="button" id="modeSpecialWedding">Wedding</button><button type="button" id="modePrintAnything">Print anything</button></div>
+<section class="studio-subpage-head" id="studioSubpageHead"><a href="design-studio.html">← Back to Design Studio</a><h2 id="studioSubpageTitle">Design Studio</h2><p id="studioSubpageDescription">Choose your options and create your print.</p></section>
 
 <section class="wall-art-panel" id="wallArtPanel" aria-label="Wall art and hardboard printing">
  <div class="wall-art-intro"><h2 id="wallArtHeading">Art that belongs on your wall.</h2><p id="wallArtIntroText">Scenic photography, nature art, wildlife, GB landscapes aur sports legends ke tribute posters — har design ko premium hardboard wall-print ki tarah dekhein. Apni pasand select karein, quote add karein ya apni image upload karein, phir size aur quantity choose karein.</p></div>
@@ -553,4 +581,21 @@ const originalSubmit=form.querySelector('[type="submit"]');if(originalSubmit&&!f
 paint();
 })();
 </script>
-</body></html>
+<script>
+(()=>{const params=new URLSearchParams(location.search),mode=params.get('studio');if(!mode)return;
+const config={
+ create:['Create a design','Choose a card format, add your wording and colours, and see your design update live.','modeCreate'],
+ upload:['Upload a ready design','Upload your own artwork and select print size, quantity and finishing.','modeUpload'],
+ frame:['Photo Frame Printing','Upload your picture, choose a frame style and size, then adjust the preview.','modePhotoFrame'],
+ 'wall-art':['Wall Art & Hardboard Prints','Choose artwork, personalise your quote and prepare your hardboard print.','modeWallArt'],
+ sports:['Sports Wall Art','Explore sports tribute posters and customise your hardboard print.','modeSportsWallArt'],
+ anything:['Print Anything','Tell us what you need printed and prepare your custom print request.','modePrintAnything']
+};
+const item=config[mode];if(!item)return;
+document.body.classList.add('studio-page-mode');
+document.title=item[0]+' | Design Studio | Gilgit-Baltistan Printing Hub';
+document.getElementById('studioSubpageTitle').textContent=item[0];
+document.getElementById('studioSubpageDescription').textContent=item[1];
+const trigger=document.getElementById(item[2]);if(trigger)setTimeout(()=>trigger.click(),80);
+})();
+</script></body></html>
