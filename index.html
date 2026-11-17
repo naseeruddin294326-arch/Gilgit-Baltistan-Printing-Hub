@@ -633,7 +633,59 @@
  background-image:linear-gradient(180deg,#071b1a38,#071b1ac9),url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=900&q=85')!important;
 }
 
-</style></head><body><header><a class="brand" href="index.html"><div class="logo">🏔️</div><div><strong>Gilgit Baltistan</strong><span>Printing Hub</span><small>Print Your Ideas, Celebrate Life</small></div></a><button class="menu" id="menu" aria-label="Open navigation">☰</button><nav class="nav" id="nav"><a data-nav href="index.html">Home</a><a data-nav href="products.html">Products</a><a data-nav href="cards.html">Cards</a><a data-nav href="design-studio.html">Design Studio</a><a data-nav href="about.html">About</a><a data-nav href="contact.html">Contact</a></nav><a class="pill" href="cart.html">Cart (<span data-cart-count>0</span>)</a></header><main class="fresh-home">
+</style>
+<style id="home-all-designs-style">
+.home-all-designs{max-width:1360px;margin:0 auto;padding:76px clamp(18px,4vw,54px) 82px;background:#fbfaf6}
+.home-designs-heading{display:grid;grid-template-columns:1fr .7fr;align-items:end;gap:36px;margin:0 0 30px}
+.home-designs-kicker{font-size:10px;letter-spacing:.2em;font-weight:800;color:#a17d43}
+.home-designs-heading h2{font:600 clamp(34px,4.5vw,54px)/1.04 'Playfair Display',Georgia,serif;color:#173f35;margin:12px 0 0}
+.home-designs-heading h2 em{font-weight:500;color:#a98750}
+.home-designs-heading>p{max-width:500px;color:#718078;font-size:13px;line-height:1.8;margin:0 0 5px}
+.home-designs-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:17px}
+.home-design-tile{display:flex;flex-direction:column;min-width:0;padding:10px;background:#fff;border:1px solid #e8e3d8;text-decoration:none;color:inherit;box-shadow:0 8px 24px rgba(20,59,49,.055);transition:transform .22s,box-shadow .22s,border-color .22s}
+.home-design-tile:hover{transform:translateY(-5px);border-color:#c5ae78;box-shadow:0 17px 36px rgba(20,59,49,.12)}
+.home-design-art{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-height:218px;padding:20px 13px;overflow:hidden;text-align:center;color:#fff;background:#17483c}
+.home-design-art:before{content:"";position:absolute;inset:9px;border:1px solid rgba(255,255,255,.5);pointer-events:none}
+.home-design-art>*{position:relative;z-index:1}
+.home-design-art i{font:normal 24px Georgia,serif;color:#e5cd91}
+.home-design-art small{font-size:8px;letter-spacing:.16em;font-weight:800}
+.home-design-art strong{font:600 27px/1.08 'Playfair Display',Georgia,serif}
+.home-design-art b{font-size:10px;letter-spacing:.04em}
+.home-design-art em{font-style:normal;font-size:8px;letter-spacing:.13em}
+.art-wedding{color:#6c3042;background:radial-gradient(circle at 50% 0,#fff8e8,#f0d5d4 55%,#bd6873)}
+.art-wedding:before{border:4px double #d6b16b;inset:8px}
+.art-couple{background:linear-gradient(145deg,#713c50,#d18b83 54%,#f2d8c0)}
+.art-nikah{color:#5d4930;background:linear-gradient(145deg,#fffdf5,#e7d9b8);font-family:'Noto Nastaliq Urdu',serif}
+.art-mehndi{background:linear-gradient(145deg,#31583d,#8c9c4b 52%,#c48a43)}
+.art-birthday{background:radial-gradient(circle at 50% 20%,#fff0bb,#f2a5b7 55%,#8c557f);color:#642b56}
+.art-student{background:linear-gradient(135deg,#163d52,#397b82);border:5px solid #d8bd78;background-clip:padding-box}
+.art-student i{border:1px solid #e4d092;padding:7px 12px;border-radius:50%;font-size:15px}
+.art-visiting{color:#173e35;background:linear-gradient(135deg,#f8f5e9,#d9e5dd)}
+.art-visiting:before{border-color:#ad9157}
+.art-shop{background:linear-gradient(135deg,#15483b,#3c7961 60%,#b18b4c)}
+.art-hotel{background:linear-gradient(135deg,#172f4c,#476a83 60%,#c3a36a)}
+.art-vip{background:linear-gradient(135deg,#2e1c2b,#713a50 60%,#c49b59)}
+.art-qr{background:linear-gradient(135deg,#f8f7ef,#dce7df);color:#17483c}
+.art-qr i{border:2px solid #17483c;padding:8px;font-size:27px}
+.art-frame{background:linear-gradient(135deg,#d8c39b,#f8eee0 48%,#6f8c78);color:#254638}
+.art-frame:before{inset:15px;border:8px ridge #c19b5e;box-shadow:inset 0 0 0 4px #fff8}
+.art-banner{background:linear-gradient(115deg,#102f48,#1b7590 60%,#e2b35e)}
+.art-wall{background:linear-gradient(145deg,#163f35,#739080 55%,#d4c39a)}
+.art-sports{background:linear-gradient(135deg,#101f32,#26566a 60%,#a77736)}
+.art-upload{background:linear-gradient(145deg,#eee9db,#b7c9bc);color:#21483d}
+.art-upload i{font:normal 34px Arial;border:1px dashed #597b69;width:54px;height:54px;display:grid;place-items:center;border-radius:50%}
+.art-anything{background:linear-gradient(135deg,#1a4038,#8c7551 60%,#d7c79c)}
+.home-design-meta{display:grid;grid-template-columns:1fr auto;gap:4px 8px;align-items:center;padding:13px 3px 4px}
+.home-design-meta>b{font-size:13px;color:#183f35}
+.home-design-meta small{grid-column:1;color:#78837b;font-size:10px;line-height:1.45}
+.home-design-meta>span{grid-column:2;grid-row:1/3;color:#9b7c46;font-size:10px;font-weight:800;white-space:nowrap}
+.home-designs-footer{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-top:27px;padding-top:18px;border-top:1px solid #e6e0d3;color:#8d7a55;font-size:9px;font-weight:800;letter-spacing:.15em}
+.home-designs-footer a{color:#17483c;text-decoration:none;font-size:11px;letter-spacing:0}
+@media(max-width:1000px){.home-designs-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.home-designs-heading{grid-template-columns:1fr .8fr}}
+@media(max-width:680px){.home-all-designs{padding:52px 14px 58px}.home-designs-heading{grid-template-columns:1fr;gap:12px;margin-bottom:22px}.home-designs-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.home-design-art{min-height:174px;padding:16px 8px}.home-design-art strong{font-size:22px}.home-design-art small,.home-design-art em{font-size:7px}.home-design-meta{grid-template-columns:1fr;gap:5px}.home-design-meta>span{grid-column:1;grid-row:auto}.home-designs-footer{align-items:flex-start;flex-direction:column;line-height:1.6}}
+@media(prefers-reduced-motion:reduce){.home-design-tile{transition:none}}
+</style>
+</head><body><header><a class="brand" href="index.html"><div class="logo">🏔️</div><div><strong>Gilgit Baltistan</strong><span>Printing Hub</span><small>Print Your Ideas, Celebrate Life</small></div></a><button class="menu" id="menu" aria-label="Open navigation">☰</button><nav class="nav" id="nav"><a data-nav href="index.html">Home</a><a data-nav href="products.html">Products</a><a data-nav href="cards.html">Cards</a><a data-nav href="design-studio.html">Design Studio</a><a data-nav href="about.html">About</a><a data-nav href="contact.html">Contact</a></nav><a class="pill" href="cart.html">Cart (<span data-cart-count>0</span>)</a></header><main class="fresh-home">
 <section class="new-hero">
   <div class="new-hero-glow"></div>
   <div class="new-hero-topline"><span>IN THE HEART OF GILGIT-BALTISTAN</span><span>DESIGNED TO BE REMEMBERED <b>✳</b></span></div>
@@ -661,6 +713,33 @@
 </section>
 <div class="new-marquee" aria-label="Printing categories"><div class="marquee-track"><span>INVITATIONS</span><i>✳</i><span>GIFT CARDS</span><i>✳</i><span>HOTEL &amp; SHOP CARDS</span><i>✳</i><span>BUSINESS PRINT</span><i>✳</i><span>CUSTOM DESIGNS</span><i>✳</i><span>INVITATIONS</span><i>✳</i><span>GIFT CARDS</span><i>✳</i><span>HOTEL &amp; SHOP CARDS</span><i>✳</i><span>BUSINESS PRINT</span><i>✳</i><span>CUSTOM DESIGNS</span><i>✳</i></div></div>
 
+
+<section class="home-all-designs" id="home-all-designs" aria-labelledby="home-all-designs-title">
+ <div class="home-designs-heading">
+  <div><span class="home-designs-kicker">THE COMPLETE PRINT COLLECTION</span><h2 id="home-all-designs-title">Find the design<br><em>made for you.</em></h2></div>
+  <p>Wedding invitations se le kar student IDs, visiting cards, photo frames aur wall art tak — apni pasand ki category select karein.</p>
+ </div>
+ <div class="home-designs-grid">
+  <a class="home-design-tile" href="wedding-card.html"><span class="home-design-art art-wedding"><i>✦ ❋ ✦</i><small>WEDDING COLLECTION</small><strong>Ayesha &amp; Ali</strong><b>Wedding Invitation</b><em>22 NOVEMBER · GILGIT</em></span><span class="home-design-meta"><b>Wedding Cards</b><small>Classic, floral, royal &amp; modern designs</small><span>Explore ↗</span></span></a>
+  <a class="home-design-tile" href="special-wedding.html"><span class="home-design-art art-couple"><i>♡</i><small>THE COUPLE EDIT</small><strong>Our Story</strong><b>Two photos · One invitation</b><em>PERSONALISED WEDDING CARD</em></span><span class="home-design-meta"><b>Special Couple Wedding</b><small>Add bride and groom photographs</small><span>Explore ↗</span></span></a>
+  <a class="home-design-tile" href="wedding-card.html"><span class="home-design-art art-nikah"><i>بسم اللہ الرحمن الرحیم</i><small>دعوتِ نکاح</small><strong>عائشہ &amp; علی</strong><b>خوشیوں کی محفل</b><em>گلگت · پاکستان</em></span><span class="home-design-meta"><b>Urdu Dawat Nama</b><small>Urdu wedding &amp; Nikah invitations</small><span>Explore ↗</span></span></a>
+  <a class="home-design-tile" href="wedding-card.html"><span class="home-design-art art-mehndi"><i>✺ ✿ ✺</i><small>MEHNDI NIGHT</small><strong>Let the<br>celebration begin</strong><b>Mehndi Invitation</b><em>COLOUR · MUSIC · JOY</em></span><span class="home-design-meta"><b>Mehndi &amp; Walima</b><small>Beautiful event invitation designs</small><span>Explore ↗</span></span></a>
+  <a class="home-design-tile" href="wedding-card.html"><span class="home-design-art art-birthday"><i>✦ ✿ ✦</i><small>YOU'RE INVITED</small><strong>Happy Birthday!</strong><b>Zoya turns 10</b><em>CAKE · GAMES · PARTY</em></span><span class="home-design-meta"><b>Birthday &amp; Party Cards</b><small>Kids, family and celebration invites</small><span>Explore ↗</span></span></a>
+  <a class="home-design-tile" href="bulk-orders.html"><span class="home-design-art art-student"><i>GB</i><small>STUDENT ID</small><strong>STUDENT</strong><b>Identity Card</b><em>NAME · CLASS · INSTITUTE</em></span><span class="home-design-meta"><b>Student &amp; Staff Cards</b><small>School, college and organisation IDs</small><span>Explore ↗</span></span></a>
+  <a class="home-design-tile" href="quick-order.html?category=Business%20%26%20Visiting%20Cards"><span class="home-design-art art-visiting"><i>✦</i><small>YOUR BUSINESS IDENTITY</small><strong>YOUR NAME</strong><b>Creative Director</b><em>VISITING CARD · GILGIT</em></span><span class="home-design-meta"><b>Visiting &amp; Business Cards</b><small>Professional cards for your business</small><span>Explore ↗</span></span></a>
+  <a class="home-design-tile" href="my-card.html"><span class="home-design-art art-shop"><i>✧</i><small>SHOP MEMBERSHIP</small><strong>YOUR STORE</strong><b>LOYALTY MEMBER</b><em>THANK YOU FOR SHOPPING LOCAL</em></span><span class="home-design-meta"><b>Shop &amp; Loyalty Cards</b><small>Shop identity and customer cards</small><span>Explore ↗</span></span></a>
+  <a class="home-design-tile" href="my-card.html"><span class="home-design-art art-hotel"><i>✦</i><small>WELCOME TO</small><strong>HUNZA VIEW</strong><b>GUEST ACCESS</b><em>ROOM · 204 · GILGIT-BALTISTAN</em></span><span class="home-design-meta"><b>Hotel &amp; Guest Cards</b><small>Hotel room and guest identity cards</small><span>Explore ↗</span></span></a>
+  <a class="home-design-tile" href="my-card.html"><span class="home-design-art art-vip"><i>♛</i><small>PRIVATE COLLECTION</small><strong>YOUR NAME</strong><b>VIP MEMBER</b><em>EXCLUSIVE ACCESS</em></span><span class="home-design-meta"><b>Personal &amp; VIP Cards</b><small>Membership and personal identity</small><span>Explore ↗</span></span></a>
+  <a class="home-design-tile" href="smart-qr-cards.html"><span class="home-design-art art-qr"><i>▦</i><small>SMART PROFILE</small><strong>Connect</strong><b>Tap · Scan · Share</b><em>SMART QR CARD</em></span><span class="home-design-meta"><b>Smart QR Cards</b><small>Digital business and contact profiles</small><span>Explore ↗</span></span></a>
+  <a class="home-design-tile" href="design-studio.html?studio=frame"><span class="home-design-art art-frame"><i>❀</i><small>YOUR PHOTO · YOUR FRAME</small><strong>Beautiful<br>Memories</strong><b>Photo Frame Printing</b><em>UPLOAD · CHOOSE · PRINT</em></span><span class="home-design-meta"><b>Photo Frames</b><small>Upload your picture and choose a frame</small><span>Explore ↗</span></span></a>
+  <a class="home-design-tile" href="quick-order.html?category=Event%20Banner%20%26%20Flex"><span class="home-design-art art-banner"><i>GB · 2026</i><small>MAKE YOUR EVENT STAND OUT</small><strong>SPORTS<br>WEEK</strong><b>Custom Banner &amp; Flex</b><em>YOUR EVENT · YOUR MESSAGE</em></span><span class="home-design-meta"><b>Banners &amp; Flex Printing</b><small>Events, schools and business displays</small><span>Explore ↗</span></span></a>
+  <a class="home-design-tile" href="design-studio.html?studio=wall-art"><span class="home-design-art art-wall"><i>✧</i><small>GB WALL ART COLLECTION</small><strong>FIND YOUR<br>FREEDOM</strong><b>In the Mountains</b><em>GILGIT-BALTISTAN</em></span><span class="home-design-meta"><b>Wall Art &amp; Hardboard</b><small>Quotes, Urdu poetry and GB artwork</small><span>Explore ↗</span></span></a>
+  <a class="home-design-tile" href="design-studio.html?studio=sports"><span class="home-design-art art-sports"><i>🏆</i><small>SPORTS WALL ART</small><strong>PLAY<br>WITH HEART</strong><b>Legends · Action · Passion</b><em>SPORTS COLLECTION</em></span><span class="home-design-meta"><b>Sports Posters</b><small>Cricket, football, polo and more</small><span>Explore ↗</span></span></a>
+  <a class="home-design-tile" href="design-studio.html?studio=upload"><span class="home-design-art art-upload"><i>＋</i><small>YOUR DESIGN · YOUR PRINT</small><strong>Upload<br>&amp; Print</strong><b>Cards · Photos · PDF</b><em>READY DESIGN PRINTING</em></span><span class="home-design-meta"><b>Upload Ready Design</b><small>Bring your own file for printing</small><span>Explore ↗</span></span></a>
+  <a class="home-design-tile" href="print-anything.html"><span class="home-design-art art-anything"><i>✦ ✧ ✦</i><small>ONE PLACE · MANY POSSIBILITIES</small><strong>Print<br>Anything</strong><b>Made to your needs</b><em>CUSTOM PRINT STUDIO</em></span><span class="home-design-meta"><b>Custom Printing</b><small>Stationery, posters, menus and more</small><span>Explore ↗</span></span></a>
+ </div>
+ <div class="home-designs-footer"><span>YOUR IDEA DESERVES A BEAUTIFUL PRINT.</span><a href="products.html">Browse the full product collection ↗</a></div>
+</section>
 <section class="new-featured">
  <div class="new-section-label"><span>02 / HANDPICKED FOR YOU</span><span>THE CROWD FAVOURITES</span></div>
  <div class="new-featured-head"><h2>Good taste.<br><em>Great details.</em></h2><a href="products.html" class="new-outline">View all designs ↗</a></div>
