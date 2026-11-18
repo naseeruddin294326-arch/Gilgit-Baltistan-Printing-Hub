@@ -654,3 +654,24 @@ body{
 body,main,main>section,main>div{
   max-height:none;
 }
+
+/* Compact, site-header smart search: uses the existing live category matcher. */
+body>header .header-smart-search{position:relative;display:flex;align-items:center;flex:0 1 245px;min-width:175px;height:38px;border:1px solid #dfe6df;background:#fbfcfa;border-radius:3px;padding:0 5px 0 10px;gap:6px}
+.header-search-icon{font-size:22px;line-height:1;color:#527365}
+.header-smart-search input{min-width:0;width:100%;border:0!important;outline:0!important;background:transparent!important;padding:8px 2px!important;font-size:10px!important;color:#243b33}
+.header-smart-search input::placeholder{color:#89958d}
+.header-smart-search>button[type=submit]{border:0;background:#16483c;color:#fff;padding:8px 10px;font-size:9px;font-weight:800;border-radius:2px}
+.header-smart-search .header-search-dropdown{display:none;position:absolute;top:calc(100% + 9px);left:0;width:min(430px,88vw);padding:12px;background:#fff;border:1px solid #e5e8df;box-shadow:0 16px 38px #173e3420;z-index:30}
+.header-smart-search:focus-within .header-search-dropdown{display:block}
+.header-smart-search .home-search-popular{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.header-smart-search .home-search-popular>span{font-size:8px;font-weight:800;letter-spacing:.08em;color:#8a7958;margin-right:3px}
+.header-smart-search .home-search-popular button{border:1px solid #e8e5db;background:#faf9f5;color:#315b49;border-radius:2px;padding:5px 7px;font-size:8px;font-weight:700}
+.header-smart-search .home-search-popular button:hover{background:#16483c;color:white}
+.header-smart-search .home-search-status{font-size:9px;color:#7b887e;margin:8px 2px 0}
+.header-smart-search .home-search-suggestions:not([hidden]){display:grid;gap:4px;margin-top:8px}
+.header-smart-search .home-search-suggestions button{display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;border:0;border-bottom:1px solid #edf0e9;background:#fff;padding:8px;color:#234337}
+.header-smart-search .home-search-suggestions button:hover{background:#f5f7f2}
+.header-smart-search .home-search-suggestions b{font-size:10px}
+.header-smart-search .home-search-suggestions small{font-size:9px;color:#7b887e}
+@media(max-width:1100px){body>header .header-smart-search{flex-basis:190px;min-width:150px}.header-smart-search input{font-size:9px!important}}
+@media(max-width:760px){body>header{flex-wrap:wrap;row-gap:8px}body>header .header-smart-search{order:5;flex:1 0 100%;min-width:0;height:36px}body>header .nav{order:4}body>header>.pill{margin-left:auto}.header-smart-search .header-search-dropdown{width:100%}}
