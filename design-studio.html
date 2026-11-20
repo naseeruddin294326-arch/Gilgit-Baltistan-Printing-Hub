@@ -631,7 +631,7 @@ const camera=new THREE.PerspectiveCamera(34,1,.1,100);camera.position.set(0,0,4.
 const renderer=new THREE.WebGLRenderer({antialias:true});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer.outputColorSpace=THREE.SRGBColorSpace;stage.appendChild(renderer.domElement);fallback?.remove();
 scene.add(new THREE.HemisphereLight(0xffffff,0x8c806b,2.1));const key=new THREE.DirectionalLight(0xffffff,2.2);key.position.set(-3,4,5);scene.add(key);const fill=new THREE.DirectionalLight(0xffdca2,.7);fill.position.set(3,1,2);scene.add(fill);
 const group=new THREE.Group();scene.add(group);const backing=new THREE.Mesh(new THREE.BoxGeometry(3.25,2.5,.16),new THREE.MeshStandardMaterial({color:0x30251d,roughness:.82}));group.add(backing);
-const photoMat=new THREE.MeshBasicMaterial({color:0xf4eee2});const photo=new THREE.Mesh(new THREE.PlaneGeometry(2.78,2.03),photoMat);photo.position.z=.095;group.add(photo);
+const photoMat=new THREE.MeshBasicMaterial({color:0xf4eee2});const photo=new THREE.Mesh(new THREE.PlaneGeometry(2.72,2.04),photoMat);photo.position.z=.095;group.add(photo);
 const railMat=new THREE.MeshStandardMaterial({color:0x70472b,roughness:.34,metalness:.08});const addRail=(w,h,x,y)=>{const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,.25),railMat);m.position.set(x,y,.17);group.add(m)};
 addRail(3.35,.28,0,1.17);addRail(3.35,.28,0,-1.17);addRail(.28,2.35,-1.535,0);addRail(.28,2.35,1.535,0);
 const trimMat=new THREE.MeshStandardMaterial({color:0xd4b779,metalness:.62,roughness:.28});const addTrim=(w,h,x,y)=>{const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,.035),trimMat);m.position.set(x,y,.305);group.add(m)};
@@ -639,7 +639,40 @@ addTrim(2.98,.025,0,1.005);addTrim(2.98,.025,0,-1.005);addTrim(.025,2.02,-1.48,0
 let dragging=false,px=0,py=0,targetX=0,targetY=0,zoom=4.7;
 const resize=()=>{const w=Math.max(1,stage.clientWidth),h=Math.max(1,stage.clientHeight);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()};const ro=new ResizeObserver(resize);ro.observe(stage);resize();
 stage.addEventListener("pointerdown",e=>{dragging=true;px=e.clientX;py=e.clientY;stage.setPointerCapture(e.pointerId)});stage.addEventListener("pointermove",e=>{if(!dragging)return;targetY+=(e.clientX-px)*.009;targetX+=(e.clientY-py)*.009;targetX=Math.max(-1.15,Math.min(1.15,targetX));px=e.clientX;py=e.clientY});const stop=()=>dragging=false;stage.addEventListener("pointerup",stop);stage.addEventListener("pointercancel",stop);
-const fileImage=document.getElementById("photoFramePreviewImage");function syncPhoto(){if(!fileImage||fileImage.hidden||!fileImage.src)return;const image=new Image();image.onload=()=>{const tex=new THREE.Texture(image);tex.colorSpace=THREE.SRGBColorSpace;tex.needsUpdate=true;photo.material.map=tex;photo.material.color.set(0xffffff);photo.material.needsUpdate=true};image.src=fileImage.src}if(fileImage){new MutationObserver(syncPhoto).observe(fileImage,{attributes:true,attributeFilter:["src","hidden"]});fileImage.addEventListener("load",syncPhoto);syncPhoto()}
+const fileImage=document.getElementById("photoFramePreviewImage");
+let photoTexture=null,photoSyncQueued=false;
+function syncPhoto(){
+ if(!fileImage||fileImage.hidden||!fileImage.src||!fileImage.complete||!fileImage.naturalWidth)return;
+ const frameBox=document.getElementById("photoFramePreview");
+ if(!frameBox)return;
+ const box=frameBox.getBoundingClientRect(),fw=Math.max(1,box.width),fh=Math.max(1,box.height);
+ const canvas=document.createElement("canvas"),cw=1200,ch=900;canvas.width=cw;canvas.height=ch;
+ const ctx=canvas.getContext("2d");if(!ctx)return;
+ const imageScale=Math.max(fw/fileImage.naturalWidth,fh/fileImage.naturalHeight);
+ const renderedW=fileImage.naturalWidth*imageScale,renderedH=fileImage.naturalHeight*imageScale;
+ const css=getComputedStyle(fileImage),parts=(css.objectPosition||"50% 50%").split(/\\s+/);
+ const pos=(v)=>v&&v.endsWith("%")?Math.max(0,Math.min(100,parseFloat(v)))/100:.5;
+ const ox=(fw-renderedW)*pos(parts[0]),oy=(fh-renderedH)*pos(parts[1]||parts[0]);
+ const matrix=new DOMMatrixReadOnly(css.transform==="none"?"matrix(1,0,0,1,0,0)":css.transform);
+ const scaleX=Math.hypot(matrix.a,matrix.b)||1,scaleY=Math.hypot(matrix.c,matrix.d)||scaleX;
+ const tx=matrix.e||0,ty=matrix.f||0,scale=scaleX;
+ const sx=cw/fw,sy=ch/fh;
+ ctx.clearRect(0,0,cw,ch);
+ ctx.setTransform(sx*imageScale*scale,0,0,sy*imageScale*scale,
+  sx*(fw/2+tx+scale*(ox-fw/2)),sy*(fh/2+ty+scale*(oy-fh/2)));
+ ctx.drawImage(fileImage,0,0);
+ if(!photoTexture){photoTexture=new THREE.CanvasTexture(canvas);photoTexture.colorSpace=THREE.SRGBColorSpace;photo.material.map=photoTexture;photo.material.color.set(0xffffff);photo.material.needsUpdate=true}
+ else{photoTexture.image=canvas;photoTexture.needsUpdate=true}
+}
+function queuePhotoSync(){if(photoSyncQueued)return;photoSyncQueued=true;requestAnimationFrame(()=>{photoSyncQueued=false;syncPhoto()})}
+if(fileImage){
+ new MutationObserver(queuePhotoSync).observe(fileImage,{attributes:true,attributeFilter:["src","hidden","style"]});
+ fileImage.addEventListener("load",queuePhotoSync);
+ ["framePhotoZoom","framePhotoX","framePhotoY"].forEach(id=>document.getElementById(id)?.addEventListener("input",queuePhotoSync));
+ const frameBox=document.getElementById("photoFramePreview");
+ if(frameBox)new ResizeObserver(queuePhotoSync).observe(frameBox);
+ queuePhotoSync();
+}
 const preview=document.getElementById("photoFramePreview");const colors=["#70472b","#4a241b","#171717","#eeeae0","#bd9145","#9da6a7","#93623b","#68452b","#c5a77b","#79543a","#8b9b7d","#203c57","#b77b72","#72503b","#d7bd91"];const rough=[.35,.34,.3,.28,.22,.25,.55,.28,.22,.31,.5,.32,.22,.6,.28];const names=["frame-classic-walnut","frame-dark-mahogany","frame-black-gallery","frame-white-mat","frame-antique-gold","frame-silver-bevel","frame-rustic-oak","frame-carved-royal","frame-champagne","frame-brushed-bronze","frame-sage-natural","frame-navy-classic","frame-rose-gold","frame-distressed-vintage","frame-minimal-maple"];
 function syncFrame(){let i=names.findIndex(n=>preview?.classList.contains(n));if(i<0)i=0;railMat.color.set(colors[i]);railMat.roughness=rough[i];trimMat.color.set(i===2?0x9b9b9b:i===3?0xffffff:0xd4b779)}const observer=new MutationObserver(syncFrame);if(preview)observer.observe(preview,{attributes:true,attributeFilter:["class"]});syncFrame();
 const front=document.getElementById("gbph3dFront"),side=document.getElementById("gbph3dSide");front?.addEventListener("click",()=>{targetX=0;targetY=0;front.classList.add("active");side?.classList.remove("active")});side?.addEventListener("click",()=>{targetX=0;targetY=Math.PI/2;side.classList.add("active");front?.classList.remove("active")});document.getElementById("gbph3dReset")?.addEventListener("click",()=>{targetX=0;targetY=0;front?.classList.add("active");side?.classList.remove("active")});
