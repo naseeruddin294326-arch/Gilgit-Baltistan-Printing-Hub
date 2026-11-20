@@ -445,9 +445,11 @@ main,.studio-main,.wall-art-panel,.wall-art-layout,.wall-art-box,.wall-art-galle
 <a class="studio-service-card" href="design-studio.html?studio=sports"><span class="service-icon">🏆</span><strong>Sports Wall Art</strong><span>Sports legends &amp; action posters</span><small>Football, cricket, polo, ice hockey and motivational sports hardboard prints.</small><b>Explore sports art ↗</b></a>
 <a class="studio-service-card" href="special-wedding.html"><span class="service-icon">💍</span><strong>Special Wedding Cards</strong><span>Couple photo invitations</span><small>Upload bride and groom photos separately and create one personalised wedding card.</small><b>Open wedding cards ↗</b></a>
 <a class="studio-service-card" href="design-studio.html?studio=anything"><span class="service-icon">🖨️</span><strong>Print Anything</strong><span>All other printing needs</span><small>Business stationery, albums, certificates, menus, stickers, calendars, posters and custom print requests.</small><b>Explore printing ↗</b></a>
+<a class="studio-service-card" href="design-studio.html?studio=products"><span class="service-icon">▦</span><strong>Browse All Products</strong><span>Explore the complete product collection</span><small>Browse wedding cards, invitations, photo frames, banners, business cards, PVC cards and GB special designs in one place.</small><b>Explore product collection ↗</b></a>
 </div>
 <div class="studio-mode-switch" aria-hidden="true" style="display:none"><button type="button" class="active" id="modeCreate">Create</button><button type="button" id="modeUpload">Upload</button><button type="button" id="modePhotoFrame">Photo frame</button><button type="button" id="modeBulk">Bulk</button><button type="button" id="modeWallArt">Wall art</button><button type="button" id="modeSportsWallArt">Sports</button><button type="button" id="modeSpecialWedding">Wedding</button><button type="button" id="modePrintAnything">Print anything</button></div>
 <section class="studio-subpage-head" id="studioSubpageHead"><a href="design-studio.html">← Back to Design Studio</a><h2 id="studioSubpageTitle">Design Studio</h2><p id="studioSubpageDescription">Choose your options and create your print.</p></section>
+<section class="embedded-print-panel" id="studioProductsPanel" aria-label="Complete products collection"><iframe id="studioProductsFrame" title="Gilgit-Baltistan Printing Hub product collection" loading="lazy"></iframe></section>
 
 <section class="wall-art-panel" id="wallArtPanel" aria-label="Wall art and hardboard printing">
  <div class="wall-art-intro"><h2 id="wallArtHeading">Art that belongs on your wall.</h2><p id="wallArtIntroText">Scenic photography, nature art, wildlife, GB landscapes aur sports legends ke tribute posters — har design ko premium hardboard wall-print ki tarah dekhein. Apni pasand select karein, quote add karein ya apni image upload karein, phir size aur quantity choose karein.</p></div>
@@ -611,13 +613,20 @@ const config={
  frame:['Photo Frame Printing','Upload your picture, choose a frame style and size, then adjust the preview.','modePhotoFrame'],
  'wall-art':['Wall Art & Hardboard Prints','Choose artwork, personalise your quote and prepare your hardboard print.','modeWallArt'],
  sports:['Sports Wall Art','Explore sports tribute posters and customise your hardboard print.','modeSportsWallArt'],
- anything:['Print Anything','Tell us what you need printed and prepare your custom print request.','modePrintAnything']
+ anything:['Print Anything','Tell us what you need printed and prepare your custom print request.','modePrintAnything'],
+ products:['Products Collection','Browse the complete product catalogue here—filter designs, open previews and prepare a print request without leaving Design Studio.','products']
 };
 const item=config[mode];if(!item)return;
 document.body.classList.add('studio-page-mode');
 document.title=item[0]+' | Design Studio | Gilgit-Baltistan Printing Hub';
 document.getElementById('studioSubpageTitle').textContent=item[0];
 document.getElementById('studioSubpageDescription').textContent=item[1];
+if(mode==='products'){
+ const panel=document.getElementById('studioProductsPanel');
+ const frame=document.getElementById('studioProductsFrame');
+ if(panel&&frame){panel.classList.add('active');frame.src='products.html?embed=studio';}
+ return;
+}
 const trigger=document.getElementById(item[2]);if(trigger)setTimeout(()=>trigger.click(),80);
 })();
 </script><script type="module">
