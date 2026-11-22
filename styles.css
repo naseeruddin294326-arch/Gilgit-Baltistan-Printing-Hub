@@ -401,7 +401,7 @@ header{background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-bottom
 
 /* Smart auto-hiding header: hide on upward scroll, reveal on downward scroll. */
 body > header{transition:transform .28s ease,box-shadow .28s ease;will-change:transform}
-body > header.header-hidden{transform:translateY(-110%);box-shadow:none}
+body > header.header-hidden{transform:translate3d(0,-110%,0)!important;box-shadow:none;pointer-events:none}
 
 
 /* Active page navigation: clear dark-green location indicator */
