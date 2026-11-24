@@ -431,10 +431,70 @@ main,.studio-main,.wall-art-panel,.wall-art-layout,.wall-art-box,.wall-art-galle
 .studio-page-mode #openAllDesigns{display:none!important}
 @media(max-width:950px){.studio-service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.studio-service-grid{grid-template-columns:1fr;gap:10px}.studio-service-card{min-height:0;padding:17px}.studio-subpage-head{padding:17px}}
+
+/* Premium Design Studio landing page — scoped to the main landing view */
+.studio{max-width:1280px;padding-top:30px}
+.studio-hero-premium{min-height:360px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);align-items:center;gap:20px;padding:48px 52px;background:radial-gradient(circle at 80% 20%,#ffffff18 0 1px,transparent 2px 100%),linear-gradient(115deg,#0b352d 0%,#145542 57%,#987344 100%);box-shadow:0 22px 55px #123d3026}
+.studio-hero-premium:after{content:"";width:420px;height:420px;right:-145px;top:-190px;border:1px solid #ffffff20;border-radius:50%;font-size:0;box-shadow:0 0 0 28px #ffffff08,0 0 0 58px #ffffff06}
+.studio-hero-copy{position:relative;z-index:2;max-width:660px}
+.studio-hero-premium .kicker{display:flex;align-items:center;gap:9px;font-size:10px;letter-spacing:.17em;font-weight:800}
+.studio-kicker-dot{width:7px;height:7px;border-radius:50%;background:#e8c987;box-shadow:0 0 0 5px #e8c98722}
+.studio-hero-premium h1{font-size:clamp(42px,5.2vw,66px);letter-spacing:-.035em;margin:19px 0 13px}
+.studio-hero-premium h1 em{font-style:italic}
+.studio-hero-premium .studio-hero-copy>p:not(.kicker){max-width:570px;font-size:14px;color:#e3eee7;line-height:1.85}
+.studio-hero-actions{display:flex;align-items:center;gap:17px;flex-wrap:wrap;margin-top:25px}
+.studio-hero-cta{display:inline-flex;align-items:center;gap:25px;padding:13px 17px;border-radius:9px;background:#f2dfb3;color:#244637;text-decoration:none;font-size:12px;font-weight:800;box-shadow:0 8px 20px #081f192b}
+.studio-hero-cta span{font-size:17px}
+.studio-hero-note{font-size:10px;color:#e7eee8b8;letter-spacing:.03em}
+.studio-hero-proof{display:flex;gap:22px;flex-wrap:wrap;margin-top:35px;padding-top:18px;border-top:1px solid #ffffff2a}
+.studio-hero-proof span{font-size:10px;color:#dce9e1;white-space:nowrap}
+.studio-hero-proof b{color:#f1d99d;margin-right:6px}
+.studio-hero-art{position:relative;min-height:275px;display:grid;place-items:center;isolation:isolate}
+.studio-art-orbit{position:absolute;border:1px solid #f4dfb055;border-radius:50%;transform:rotate(-23deg)}
+.studio-orbit-one{width:310px;height:190px}.studio-orbit-two{width:355px;height:235px;transform:rotate(34deg);border-color:#ffffff28}
+.studio-art-sheet{position:absolute;width:205px;height:245px;border-radius:8px;box-shadow:0 22px 45px #071e1870;display:flex;flex-direction:column;justify-content:space-between;padding:19px}
+.studio-sheet-back{background:#e7d7b6;color:#345044;transform:translate(-43px,-7px) rotate(-12deg);border:5px solid #f5ead1}
+.studio-sheet-back span{font-size:8px;letter-spacing:.2em;font-weight:800}.studio-sheet-back b{font:italic 78px Georgia;text-align:center;color:#a37c42}
+.studio-sheet-front{background:linear-gradient(145deg,#f9f4e9,#e7dfce);color:#244638;transform:translate(28px,10px) rotate(7deg);border:1px solid #fff9}
+.studio-sheet-front small{font-size:7px;letter-spacing:.16em;font-weight:800;color:#9a7948}
+.studio-sheet-front strong{font:600 29px/1.08 'Playfair Display',Georgia,serif}.studio-sheet-front strong em{color:#a17a3e}.studio-sheet-front>span{font-size:7px;letter-spacing:.2em;font-weight:800}
+.studio-art-stamp{position:absolute;right:7%;bottom:4%;width:58px;height:58px;border:1px solid #f1d99d;border-radius:50%;display:grid;place-content:center;text-align:center;color:#f1d99d;font-size:20px;background:#154536;box-shadow:0 7px 20px #071e1855}
+.studio-art-stamp small{display:block;font-size:6px;letter-spacing:.18em;font-weight:800}
+#openAllDesigns{margin:0!important;min-height:76px;padding:15px 20px!important;border-radius:13px!important;box-shadow:0 7px 22px #183e300a;transition:.18s}
+#openAllDesigns:hover{border-color:#987344!important;transform:translateY(-2px)}
+.studio-service-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:18px 0 12px;counter-reset:studio-category}
+.studio-service-card{position:relative;min-height:220px;padding:23px 22px 20px;border-radius:17px;overflow:hidden;background:linear-gradient(155deg,#fff 0%,#fbfcf8 100%);box-shadow:0 8px 25px #153d300a}
+.studio-service-card:before{content:"";position:absolute;left:0;top:0;width:100%;height:4px;background:linear-gradient(90deg,#17634c,#b18a4d)}
+.studio-service-card:after{counter-increment:studio-category;content:"0" counter(studio-category);position:absolute;right:17px;top:15px;font:600 11px 'DM Sans',Arial;color:#b5a27d;letter-spacing:.08em}
+.studio-service-card .service-icon{width:48px;height:48px;display:grid;place-items:center;margin-bottom:16px;border-radius:14px;background:linear-gradient(145deg,#edf5ee,#f8f1df);font-size:24px}
+.studio-service-card strong{font-size:19px;max-width:88%}
+.studio-service-card>span:not(.service-icon){font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:#987542}
+.studio-service-card small{font-size:11px;line-height:1.75;color:#718078;margin-top:11px;max-width:95%}
+.studio-service-card b{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #e9ede6;margin-top:17px;padding-top:13px;font-size:10px;color:#17634c}
+.studio-service-card b:after{content:"↗";font-size:15px;color:#a17a3e}
+.studio-service-card:hover{transform:translateY(-5px);border-color:#d5c49f;box-shadow:0 18px 36px #153d3018}
+@media(max-width:950px){.studio-hero-premium{padding:38px 30px;grid-template-columns:minmax(0,1fr) 280px}.studio-service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.studio-hero-proof{gap:12px}}
+@media(max-width:680px){.studio-hero-premium{grid-template-columns:1fr;padding:31px 23px;min-height:0}.studio-hero-art{min-height:230px;margin-top:5px}.studio-art-sheet{width:170px;height:205px}.studio-sheet-front strong{font-size:25px}.studio-hero-proof{margin-top:25px}.studio-hero-proof span{font-size:9px}.studio-service-grid{grid-template-columns:1fr}.studio-service-card{min-height:0;padding:20px}.studio-service-card strong{font-size:18px}}
+@media(max-width:420px){.studio-hero-premium h1{font-size:41px}.studio-hero-note{width:100%}.studio-hero-proof{gap:10px 15px}.studio-art-stamp{right:2%}}
+.studio-page-mode .studio-hero-premium{display:none!important}
 </style></head><body>
 <header><a class="brand" href="index.html"><div class="logo">🏔️</div><div><strong>Gilgit Baltistan</strong><span>Printing Hub</span><small>Print Your Ideas, Celebrate Life</small></div></a><button class="menu" id="menu" aria-label="Open navigation">☰</button><nav class="nav" id="nav"><a data-nav href="index.html">Home</a><a data-nav href="cards.html">Cards</a><a data-nav href="design-studio.html">Design Studio</a><a data-nav href="about.html">About</a><a data-nav href="contact.html">Contact</a></nav><a class="pill" href="cart.html">Cart (<span data-cart-count>0</span>)</a></header>
 <main class="studio">
-<section class="studio-hero"><p class="kicker">YOUR CREATIVE WORKSPACE · GB PRINTING HUB</p><h1>Bring your idea<br><em>to life.</em></h1><p>Design your own visiting card, business card, birthday invitation or banner. Choose a format, add your details, pick your colours and watch your preview update instantly.</p></section>
+<section class="studio-hero studio-hero-premium">
+ <div class="studio-hero-copy">
+  <p class="kicker"><span class="studio-kicker-dot"></span> GILGIT-BALTISTAN PRINTING HUB · DESIGN STUDIO</p>
+  <h1>Your ideas.<br><em>Beautifully made.</em></h1>
+  <p>Welcome to your creative space. Choose what you want to make, personalise every detail and see your design come to life before it goes to print.</p>
+  <div class="studio-hero-actions"><a href="#studioServiceGrid" class="studio-hero-cta">Explore the studio <span>↘</span></a><span class="studio-hero-note">Made for your moments, brands &amp; spaces</span></div>
+  <div class="studio-hero-proof"><span><b>01</b> Choose a category</span><span><b>02</b> Make it yours</span><span><b>03</b> Preview your design</span></div>
+ </div>
+ <div class="studio-hero-art" aria-hidden="true">
+  <div class="studio-art-orbit studio-orbit-one"></div><div class="studio-art-orbit studio-orbit-two"></div>
+  <div class="studio-art-sheet studio-sheet-back"><span>YOUR IDEA</span><b>✳</b></div>
+  <div class="studio-art-sheet studio-sheet-front"><small>DESIGN / PRINT / CREATE</small><strong>Make it<br><em>memorable.</em></strong><span>GB PRINTING HUB</span></div>
+  <div class="studio-art-stamp">✦<small>CREATE</small></div>
+ </div>
+</section>
 <div class="studio-mode-switch" style="margin-top:18px"><a id="openAllDesigns" href="design-collection.html" style="display:flex;flex:1;min-width:220px;align-items:center;gap:14px;padding:16px 18px;border:1px solid #b18a4d;border-radius:13px;background:#fffaf0;color:#234337;text-decoration:none;font:700 13px 'DM Sans',Arial"><span style="font-size:25px">▦</span><span>Explore all designs<small style="display:block;margin-top:4px;color:#78847b;font-size:11px;font-weight:500">Browse 50+ cards, banners, frames, wall art and more</small></span><span style="margin-left:auto;font-size:18px">↗</span></a></div>
 <div class="studio-service-grid" id="studioServiceGrid" aria-label="Design Studio services">
 <a class="studio-service-card" href="design-studio.html?studio=create"><span class="service-icon">✏️</span><strong>Create a design</strong><span>Design it yourself</span><small>Choose a card type, enter text, colours and background, and preview it live.</small><b>Open workspace ↗</b></a>
