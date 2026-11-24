@@ -713,6 +713,7 @@ const animate=()=>{requestAnimationFrame(animate);group.rotation.x+=(targetX-gro
  const fallback=document.getElementById('wallArt3DFallback');
  const start=async()=>{
   const THREE=await import('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js');
+  const html2canvas=(await import('https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/+esm')).default;
   const scene=new THREE.Scene();scene.background=new THREE.Color('#e7e8e1');
   const camera=new THREE.PerspectiveCamera(35,1,.1,100);camera.position.set(0,0,5);
   const renderer=new THREE.WebGLRenderer({antialias:true,alpha:false});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer.outputColorSpace=THREE.SRGBColorSpace;stage.appendChild(renderer.domElement);fallback?.remove();
@@ -730,41 +731,23 @@ const animate=()=>{requestAnimationFrame(animate);group.rotation.x+=(targetX-gro
   let texture=null,drawToken=0;
   const posterCanvas=document.createElement('canvas');posterCanvas.width=1000;posterCanvas.height=1500;
   const ctx=posterCanvas.getContext('2d');
-  function drawPoster(){
-   const token=++drawToken;const poster=document.getElementById('wallArtPoster');if(!poster)return;
-   // Capture the exact live poster HTML so selected designs and visitor edits
-   // appear identically on the 3D hardboard surface.
-   const snapshot=window.gbphCaptureCardPreview?.(poster);
-   if(snapshot){
-    const img=new Image();
-    img.onload=()=>{if(token!==drawToken)return;ctx.clearRect(0,0,1000,1500);ctx.drawImage(img,0,0,1000,1500);
-     if(!texture){texture=new THREE.CanvasTexture(posterCanvas);texture.colorSpace=THREE.SRGBColorSpace;inner.material.map=texture;inner.material.color.set(0xffffff);inner.material.needsUpdate=true}else texture.needsUpdate=true;
-    };
-    img.onerror=()=>drawPosterFallback(token,poster);
-    img.src=snapshot;return;
-   }
-   drawPosterFallback(token,poster);
-  }
-  function drawPosterFallback(token,poster){
-   const quote=document.getElementById('wallArtPosterQuote')?.textContent||'Your Wall Art';
-   const sub=document.getElementById('wallArtPosterSub')?.textContent||'';
-   const css=getComputedStyle(poster),bg=(css.backgroundImage.match(/url\\(["']?(.*?)["']?\\)/)||[])[1]||'';
-   const paint=img=>{
+  let captureBusy=false,captureQueued=false;
+  async function drawPoster(){
+   const poster=document.getElementById('wallArtPoster');if(!poster)return;
+   if(captureBusy){captureQueued=true;return}
+   captureBusy=true;const token=++drawToken;
+   try{
+    // Rasterize the exact visible HTML preview (background photo, selected design,
+    // Urdu/English text, fonts and visitor edits) into one clean high-res texture.
+    if(document.fonts?.ready)await document.fonts.ready;
+    const rendered=await html2canvas(poster,{backgroundColor:null,scale:2,useCORS:true,allowTaint:false,logging:false,imageTimeout:15000});
     if(token!==drawToken)return;
-    ctx.clearRect(0,0,1000,1500);
-    if(img){const scale=Math.max(1000/img.width,1500/img.height),w=img.width*scale,h=img.height*scale;ctx.drawImage(img,(1000-w)/2,(1500-h)/2,w,h)}
-    else{const g=ctx.createLinearGradient(0,0,1000,1500);g.addColorStop(0,'#274c43');g.addColorStop(1,'#111f1a');ctx.fillStyle=g;ctx.fillRect(0,0,1000,1500)}
-    const imageOnly=poster.classList.contains('image-only');
-    if(!imageOnly){const shade=ctx.createLinearGradient(0,0,0,1500);shade.addColorStop(0,'rgba(0,0,0,.68)');shade.addColorStop(.5,'rgba(0,0,0,.12)');shade.addColorStop(1,'rgba(0,0,0,.72)');ctx.fillStyle=shade;ctx.fillRect(0,0,1000,1500);
-     ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#fff';ctx.shadowColor='#000';ctx.shadowBlur=20;ctx.shadowOffsetY=5;
-     const urdu=document.getElementById('wallArtPosterQuote')?.classList.contains('urdu');ctx.direction=urdu?'rtl':'ltr';ctx.font=urdu?'bold 94px serif':'900 112px Impact, Arial, sans-serif';
-     const words=String(quote).split(/\\s+/),lines=[];let line='';words.forEach(word=>{const test=line?line+' '+word:word;if(ctx.measureText(test).width>850&&line){lines.push(line);line=word}else line=test});if(line)lines.push(line);
-     const lineHeight=urdu?145:118,startY=750-(lines.length-1)*lineHeight/2;lines.slice(0,6).forEach((ln,i)=>ctx.fillText(ln,500,startY+i*lineHeight,860));
-     ctx.shadowBlur=0;ctx.shadowOffsetY=0;ctx.fillStyle='#f2c15c';ctx.font='bold 32px Arial,sans-serif';ctx.fillText(sub.toUpperCase(),500,1330,850);
-    }
-    if(!texture){texture=new THREE.CanvasTexture(posterCanvas);texture.colorSpace=THREE.SRGBColorSpace;inner.material.map=texture;inner.material.color.set(0xffffff);inner.material.needsUpdate=true}else texture.needsUpdate=true;
-   };
-   if(bg){const img=new Image();img.crossOrigin='anonymous';img.onload=()=>paint(img);img.onerror=()=>paint(null);img.src=bg}else paint(null);
+    ctx.clearRect(0,0,posterCanvas.width,posterCanvas.height);
+    ctx.drawImage(rendered,0,0,posterCanvas.width,posterCanvas.height);
+    if(!texture){texture=new THREE.CanvasTexture(posterCanvas);texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=renderer.capabilities.getMaxAnisotropy();texture.minFilter=THREE.LinearMipmapLinearFilter;texture.magFilter=THREE.LinearFilter;inner.material.map=texture;inner.material.color.set(0xffffff);inner.material.needsUpdate=true}
+    else texture.needsUpdate=true;
+   }catch(err){console.warn('Wall art 3D artwork capture failed:',err)}
+   finally{captureBusy=false;if(captureQueued){captureQueued=false;drawPoster()}}
   }
   drawPoster();
   const posterEl=document.getElementById('wallArtPoster');if(posterEl)new MutationObserver(drawPoster).observe(posterEl,{attributes:true,attributeFilter:['style','class'],childList:true,subtree:true,characterData:true});
