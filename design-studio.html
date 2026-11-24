@@ -462,6 +462,12 @@ main,.studio-main,.wall-art-panel,.wall-art-layout,.wall-art-box,.wall-art-galle
   <aside class="wall-art-box wall-art-preview-sticky">
    <h3>Live wall art preview</h3><p class="wall-art-help">Selected artwork ka preview yahan nazar aayega.</p>
    <div class="wall-art-live"><div class="wall-art-poster" id="wallArtPoster"><div class="wall-poster-quote" id="wallArtPosterQuote">خواب بڑے رکھو</div><div class="wall-poster-sub" id="wallArtPosterSub">DREAM · BELIEVE · ACHIEVE</div></div></div>
+   <section class="wall-art-3d-panel" aria-label="Interactive 3D wall art preview">
+    <div class="wall-art-3d-heading"><strong>Wall Art · 3D Room Preview</strong><span>Drag to rotate · Scroll or use slider to zoom</span></div>
+    <div id="wallArt3DStage"><div id="wallArt3DFallback">Loading 3D wall preview…</div></div>
+    <div class="wall-art-3d-actions"><button type="button" id="wallArt3DFront" class="active">Front view</button><button type="button" id="wallArt3DAngle">Angle view</button><button type="button" id="wallArt3DReset">Reset</button></div>
+    <label class="wall-art-3d-zoom">Zoom <input id="wallArt3DZoom" type="range" min="3.4" max="7.2" step=".1" value="5"><output id="wallArt3DZoomValue">5.0×</output></label>
+   </section>
    <form id="wallArtForm" class="wall-art-form">
     <label class="wide">Your quote / shayari<textarea id="wallArtQuote" class="wide" rows="3" placeholder="Apna quote ya shayari yahan likhein..."></textarea></label>
     <label>Print size<select id="wallArtSize"><option value="8x12">8 × 12 inch</option><option value="12x18">12 × 18 inch</option><option selected value="16x24">16 × 24 inch</option><option value="18x24">18 × 24 inch</option><option value="custom">Custom size</option></select></label>
@@ -690,4 +696,80 @@ const animate=()=>{requestAnimationFrame(animate);group.rotation.x+=(targetX-gro
 };load().catch(()=>{if(fallback)fallback.textContent="3D preview could not load in this browser. Your existing photo preview and frame selection still work normally."});
 })();
 </script>
+
+<style>
+.wall-art-3d-panel{margin:16px 0 20px;padding:14px;border:1px solid #e3e8df;border-radius:14px;background:#fbfcf9}
+.wall-art-3d-heading{display:flex;flex-direction:column;gap:4px;margin:0 0 10px;color:#16483c}.wall-art-3d-heading strong{font:600 18px 'Playfair Display',Georgia,serif}.wall-art-3d-heading span{font-size:10px;color:#78847b}
+#wallArt3DStage{height:340px;position:relative;overflow:hidden;border-radius:10px;background:linear-gradient(180deg,#e8e9e3,#d8d8cf);touch-action:pan-y}
+#wallArt3DStage canvas{display:block;width:100%;height:100%;cursor:grab}#wallArt3DStage canvas:active{cursor:grabbing}
+#wallArt3DFallback{position:absolute;inset:0;display:grid;place-items:center;color:#53675c;font-size:12px}
+.wall-art-3d-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.wall-art-3d-actions button{border:1px solid #d8e1d7;background:#fff;color:#234337;border-radius:8px;padding:8px 11px;font-size:10px;font-weight:800;cursor:pointer}.wall-art-3d-actions button.active{background:#174b3d;color:#fff;border-color:#174b3d}
+.wall-art-3d-zoom{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;margin-top:11px;font-size:10px;font-weight:800;color:#375448}.wall-art-3d-zoom input{width:100%;accent-color:#17634c}.wall-art-3d-zoom output{font-variant-numeric:tabular-nums;color:#718078}
+@media(max-width:560px){#wallArt3DStage{height:270px}.wall-art-3d-panel{padding:11px}}
+</style>
+<script type="module">
+(()=>{
+ const stage=document.getElementById('wallArt3DStage');if(!stage||stage.dataset.ready==='1')return;stage.dataset.ready='1';
+ const fallback=document.getElementById('wallArt3DFallback');
+ const start=async()=>{
+  const THREE=await import('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js');
+  const scene=new THREE.Scene();scene.background=new THREE.Color('#e7e8e1');
+  const camera=new THREE.PerspectiveCamera(35,1,.1,100);camera.position.set(0,0,5);
+  const renderer=new THREE.WebGLRenderer({antialias:true,alpha:false});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer.outputColorSpace=THREE.SRGBColorSpace;stage.appendChild(renderer.domElement);fallback?.remove();
+  scene.add(new THREE.HemisphereLight(0xffffff,0x777064,2));
+  const key=new THREE.DirectionalLight(0xffffff,2.3);key.position.set(-3,4,5);scene.add(key);
+  const room=new THREE.Mesh(new THREE.PlaneGeometry(12,8),new THREE.MeshStandardMaterial({color:0xe6e4dc,roughness:1}));room.position.z=-.42;scene.add(room);
+  const trimWall=new THREE.Mesh(new THREE.BoxGeometry(12,.045,.035),new THREE.MeshStandardMaterial({color:0xc9c4b8}));trimWall.position.set(0,-1.9,-.36);scene.add(trimWall);
+  const group=new THREE.Group();scene.add(group);
+  const backing=new THREE.Mesh(new THREE.BoxGeometry(2.55,3.75,.18),new THREE.MeshStandardMaterial({color:0x211a15,roughness:.72}));group.add(backing);
+  const frameMat=new THREE.MeshStandardMaterial({color:0x55351f,roughness:.32,metalness:.06});
+  const rails=[[2.72,.14,0,1.94],[2.72,.14,0,-1.94],[.14,3.82,-1.29,0],[.14,3.82,1.29,0]];
+  rails.forEach(([w,h,x,y])=>{const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,.24),frameMat);m.position.set(x,y,.02);group.add(m)});
+  const inner=new THREE.Mesh(new THREE.PlaneGeometry(2.36,3.54),new THREE.MeshBasicMaterial({color:0xf4eee2}));inner.position.z=.145;group.add(inner);
+  const trim=new THREE.Mesh(new THREE.BoxGeometry(2.42,3.60,.025),new THREE.MeshStandardMaterial({color:0xc8a66b,metalness:.5,roughness:.3,wireframe:true}));trim.position.z=.16;group.add(trim);
+  let texture=null,drawToken=0;
+  const posterCanvas=document.createElement('canvas');posterCanvas.width=1000;posterCanvas.height=1500;
+  const ctx=posterCanvas.getContext('2d');
+  function drawPoster(){
+   const token=++drawToken;const poster=document.getElementById('wallArtPoster');if(!poster)return;
+   const quote=document.getElementById('wallArtPosterQuote')?.textContent||'Your Wall Art';
+   const sub=document.getElementById('wallArtPosterSub')?.textContent||'';
+   const css=getComputedStyle(poster),bg=(css.backgroundImage.match(/url\(["']?(.*?)["']?\)/)||[])[1]||'';
+   const paint=img=>{
+    if(token!==drawToken)return;
+    ctx.clearRect(0,0,1000,1500);
+    if(img){const scale=Math.max(1000/img.width,1500/img.height),w=img.width*scale,h=img.height*scale;ctx.drawImage(img,(1000-w)/2,(1500-h)/2,w,h)}
+    else{const g=ctx.createLinearGradient(0,0,1000,1500);g.addColorStop(0,'#274c43');g.addColorStop(1,'#111f1a');ctx.fillStyle=g;ctx.fillRect(0,0,1000,1500)}
+    const imageOnly=poster.classList.contains('image-only');
+    if(!imageOnly){const shade=ctx.createLinearGradient(0,0,0,1500);shade.addColorStop(0,'rgba(0,0,0,.68)');shade.addColorStop(.5,'rgba(0,0,0,.12)');shade.addColorStop(1,'rgba(0,0,0,.72)');ctx.fillStyle=shade;ctx.fillRect(0,0,1000,1500);
+     ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#fff';ctx.shadowColor='#000';ctx.shadowBlur=20;ctx.shadowOffsetY=5;
+     const urdu=document.getElementById('wallArtPosterQuote')?.classList.contains('urdu');ctx.direction=urdu?'rtl':'ltr';ctx.font=urdu?'bold 94px serif':'900 112px Impact, Arial, sans-serif';
+     const words=String(quote).split(/\s+/),lines=[];let line='';words.forEach(word=>{const test=line?line+' '+word:word;if(ctx.measureText(test).width>850&&line){lines.push(line);line=word}else line=test});if(line)lines.push(line);
+     const lineHeight=urdu?145:118,startY=750-(lines.length-1)*lineHeight/2;lines.slice(0,6).forEach((ln,i)=>ctx.fillText(ln,500,startY+i*lineHeight,860));
+     ctx.shadowBlur=0;ctx.shadowOffsetY=0;ctx.fillStyle='#f2c15c';ctx.font='bold 32px Arial,sans-serif';ctx.fillText(sub.toUpperCase(),500,1330,850);
+    }
+    if(!texture){texture=new THREE.CanvasTexture(posterCanvas);texture.colorSpace=THREE.SRGBColorSpace;inner.material.map=texture;inner.material.color.set(0xffffff);inner.material.needsUpdate=true}else texture.needsUpdate=true;
+   };
+   if(bg){const img=new Image();img.crossOrigin='anonymous';img.onload=()=>paint(img);img.onerror=()=>paint(null);img.src=bg}else paint(null);
+  }
+  drawPoster();
+  const posterEl=document.getElementById('wallArtPoster');if(posterEl)new MutationObserver(drawPoster).observe(posterEl,{attributes:true,attributeFilter:['style','class'],childList:true,subtree:true,characterData:true});
+  ['wallArtQuote','wallArtFile'].forEach(id=>document.getElementById(id)?.addEventListener('input',drawPoster));
+  document.getElementById('wallArtFile')?.addEventListener('change',()=>setTimeout(drawPoster,150));
+  let down=false,lastX=0,lastY=0,targetY=0,targetX=0;
+  renderer.domElement.addEventListener('pointerdown',e=>{down=true;lastX=e.clientX;lastY=e.clientY;renderer.domElement.setPointerCapture(e.pointerId)});
+  renderer.domElement.addEventListener('pointermove',e=>{if(!down)return;targetY+=(e.clientX-lastX)*.009;targetX+=(e.clientY-lastY)*.006;targetX=Math.max(-.65,Math.min(.65,targetX));lastX=e.clientX;lastY=e.clientY});
+  const stop=()=>down=false;renderer.domElement.addEventListener('pointerup',stop);renderer.domElement.addEventListener('pointercancel',stop);
+  const resize=()=>{const w=Math.max(1,stage.clientWidth),h=Math.max(1,stage.clientHeight);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()};new ResizeObserver(resize).observe(stage);resize();
+  let zoom=5;const slider=document.getElementById('wallArt3DZoom'),out=document.getElementById('wallArt3DZoomValue');slider?.addEventListener('input',()=>{zoom=Number(slider.value);camera.position.z=zoom;if(out)out.value=zoom.toFixed(1)+'×'});stage.addEventListener('wheel',e=>{e.preventDefault();zoom=Math.max(3.4,Math.min(7.2,zoom+(e.deltaY>0?.25:-.25)));camera.position.z=zoom;if(slider)slider.value=String(zoom);if(out)out.value=zoom.toFixed(1)+'×'},{passive:false});
+  const front=document.getElementById('wallArt3DFront'),angle=document.getElementById('wallArt3DAngle'),reset=document.getElementById('wallArt3DReset');
+  front?.addEventListener('click',()=>{targetX=0;targetY=0;front.classList.add('active');angle?.classList.remove('active')});
+  angle?.addEventListener('click',()=>{targetX=0;targetY=-.48;angle.classList.add('active');front?.classList.remove('active')});
+  reset?.addEventListener('click',()=>{targetX=0;targetY=0;zoom=5;camera.position.z=zoom;if(slider)slider.value='5';if(out)out.value='5.0×';front?.classList.add('active');angle?.classList.remove('active')});
+  const animate=()=>{requestAnimationFrame(animate);group.rotation.x+=(targetX-group.rotation.x)*.08;group.rotation.y+=(targetY-group.rotation.y)*.08;renderer.render(scene,camera)};animate();
+ };
+ start().catch(()=>{if(fallback)fallback.textContent='3D preview is not available in this browser. The regular wall art preview still works.'});
+})();
+</script>
+
 </body></html>
