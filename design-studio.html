@@ -769,4 +769,62 @@ const animate=()=>{requestAnimationFrame(animate);group.rotation.x+=(targetX-gro
 })();
 </script>
 
+
+<style id="wallArtFrameFlowRefresh">
+/* Premium Frame Flow-inspired Wall Art storefront */
+#wallArtPanel{max-width:1240px;margin:24px auto 70px;padding:0 20px}
+#wallArtPanel .wall-art-intro{position:relative;isolation:isolate;overflow:hidden;min-height:220px;padding:44px 42px;border-radius:22px;background:linear-gradient(112deg,#0c382e 0%,#155441 62%,#b18a4d 140%);box-shadow:0 18px 40px #153d301c}
+#wallArtPanel .wall-art-intro:before{content:"";position:absolute;z-index:-1;right:-30px;top:-100px;width:360px;height:360px;border:1px solid #ffffff30;border-radius:50%;box-shadow:0 0 0 28px #ffffff0b,0 0 0 58px #ffffff08}
+#wallArtPanel .wall-art-intro:after{content:"WALL ART COLLECTION";display:block;margin-top:22px;color:#f2d99e;font-size:9px;font-weight:800;letter-spacing:.24em}
+#wallArtPanel .wall-art-intro h2{max-width:650px;font-size:clamp(32px,4.5vw,48px);line-height:1.08;letter-spacing:-.025em}
+#wallArtPanel .wall-art-intro p{max-width:590px;font-size:13px;line-height:1.85}
+#wallArtPanel .wall-art-layout{grid-template-columns:minmax(0,1.18fr) minmax(340px,.82fr);gap:22px;margin-top:24px;align-items:start}
+#wallArtPanel .wall-art-box{border:1px solid #e9e8df;border-radius:18px;padding:22px;background:#fff;box-shadow:0 10px 34px #203b2b0a}
+#wallArtPanel .wall-art-box>h3{font:600 24px 'Playfair Display',Georgia,serif;letter-spacing:-.015em}
+#wallArtPanel .wall-art-help{font-size:11px;line-height:1.75}
+#wallArtPanel .wall-art-filters{gap:8px;margin:18px 0 20px;padding-bottom:13px;border-bottom:1px solid #edf0e9}
+#wallArtPanel .wall-art-filter{padding:9px 14px;border-radius:30px;background:#fafbf8;border-color:#e5e9e1;font-size:10px;transition:all .18s}
+#wallArtPanel .wall-art-filter:hover{border-color:#b18a4d;color:#174b3d}
+#wallArtPanel .wall-art-filter.active{background:#174b3d;border-color:#174b3d;color:#fff;box-shadow:0 4px 12px #174b3d22}
+#wallArtPanel .wall-art-gallery{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;overflow:visible!important}
+#wallArtPanel .wall-art-choice{padding:8px;border:1px solid #eceee8;border-radius:13px;background:#fff;box-shadow:0 3px 12px #1c39250a;transition:transform .2s,box-shadow .2s,border-color .2s}
+#wallArtPanel .wall-art-choice:hover{transform:translateY(-3px);box-shadow:0 12px 22px #1c392518}
+#wallArtPanel .wall-art-choice.active{border-color:#b18a4d;box-shadow:0 0 0 2px #b18a4d35,0 8px 20px #1c392510}
+#wallArtPanel .wall-art-thumb{height:auto;aspect-ratio:3/4;padding:10px;border-radius:9px;background:linear-gradient(145deg,#f0eee8,#d7d2c8)}
+#wallArtPanel .wall-art-thumb:before{inset:7px;border:6px solid #34291f;background:#34291f;box-shadow:0 7px 13px #0005}
+#wallArtPanel .wall-art-thumb .wall-art-frame{inset:14px;box-shadow:0 2px 6px #0004}
+#wallArtPanel .wall-art-thumb .wall-quote{left:18px;right:18px;font-size:clamp(12px,1.2vw,17px)}
+#wallArtPanel .wall-art-thumb .wall-quote.urdu{font-size:16px;line-height:1.8}
+#wallArtPanel .wall-art-choice strong{margin:10px 3px 3px;font-size:11px;color:#24483b}
+#wallArtPanel .wall-art-choice span{margin:0 3px 4px;font-size:9px;letter-spacing:.04em}
+#wallArtPanel .wall-art-preview-sticky{top:94px}
+#wallArtPanel .wall-art-live{min-height:390px;padding:30px;border-radius:14px;background:radial-gradient(ellipse at 50% 32%,#fff 0%,#f4f2ec 68%,#e9e7df 100%);border:1px solid #eeece4}
+#wallArtPanel .wall-art-poster{width:min(100%,300px);box-shadow:0 22px 38px #182b2440,0 3px 8px #0002}
+#wallArtPanel .wall-art-3d-panel{margin-top:18px;padding:15px;border:1px solid #e9e9e1;border-radius:14px;background:#fbfcf9}
+#wallArtPanel .wall-art-3d-heading strong{font-size:19px}
+#wallArtPanel #wallArt3DStage{height:300px;border-radius:11px;background:linear-gradient(145deg,#eeeee8,#d8d9d1)}
+#wallArtPanel .wall-art-3d-actions button{padding:9px 13px;border-radius:20px}
+#wallArtPanel .wall-art-form{gap:12px;margin-top:18px;padding-top:18px;border-top:1px solid #edf0e9}
+#wallArtPanel .wall-art-form label{font-size:11px}
+#wallArtPanel .wall-art-form input,#wallArtPanel .wall-art-form select,#wallArtPanel .wall-art-form textarea{padding:12px;border-color:#e3e8df;border-radius:10px}
+#wallArtPanel .wall-art-form input:focus,#wallArtPanel .wall-art-form select:focus,#wallArtPanel .wall-art-form textarea:focus{outline:2px solid #d8e6d9;border-color:#6d9a7b}
+#wallArtPanel .wall-art-form .btn{min-height:46px;border-radius:10px;letter-spacing:.01em}
+@media(max-width:900px){
+ #wallArtPanel{padding:0 15px}
+ #wallArtPanel .wall-art-layout{grid-template-columns:1fr}
+ #wallArtPanel .wall-art-preview-sticky{position:static;grid-row:1}
+ #wallArtPanel .wall-art-gallery{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:560px){
+ #wallArtPanel{margin-top:16px;padding:0 12px}
+ #wallArtPanel .wall-art-intro{min-height:0;padding:30px 23px;border-radius:16px}
+ #wallArtPanel .wall-art-intro h2{font-size:32px}
+ #wallArtPanel .wall-art-layout{gap:14px;margin-top:14px}
+ #wallArtPanel .wall-art-box{padding:15px;border-radius:15px}
+ #wallArtPanel .wall-art-gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ #wallArtPanel .wall-art-thumb{aspect-ratio:3/4}
+ #wallArtPanel .wall-art-live{min-height:320px;padding:20px}
+ #wallArtPanel #wallArt3DStage{height:255px}
+}
+</style>
 </body></html>
