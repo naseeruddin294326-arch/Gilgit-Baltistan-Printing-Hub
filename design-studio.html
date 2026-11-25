@@ -887,4 +887,114 @@ const animate=()=>{requestAnimationFrame(animate);group.rotation.x+=(targetX-gro
  #wallArtPanel #wallArt3DStage{height:255px}
 }
 </style>
+
+<style id="gbph-photo-studio-v2">
+#photoFramePanel.active{display:block}
+#photoFramePanel>.studio-help{max-width:850px}
+.gbph-frame-studio{display:grid;grid-template-columns:minmax(230px,.82fr) minmax(320px,1.18fr) minmax(230px,.82fr);gap:16px;align-items:start;margin:18px 0}
+.gbph-frame-col{min-width:0;background:#fff;border:1px solid #e4e9e1;border-radius:16px;padding:17px;box-shadow:0 9px 25px #153d300b}
+.gbph-frame-col h3{font:600 18px 'Playfair Display',Georgia,serif;color:#16483c;margin:0 0 5px}
+.gbph-frame-col .gbph-hint{font-size:10px;line-height:1.6;color:#7b887f;margin:0 0 14px}
+.gbph-frame-col label{display:flex;flex-direction:column;gap:6px;font-size:10px;font-weight:800;color:#375448;margin:10px 0}
+.gbph-frame-col input:not([type=range]):not([type=file]),.gbph-frame-col select,.gbph-frame-col textarea{width:100%;box-sizing:border-box;padding:10px;border:1px solid #dfe7df;border-radius:9px;background:#fff;color:#234337;font:12px 'DM Sans',Arial}
+.gbph-frame-col input[type=file]{width:100%;font-size:11px}
+.gbph-frame-col input[type=color]{width:100%;height:38px;border:1px solid #dfe7df;border-radius:8px;background:white;padding:3px}
+.gbph-frame-col input[type=range]{width:100%;accent-color:#17634c}
+.gbph-frame-mode{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 15px}
+.gbph-frame-mode button{border:1px solid #dfe7df;border-radius:10px;background:#f9faf6;padding:11px 8px;color:#345448;font-size:11px;font-weight:800;cursor:pointer}
+.gbph-frame-mode button.active{background:#174b3d;color:#fff;border-color:#174b3d}
+.gbph-frame-mode small{display:block;font-size:9px;font-weight:500;margin-top:4px;opacity:.8}
+.gbph-frame-preview-center{display:flex;flex-direction:column;align-items:center;gap:12px}
+.gbph-frame-preview-center .frame-preview-stage{width:100%}
+.gbph-frame-preview-center #photoFramePreview{width:min(100%,520px);margin:auto;aspect-ratio:4/3;min-height:220px}
+.gbph-frame-preview-center .photo-adjust-tools{width:100%;max-width:520px}
+.gbph-frame-3d-trigger{width:100%;max-width:520px;border:1px solid #b18a4d;border-radius:10px;background:linear-gradient(110deg,#174b3d,#246c53);color:#fff;padding:13px;font-size:12px;font-weight:800;cursor:pointer}
+.gbph-frame-3d-trigger:hover{filter:brightness(1.08)}
+.gbph-frame-price{margin:14px 0;padding:13px;border-radius:11px;background:#f6f3e9;border:1px solid #eadfbe;display:flex;justify-content:space-between;gap:8px;align-items:center;color:#345448;font-size:11px}
+.gbph-frame-price strong{font:700 21px 'DM Sans',Arial;color:#16483c}
+.gbph-frame-contact{display:grid;grid-template-columns:1fr;gap:2px}
+.gbph-frame-set-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gbph-frame-set-slot{border:1px dashed #b9c8bb;border-radius:10px;padding:9px;background:#fafbf8;min-width:0}
+.gbph-frame-set-slot strong{display:block;font-size:10px;color:#345448;margin-bottom:6px}
+.gbph-frame-set-slot input{font-size:10px!important}
+.gbph-frame-set-slot img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:7px;background:#eee;margin-top:7px}
+.gbph-frame-set-slot img:empty{display:none}
+.gbph-frame-hidden-old{display:none!important}
+.gbph-frame-set-count{font-size:10px;color:#718078;margin-top:8px}
+.gbph-frame-text-preview{position:absolute;z-index:5;left:8%;right:8%;bottom:7%;text-align:center;color:#fff;text-shadow:0 2px 7px #000;font-weight:700;pointer-events:none;white-space:pre-wrap;overflow-wrap:anywhere}
+.gbph-frame-text-preview:empty{display:none}
+.gbph-frame-extra-tools{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.gbph-frame-extra-tools label{margin:4px 0}
+.gbph-frame-order-btn{width:100%;border:0;border-radius:10px;background:#b18a4d;color:#fff;padding:14px;font-size:12px;font-weight:900;cursor:pointer}
+.gbph-frame-order-btn:hover{background:#94703a}
+.gbph-frame-3d-panel{display:none;width:100%;max-width:720px}
+.gbph-frame-3d-panel.open{display:block}
+@media(max-width:980px){.gbph-frame-studio{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.gbph-frame-center-col{grid-column:1/-1;grid-row:1}.gbph-frame-left-col{grid-column:1;grid-row:2}.gbph-frame-right-col{grid-column:2;grid-row:2}}
+@media(max-width:620px){.gbph-frame-studio{grid-template-columns:1fr;gap:11px}.gbph-frame-center-col,.gbph-frame-left-col,.gbph-frame-right-col{grid-column:1;grid-row:auto}.gbph-frame-col{padding:14px}.gbph-frame-set-grid{gap:7px}}
+</style>
+<script>
+/* GBPH Photo Frame Studio v2 — additive frontend upgrade; original frame finishes are retained. */
+(()=> {
+ const form=document.getElementById('photoFrameForm'),panel=document.getElementById('photoFramePanel');
+ if(!form||!panel||form.dataset.gbphStudioV2)return;form.dataset.gbphStudioV2='1';
+ const $=id=>document.getElementById(id);
+ const oldGrid=form.querySelector('.upload-print-grid'),stage=form.querySelector('.frame-preview-stage'),tools=form.querySelector('.photo-adjust-tools'),nav=form.querySelector('.frame-nav-controls'),note=form.querySelector('.frame-preview-stage .preview-note'),three=form.querySelector('.gbph-3d-panel')||panel.querySelector('.gbph-3d-panel');
+ const fileLabel=oldGrid.querySelector('label.upload-file-drop'),sizeLabel=oldGrid.querySelector('label:has(#frameSize)'),qtyLabel=oldGrid.querySelector('label:has(#frameQuantity)'),notesLabel=oldGrid.querySelector('label:has(#frameNotes)');
+ const size=$('frameSize'),quantity=$('frameQuantity'),style=$('frameStyle'),preview=$('photoFramePreview'),photoImg=$('photoFramePreviewImage'),placeholder=$('photoFramePlaceholder');
+ const layout=document.createElement('div');layout.className='gbph-frame-studio';
+ const left=document.createElement('section');left.className='gbph-frame-col gbph-frame-left-col';
+ const center=document.createElement('section');center.className='gbph-frame-col gbph-frame-center-col';
+ const right=document.createElement('section');right.className='gbph-frame-col gbph-frame-right-col';
+ left.innerHTML='<h3>Upload & Edit</h3><p class="gbph-hint">Apni photo upload karein aur preview ko apni marzi se adjust karein.</p>';
+ center.innerHTML='<h3 style="text-align:center">Your frame, live</h3><p class="gbph-hint" style="text-align:center">Photo yahan bilkul usi frame ke andar nazar aaye gi.</p>';
+ right.innerHTML='<h3>Frame Details</h3><p class="gbph-hint">Size, finish aur quantity select karein.</p>';
+ const mode=document.createElement('div');mode.className='gbph-frame-mode';mode.innerHTML='<button type="button" class="active" data-mode="single">1 Frame<small>One photo</small></button><button type="button" data-mode="set">4 Frames Set<small>Four separate photos</small></button>';
+ right.appendChild(mode);
+ const uploadHeading=fileLabel.querySelector('small');left.appendChild(fileLabel);
+ left.appendChild(tools);
+ const textTools=document.createElement('div');textTools.innerHTML='<h3 style="margin-top:17px">Add Text</h3><label>Name / heading<input id="gbphFrameText" type="text" maxlength="70" placeholder="e.g. My Family"></label><label>Date<input id="gbphFrameDate" type="text" maxlength="35" placeholder="e.g. 25 December 2026"></label><label>Shayari / message<textarea id="gbphFrameQuote" rows="3" maxlength="180" placeholder="Write a short message"></textarea></label><div class="gbph-frame-extra-tools"><label>Font<select id="gbphFrameFont"><option value="Georgia,serif">Elegant Serif</option><option value="Arial,sans-serif">Modern</option><option value="cursive">Handwritten</option></select></label><label>Text colour<input id="gbphFrameTextColor" type="color" value="#ffffff"></label></div><label>Text size<input id="gbphFrameTextSize" type="range" min="10" max="30" value="16"></label>';
+ left.appendChild(textTools);
+ const overlay=document.createElement('div');overlay.className='gbph-frame-text-preview';overlay.id='gbphFrameTextPreview';preview.appendChild(overlay);
+ const stageWrap=document.createElement('div');stageWrap.className='gbph-frame-preview-center';stageWrap.appendChild(stage);if(nav)stageWrap.appendChild(nav);
+ const threeButton=document.createElement('button');threeButton.type='button';threeButton.className='gbph-frame-3d-trigger';threeButton.textContent='↻ 3D Preview — Rotate your frame';stageWrap.appendChild(threeButton);
+ if(three){three.classList.add('gbph-frame-3d-panel');stageWrap.appendChild(three)}
+ center.appendChild(stageWrap);
+ right.appendChild(sizeLabel);
+ const custom=$('frameCustomSize');if(custom)right.appendChild(custom);
+ const finish=document.createElement('label');finish.innerHTML='Frame style<select id="gbphFrameFinish"><option>Classic Walnut</option><option>Dark Mahogany</option><option>Black Gallery</option><option>White Gallery</option><option>Antique Gold</option><option>Silver Bevel</option><option>Rustic Oak</option><option>Carved Royal</option><option>Champagne Luxe</option><option>Brushed Bronze</option><option>Sage Natural</option><option>Navy Classic</option><option>Rose Gold</option><option>Vintage Distressed</option><option>Minimal Maple</option></select>';
+ right.appendChild(finish);
+ right.appendChild(qtyLabel);
+ const material=document.createElement('label');material.innerHTML='Material<select id="gbphFrameMaterial"><option value="Normal">Normal</option><option value="Premium" selected>Premium</option><option value="Glass">Glass</option></select>';right.appendChild(material);
+ if(notesLabel)right.appendChild(notesLabel);
+ const price=document.createElement('div');price.className='gbph-frame-price';price.innerHTML='<span>Estimated price <small style="display:block;color:#7a877d">Demo estimate · PKR</small></span><strong id="gbphFramePrice">Rs 1,500</strong>';right.appendChild(price);
+ const contact=document.createElement('div');contact.className='gbph-frame-contact';contact.innerHTML='<h3 style="margin-top:7px">Order contact</h3><label>Your name<input id="gbphFrameCustomer" type="text" placeholder="Full name"></label><label>Phone number<input id="gbphFramePhone" type="tel" placeholder="03XXXXXXXXX"></label><label>Delivery address<textarea id="gbphFrameAddress" rows="2" placeholder="Your address"></textarea></label>';right.appendChild(contact);
+ const setGrid=document.createElement('div');setGrid.className='gbph-frame-set-grid';setGrid.id='gbphFrameSetGrid';setGrid.hidden=true;
+ for(let i=1;i<=4;i++){const slot=document.createElement('label');slot.className='gbph-frame-set-slot';slot.innerHTML='<strong>Frame '+i+'</strong><input type="file" accept="image/jpeg,image/png,image/webp" data-frame-set="'+i+'"><img alt="Frame '+i+' preview" hidden>';setGrid.appendChild(slot)}
+ const setCount=document.createElement('p');setCount.className='gbph-frame-set-count';setCount.id='gbphFrameSetCount';setCount.textContent='0 of 4 photos uploaded';right.appendChild(setGrid);right.appendChild(setCount);
+ const originalHint=form.querySelector('.upload-print-tip');if(originalHint)originalHint.classList.add('gbph-frame-hidden-old');
+ const actions=form.querySelector('.studio-actions');actions.classList.add('gbph-frame-hidden-old');
+ oldGrid.classList.add('gbph-frame-hidden-old');
+ form.insertBefore(layout,oldGrid);layout.append(left,center,right);
+ const priceRates={'4 × 6 inch':650,'5 × 7 inch':850,'8 × 10 inch':1500,'8 × 12 inch':1800,'12 × 18 inch':2800,'16 × 20 inch':4200,'Custom size':1800};
+ let modeValue='single',setPhotos=[null,null,null,null];
+ function currentUnit(){return priceRates[size.value]||1500}
+ function refreshPrice(){let p=currentUnit();if($('gbphFrameMaterial').value==='Normal')p*=.85;if($('gbphFrameMaterial').value==='Glass')p*=1.2;const count=modeValue==='set'?4:Math.max(1,Number(quantity.value)||1);$('gbphFramePrice').textContent='Rs '+Math.round(p*count).toLocaleString('en-PK');}
+ function setMode(m){modeValue=m;mode.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.mode===m));setGrid.hidden=m!=='set';setCount.hidden=m!=='set';fileLabel.classList.toggle('gbph-frame-hidden-old',m==='set');placeholder.textContent=m==='set'?'Your 4 photos will be previewed as a set below':'Your uploaded photo will appear here';if(m==='set'){const gallery=document.createElement('div');gallery.id='gbphFrameSetPreview';gallery.className='gbph-frame-set-grid';gallery.style.width='100%';gallery.style.marginTop='12px';gallery.innerHTML=[1,2,3,4].map(i=>'<div class="gbph-frame-set-slot"><strong>Frame '+i+'</strong><div style="aspect-ratio:4/3;background:#f0eee8;border-radius:7px;overflow:hidden"><img id="gbphFrameSetLive'+i+'" alt="Frame '+i+'" style="width:100%;height:100%;object-fit:cover" hidden></div></div>').join('');stageWrap.appendChild(gallery)}else{$('gbphFrameSetPreview')?.remove()}refreshPrice()}
+ mode.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
+ setGrid.querySelectorAll('input').forEach((input,index)=>input.addEventListener('change',()=>{const f=input.files?.[0];if(!f)return;if(!/^image\/(jpeg|png|webp)$/.test(f.type)||f.size>2.5*1024*1024){alert('Choose JPG, PNG or WEBP up to 2.5 MB.');input.value='';return}const reader=new FileReader();reader.onload=()=>{setPhotos[index]={name:f.name,data:String(reader.result||'')};const thumb=input.parentElement.querySelector('img');thumb.src=setPhotos[index].data;thumb.hidden=false;const live=$('gbphFrameSetLive'+(index+1));if(live){live.src=setPhotos[index].data;live.hidden=false}setCount.textContent=setPhotos.filter(Boolean).length+' of 4 photos uploaded'};reader.readAsDataURL(f)}));
+ const syncText=()=>{const t=$('gbphFrameText').value,d=$('gbphFrameDate').value,q=$('gbphFrameQuote').value;overlay.textContent=[t,d,q].filter(Boolean).join('\n');overlay.style.fontFamily=$('gbphFrameFont').value;overlay.style.color=$('gbphFrameTextColor').value;overlay.style.fontSize=$('gbphFrameTextSize').value+'px'};
+ ['gbphFrameText','gbphFrameDate','gbphFrameQuote','gbphFrameFont','gbphFrameTextColor','gbphFrameTextSize'].forEach(id=>$(id).addEventListener('input',syncText));
+ [size,quantity,$('gbphFrameMaterial')].forEach(el=>el.addEventListener('change',refreshPrice));quantity.addEventListener('input',refreshPrice);
+ $('gbphFrameFinish').addEventListener('change',e=>{const idx=[...document.querySelectorAll('[data-frame-index]')].find(b=>(b.textContent||'').trim().toLowerCase()===e.target.value.toLowerCase());if(idx)idx.click();else{const names=['Classic Walnut','Dark Mahogany','Black Gallery','White Gallery','Antique Gold','Silver Bevel','Rustic Oak','Carved Royal','Champagne Luxe','Brushed Bronze','Sage Natural','Navy Classic','Rose Gold','Vintage Distressed','Minimal Maple'];const i=names.indexOf(e.target.value);const navButton=i>=0?document.querySelector(i===0?'#previousFrame':'#nextFrame'):null;const name=$('frameDesignName');if(name)name.textContent=e.target.value;}style.value=e.target.value});
+ threeButton.addEventListener('click',()=>{three?.classList.toggle('open');threeButton.textContent=three?.classList.contains('open')?'Hide 3D Preview ↑':'↻ 3D Preview — Rotate your frame';three?.scrollIntoView({behavior:'smooth',block:'center'})});
+ form.addEventListener('submit',e=>{e.preventDefault();e.stopImmediatePropagation();if(modeValue==='single'&&!photoImg.src&&!$('framePhotoFile').files?.[0]){alert('Please upload your photo first.');return}if(modeValue==='set'&&setPhotos.some(p=>!p)){alert('Please upload all 4 photos for your frame set.');return}
+ let frameSize=size.value;if(frameSize==='Custom size'){const w=Number($('frameWidth').value),h=Number($('frameHeight').value);if(!(w>0&&h>0)){alert('Please enter a valid custom size.');return}frameSize='Custom: '+w+' × '+h+' '+$('frameUnit').value}
+ const cart=JSON.parse(localStorage.getItem('gbph_cart')||'[]'),count=modeValue==='set'?4:1,photoList=modeValue==='set'?setPhotos:[{name:$('framePhotoFile').files?.[0]?.name||'Uploaded photo',data:photoImg.src}];
+ const common={printMode:'photo-frame-printing',frameSize,frameStyle:style.value,material:$('gbphFrameMaterial').value,quantity:Math.max(1,Math.min(500,Number(quantity.value)||1)),glassPrinting:false,customText:{name:$('gbphFrameText').value,date:$('gbphFrameDate').value,shayari:$('gbphFrameQuote').value,font:$('gbphFrameFont').value,color:$('gbphFrameTextColor').value,size:$('gbphFrameTextSize').value},customer:{name:$('gbphFrameCustomer').value,phone:$('gbphFramePhone').value,address:$('gbphFrameAddress').value},estimatedPrice:Math.round(currentUnit()*count)};
+ cart.push({id:'photo-frame-v2-'+Date.now(),name:modeValue==='set'?'Photo Frame · 4 Frames Set':'Photo Frame · '+photoList[0].name,category:'Design Studio · Photo Frame Printing',price:Math.round(currentUnit()*count),qty:modeValue==='set'?1:Math.max(1,Number(quantity.value)||1),previewImage:photoList[0].data,details:{...common,frameSet:modeValue==='set',frames:photoList}});
+ try{localStorage.setItem('gbph_cart',JSON.stringify(cart));if(typeof updateCartCount==='function')updateCartCount();$('photoFrameStatus').textContent='Your photo frame order has been added to the demo cart.';location.href='cart.html'}catch(err){alert('Browser storage is full. Please use smaller photos.') }
+ },true);
+ refreshPrice();syncText();
+})();
+</script>
 </body></html>
