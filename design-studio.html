@@ -906,9 +906,9 @@ const animate=()=>{requestAnimationFrame(animate);group.rotation.x+=(targetX-gro
 .gbph-frame-mode small{display:block;font-size:9px;font-weight:500;margin-top:4px;opacity:.8}
 .gbph-frame-preview-center{display:flex;flex-direction:column;align-items:center;gap:12px}
 .gbph-frame-preview-center .frame-preview-stage{width:100%}
-.gbph-frame-preview-center #photoFramePreview{width:min(100%,520px);margin:auto;aspect-ratio:4/3;min-height:220px}
+.gbph-frame-preview-center #photoFramePreview{width:min(100%,760px)!important;max-width:760px;margin:auto;aspect-ratio:4/3;min-height:clamp(340px,48vw,560px)!important}
 .gbph-frame-preview-center .photo-adjust-tools{width:100%;max-width:520px}
-.gbph-frame-3d-trigger{width:100%;max-width:520px;border:1px solid #b18a4d;border-radius:10px;background:linear-gradient(110deg,#174b3d,#246c53);color:#fff;padding:13px;font-size:12px;font-weight:800;cursor:pointer}
+.gbph-frame-3d-trigger{width:100%;max-width:760px;min-height:66px;display:flex;align-items:center;justify-content:center;gap:13px;margin:2px auto 0;border:1px solid #b18a4d;border-radius:12px;background:linear-gradient(110deg,#174b3d,#246c53);color:#fff;padding:12px 18px;font-size:12px;font-weight:800;cursor:pointer;text-align:left}.gbph-frame-3d-trigger>span:nth-child(2){display:flex;flex-direction:column;gap:4px}.gbph-frame-3d-trigger small{font-size:10px;font-weight:500;color:#e0eee5}.gbph-3d-icon{display:grid;place-items:center;width:42px;height:42px;flex:0 0 42px;border:1px solid #e5cb8e;border-radius:10px;background:#ffffff17;color:#f3d99d;font-size:15px;font-weight:900;letter-spacing:-.04em}
 .gbph-frame-3d-trigger:hover{filter:brightness(1.08)}
 .gbph-frame-price{margin:14px 0;padding:13px;border-radius:11px;background:#f6f3e9;border:1px solid #eadfbe;display:flex;justify-content:space-between;gap:8px;align-items:center;color:#345448;font-size:11px}
 .gbph-frame-price strong{font:700 21px 'DM Sans',Arial;color:#16483c}
@@ -929,6 +929,7 @@ const animate=()=>{requestAnimationFrame(animate);group.rotation.x+=(targetX-gro
 .gbph-frame-order-btn:hover{background:#94703a}
 .gbph-frame-3d-panel{display:none;width:100%;max-width:720px}
 .gbph-frame-3d-panel.open{display:block}
+@media(max-width:620px){.gbph-frame-preview-center #photoFramePreview{min-height:280px!important;width:100%!important}.gbph-frame-3d-trigger{max-width:100%;justify-content:flex-start}}
 @media(max-width:980px){.gbph-frame-studio{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.gbph-frame-center-col{grid-column:1/-1;grid-row:1}.gbph-frame-left-col{grid-column:1;grid-row:2}.gbph-frame-right-col{grid-column:2;grid-row:2}}
 @media(max-width:620px){.gbph-frame-studio{grid-template-columns:1fr;gap:11px}.gbph-frame-center-col,.gbph-frame-left-col,.gbph-frame-right-col{grid-column:1;grid-row:auto}.gbph-frame-col{padding:14px}.gbph-frame-set-grid{gap:7px}}
 </style>
@@ -955,9 +956,10 @@ const animate=()=>{requestAnimationFrame(animate);group.rotation.x+=(targetX-gro
  const textTools=document.createElement('div');textTools.innerHTML='<h3 style="margin-top:17px">Add Text</h3><label>Name / heading<input id="gbphFrameText" type="text" maxlength="70" placeholder="e.g. My Family"></label><label>Date<input id="gbphFrameDate" type="text" maxlength="35" placeholder="e.g. 25 December 2026"></label><label>Shayari / message<textarea id="gbphFrameQuote" rows="3" maxlength="180" placeholder="Write a short message"></textarea></label><div class="gbph-frame-extra-tools"><label>Font<select id="gbphFrameFont"><option value="Georgia,serif">Elegant Serif</option><option value="Arial,sans-serif">Modern</option><option value="cursive">Handwritten</option></select></label><label>Text colour<input id="gbphFrameTextColor" type="color" value="#ffffff"></label></div><label>Text size<input id="gbphFrameTextSize" type="range" min="10" max="30" value="16"></label>';
  left.appendChild(textTools);
  const overlay=document.createElement('div');overlay.className='gbph-frame-text-preview';overlay.id='gbphFrameTextPreview';preview.appendChild(overlay);
- const stageWrap=document.createElement('div');stageWrap.className='gbph-frame-preview-center';stageWrap.appendChild(stage);if(nav)stageWrap.appendChild(nav);
- const threeButton=document.createElement('button');threeButton.type='button';threeButton.className='gbph-frame-3d-trigger';threeButton.textContent='↻ 3D Preview — Rotate your frame';stageWrap.appendChild(threeButton);
- if(three){three.classList.add('gbph-frame-3d-panel');stageWrap.appendChild(three)}
+ const stageWrap=document.createElement('div');stageWrap.className='gbph-frame-preview-center';stageWrap.appendChild(stage);
+ const threeButton=document.createElement('button');threeButton.type='button';threeButton.className='gbph-frame-3d-trigger';threeButton.setAttribute('aria-expanded','false');threeButton.innerHTML='<span class="gbph-3d-icon" aria-hidden="true">3D</span><span>Open 3D Preview<small>Rotate and inspect your selected photo frame</small></span><span aria-hidden="true">↗</span>';stageWrap.appendChild(threeButton);
+ if(nav)stageWrap.appendChild(nav);
+ if(three){three.id='gbphFrame3DPanel';three.classList.add('gbph-frame-3d-panel');three.setAttribute('aria-label','3D preview of your selected photo frame and uploaded photo');stageWrap.appendChild(three)}
  center.appendChild(stageWrap);
  right.appendChild(sizeLabel);
  const custom=$('frameCustomSize');if(custom)right.appendChild(custom);
@@ -986,7 +988,7 @@ const animate=()=>{requestAnimationFrame(animate);group.rotation.x+=(targetX-gro
  ['gbphFrameText','gbphFrameDate','gbphFrameQuote','gbphFrameFont','gbphFrameTextColor','gbphFrameTextSize'].forEach(id=>$(id).addEventListener('input',syncText));
  [size,quantity,$('gbphFrameMaterial')].forEach(el=>el.addEventListener('change',refreshPrice));quantity.addEventListener('input',refreshPrice);
  $('gbphFrameFinish').addEventListener('change',e=>{const idx=[...document.querySelectorAll('[data-frame-index]')].find(b=>(b.textContent||'').trim().toLowerCase()===e.target.value.toLowerCase());if(idx)idx.click();else{const names=['Classic Walnut','Dark Mahogany','Black Gallery','White Gallery','Antique Gold','Silver Bevel','Rustic Oak','Carved Royal','Champagne Luxe','Brushed Bronze','Sage Natural','Navy Classic','Rose Gold','Vintage Distressed','Minimal Maple'];const i=names.indexOf(e.target.value);const navButton=i>=0?document.querySelector(i===0?'#previousFrame':'#nextFrame'):null;const name=$('frameDesignName');if(name)name.textContent=e.target.value;}style.value=e.target.value});
- threeButton.addEventListener('click',()=>{three?.classList.toggle('open');threeButton.textContent=three?.classList.contains('open')?'Hide 3D Preview ↑':'↻ 3D Preview — Rotate your frame';three?.scrollIntoView({behavior:'smooth',block:'center'})});
+ threeButton.addEventListener('click',()=>{const isOpen=three?.classList.toggle('open')||false;threeButton.setAttribute('aria-expanded',String(isOpen));threeButton.innerHTML=isOpen?'<span class="gbph-3d-icon" aria-hidden="true">3D</span><span>Close 3D Preview<small>Return to the large photo preview</small></span><span aria-hidden="true">↑</span>':'<span class="gbph-3d-icon" aria-hidden="true">3D</span><span>Open 3D Preview<small>Rotate and inspect your selected photo frame</small></span><span aria-hidden="true">↗</span>';if(isOpen)three?.scrollIntoView({behavior:'smooth',block:'center'})});
  form.addEventListener('submit',e=>{e.preventDefault();e.stopImmediatePropagation();if(modeValue==='single'&&!photoImg.src&&!$('framePhotoFile').files?.[0]){alert('Please upload your photo first.');return}if(modeValue==='set'&&setPhotos.some(p=>!p)){alert('Please upload all 4 photos for your frame set.');return}
  let frameSize=size.value;if(frameSize==='Custom size'){const w=Number($('frameWidth').value),h=Number($('frameHeight').value);if(!(w>0&&h>0)){alert('Please enter a valid custom size.');return}frameSize='Custom: '+w+' × '+h+' '+$('frameUnit').value}
  const cart=JSON.parse(localStorage.getItem('gbph_cart')||'[]'),count=modeValue==='set'?4:1,photoList=modeValue==='set'?setPhotos:[{name:$('framePhotoFile').files?.[0]?.name||'Uploaded photo',data:photoImg.src}];
